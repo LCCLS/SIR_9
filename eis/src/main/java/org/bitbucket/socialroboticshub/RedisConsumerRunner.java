@@ -17,10 +17,10 @@ import redis.clients.jedis.Jedis;
 class RedisConsumerRunner extends RedisRunner {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH-mm-ss");
 	private static final String[] topics = new String[] { "events", "tablet_connection", "tablet_answer",
-			"detected_person", "recognised_face", "webrequest_response", "audio_language", "audio_intent",
-			"audio_newfile", "robot_audio_loaded", "picture_newfile", "detected_emotion", "memory_data",
-			"robot_posture_changed", "robot_awake_changed", "robot_stiffness_changed", "robot_battery_charge_changed",
-			"robot_charging_changed", "robot_hot_device_detected", "robot_motion_recording" };
+			"detected_person", "recognised_face", "audio_language", "audio_intent", "audio_newfile",
+			"robot_audio_loaded", "picture_newfile", "detected_emotion", "memory_data", "robot_posture_changed",
+			"robot_awake_changed", "robot_stiffness_changed", "robot_battery_charge_changed", "robot_charging_changed",
+			"robot_hot_device_detected", "robot_motion_recording" };
 
 	public RedisConsumerRunner(final CBSRenvironment parent, final Map<DeviceType, List<String>> devices) {
 		super(parent, devices);
@@ -66,15 +66,6 @@ class RedisConsumerRunner extends RedisRunner {
 							break;
 						case "recognised_face":
 							env.addRecognizedFace(new String(message));
-							break;
-						case "webrequest_response":
-							final String[] response = new String(message).split("\\|");
-							if (response.length == 2) {
-								env.addWebResponse(response[0], response[1]);
-							} else {
-								System.err
-										.println("Mismatch in webrequest_response format. Format should be url|text.");
-							}
 							break;
 						case "audio_language":
 							env.setAudioLanguage(new String(message));

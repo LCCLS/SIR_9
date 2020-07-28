@@ -309,16 +309,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 	}
 
 	/**
-	 * Queues the url and text as a percept to be received by the agent.
-	 *
-	 * @param url  A link to the web page to show
-	 * @param text The accompanying text the robot should say
-	 */
-	public void addWebResponse(final String url, final String text) {
-		this.perceptQueue.add(new Percept("webResponse", new Identifier(url), new Identifier(text)));
-	}
-
-	/**
 	 * Queues the language key as a percept to be received by the agent, and changes
 	 * the language used in the intent recognition.
 	 *
