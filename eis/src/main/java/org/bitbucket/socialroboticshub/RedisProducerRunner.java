@@ -12,6 +12,7 @@ import org.bitbucket.socialroboticshub.actions.CloseAction;
 import org.bitbucket.socialroboticshub.actions.RobotAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.LoadAudioAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.PlayRawAudioAction;
+import org.bitbucket.socialroboticshub.actions.audiovisual.SetLanguageAction;
 import org.bitbucket.socialroboticshub.actions.tablet.TabletCloseAction;
 import org.bitbucket.socialroboticshub.actions.tablet.TabletOpenAction;
 
@@ -67,17 +68,16 @@ class RedisProducerRunner extends RedisRunner {
 			p1.publish("emotion_detection", identifier);
 		}
 		for (final String identifier : this.devices.get(DeviceType.MICROPHONE)) {
-			p1.publish("intent_detection", identifier);
-			if (!this.parent.flowKey.isEmpty()) {
+			if (!this.parent.flowKey.isEmpty() && !this.parent.flowAgent.isEmpty()) {
+				p1.publish("intent_detection", identifier);
 				params.put(identifier + "_dialogflow_key", this.parent.flowKey);
-			}
-			if (!this.parent.flowAgent.isEmpty()) {
 				params.put(identifier + "_dialogflow_agent", this.parent.flowAgent);
+
+				if (!this.parent.flowHook.isEmpty()) {
+					params.put(identifier + "_dialogflow_webhook", this.parent.flowHook);
+				}
+				params.put(identifier + "_dialogflow_language", this.parent.flowLang);
 			}
-			if (!this.parent.flowHook.isEmpty()) {
-				params.put(identifier + "_dialogflow_webhook", this.parent.flowHook);
-			}
-			params.put(identifier + "_dialogflow_language", this.parent.flowLang);
 		}
 		for (final String identifier : this.devices.get(DeviceType.ROBOT)) {
 			p1.publish("robot_memory", identifier);
@@ -122,6 +122,11 @@ class RedisProducerRunner extends RedisRunner {
 					final Pipeline pipe = redis.pipelined();
 					for (final String identifier : this.devices.get(type)) {
 						pipe.publish((identifier + "_" + next.getTopic()).getBytes(), data);
+					}
+					if (next instanceof SetLanguageAction) {
+						for (final String identifier : this.devices.get(type)) {
+							pipe.publish((identifier + "_dialogflow_language").getBytes(), data);
+						}
 					}
 					pipe.sync();
 				}
