@@ -1,26 +1,13 @@
 package org.bitbucket.socialroboticshub.actions.animation;
 
-import org.bitbucket.socialroboticshub.actions.RobotAction;
+import java.util.List;
 
-public class TurnRightAction extends RobotAction {
+import eis.iilang.Parameter;
+
+public class TurnRightAction extends TurnAction {
 	public final static String NAME = "turnRight";
 
-	public TurnRightAction() {
-		super(null);
-	}
-
-	@Override
-	public boolean isValid() {
-		return true;
-	}
-
-	@Override
-	public String getTopic() {
-		return "action_turn";
-	}
-
-	@Override
-	public String getData() {
-		return "right";
+	public TurnRightAction(final List<Parameter> parameters) {
+		super(parameters, "right");
 	}
 }

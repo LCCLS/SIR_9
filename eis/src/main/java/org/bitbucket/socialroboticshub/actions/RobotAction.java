@@ -124,9 +124,9 @@ public abstract class RobotAction {
 		case TakePictureAction.NAME:
 			return new TakePictureAction();
 		case TurnLeftAction.NAME:
-			return new TurnLeftAction();
+			return new TurnLeftAction(parameters);
 		case TurnRightAction.NAME:
-			return new TurnRightAction();
+			return new TurnRightAction(parameters);
 		case WakeUpAction.NAME:
 			return new WakeUpAction();
 		case RestAction.NAME:
