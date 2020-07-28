@@ -271,15 +271,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 	}
 
 	/**
-	 * Queues the memory event information as a percept to be received by the agent.
-	 *
-	 * @param memoryEvent The event name
-	 */
-	public void addMemoryEvent(final String memoryEvent) {
-		this.perceptQueue.add(new Percept("memoryEvent", new Identifier(memoryEvent)));
-	}
-
-	/**
 	 * Queues the answer (to a posed question) as a percept to be received by the
 	 * agent.
 	 *

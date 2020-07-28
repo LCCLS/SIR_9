@@ -112,9 +112,6 @@ class RedisConsumerRunner extends RedisRunner {
 						case "detected_emotion":
 							env.addDetectedEmotion(new String(message));
 							break;
-						case "events_memory":
-							env.addMemoryEvent(new String(message));
-							break;
 						case "memory_data":
 							final String[] memoryData = new String(message).split(";");
 							if (memoryData.length == 2) {
