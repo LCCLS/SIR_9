@@ -18,10 +18,9 @@ class RedisConsumerRunner extends RedisRunner {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH-mm-ss");
 	private static final String[] topics = new String[] { "events", "tablet_connection", "tablet_answer",
 			"detected_person", "recognised_face", "webrequest_response", "audio_language", "audio_intent",
-			"audio_newfile", "robot_audio_loaded", "picture_newfile", "detected_emotion", "events_memory",
-			"memory_data", "robot_posture_changed", "robot_awake_changed", "robot_stiffness_changed",
-			"robot_battery_charge_changed", "robot_charging_changed", "robot_hot_device_detected",
-			"robot_motion_recording" };
+			"audio_newfile", "robot_audio_loaded", "picture_newfile", "detected_emotion", "memory_data",
+			"robot_posture_changed", "robot_awake_changed", "robot_stiffness_changed", "robot_battery_charge_changed",
+			"robot_charging_changed", "robot_hot_device_detected", "robot_motion_recording" };
 
 	public RedisConsumerRunner(final CBSRenvironment parent, final Map<DeviceType, List<String>> devices) {
 		super(parent, devices);
