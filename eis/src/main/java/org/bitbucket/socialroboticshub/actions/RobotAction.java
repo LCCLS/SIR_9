@@ -41,7 +41,6 @@ import org.bitbucket.socialroboticshub.actions.memory.AddMemoryEntryAction;
 import org.bitbucket.socialroboticshub.actions.memory.GetUserDataAction;
 import org.bitbucket.socialroboticshub.actions.memory.GetUserSession;
 import org.bitbucket.socialroboticshub.actions.memory.SetUserDataAction;
-import org.bitbucket.socialroboticshub.actions.memory.WebRequestAction;
 import org.bitbucket.socialroboticshub.actions.tablet.TabletCloseAction;
 import org.bitbucket.socialroboticshub.actions.tablet.TabletOpenAction;
 import org.bitbucket.socialroboticshub.actions.tablet.TabletRenderAction;
@@ -167,9 +166,6 @@ public abstract class RobotAction {
 			return new GetUserDataAction(parameters);
 		case SetUserDataAction.NAME:
 			return new SetUserDataAction(parameters);
-		// OTHER
-		case WebRequestAction.NAME:
-			return new WebRequestAction(parameters);
 		default:
 			return null;
 		}
