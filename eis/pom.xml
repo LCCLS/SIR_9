@@ -95,7 +95,7 @@
 							<addProtoSources>all</addProtoSources>
 							<includeMavenTypes>direct</includeMavenTypes>
 							<inputDirectories>
-								<include>../protobuf</include>
+								<include>../../processing/protobuf</include>
 							</inputDirectories>
 						</configuration>
 					</execution>
