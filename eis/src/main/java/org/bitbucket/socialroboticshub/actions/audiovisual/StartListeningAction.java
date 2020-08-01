@@ -23,10 +23,8 @@ public class StartListeningAction extends RobotAction {
 	public boolean isValid() {
 		final int params = getParameters().size();
 		boolean valid = (params == 1 || params == 2);
-		if (valid) {
-			valid &= (getParameters().get(0) instanceof Numeral);
-		}
-		if (valid && params == 2) {
+		valid &= (getParameters().get(0) instanceof Numeral);
+		if (params == 2) {
 			valid &= (getParameters().get(1) instanceof Identifier);
 		}
 		return valid;

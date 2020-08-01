@@ -31,6 +31,6 @@ public class PlayMotionAction extends RobotAction {
 
 	@Override
 	public String getData() {
-		return ((Identifier) getParameters().get(0)).toProlog();
+		return ((Identifier) getParameters().get(0)).getValue();
 	}
 }

@@ -26,10 +26,8 @@ public class SetStiffnessAction extends RobotAction {
 	public boolean isValid() {
 		final int params = getParameters().size();
 		boolean valid = (params == 2 || params == 3);
-		if (valid) {
-			valid &= (getParameters().get(0) instanceof ParameterList) && (getParameters().get(1) instanceof Numeral);
-		}
-		if (valid && params == 3) {
+		valid &= (getParameters().get(0) instanceof ParameterList) && (getParameters().get(1) instanceof Numeral);
+		if (params == 3) {
 			valid &= (getParameters().get(2) instanceof Numeral);
 		}
 		return valid;

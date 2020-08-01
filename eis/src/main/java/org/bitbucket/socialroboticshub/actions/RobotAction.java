@@ -9,6 +9,7 @@ import org.bitbucket.socialroboticshub.actions.animation.EnableBreathingAction;
 import org.bitbucket.socialroboticshub.actions.animation.GestureAction;
 import org.bitbucket.socialroboticshub.actions.animation.GoToPostureAction;
 import org.bitbucket.socialroboticshub.actions.animation.PlayMotionAction;
+import org.bitbucket.socialroboticshub.actions.animation.PlayMotionFileAction;
 import org.bitbucket.socialroboticshub.actions.animation.RestAction;
 import org.bitbucket.socialroboticshub.actions.animation.SetEarColourAction;
 import org.bitbucket.socialroboticshub.actions.animation.SetEyeColourAction;
@@ -144,6 +145,8 @@ public abstract class RobotAction {
 			return new StartMotionRecordingAction(parameters);
 		case StopMotionRecordingAction.NAME:
 			return new StopMotionRecordingAction();
+		case PlayMotionFileAction.NAME:
+			return new PlayMotionFileAction(parameters);
 		// TABLET ACTIONS
 		case TabletOpenAction.NAME:
 			return new TabletOpenAction();

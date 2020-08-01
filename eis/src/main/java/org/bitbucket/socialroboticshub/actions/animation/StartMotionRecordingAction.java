@@ -25,10 +25,8 @@ public class StartMotionRecordingAction extends RobotAction {
 	public boolean isValid() {
 		final int params = getParameters().size();
 		boolean valid = (params == 1 || params == 2);
-		if (valid) {
-			valid &= (getParameters().get(0) instanceof Identifier);
-		}
-		if (valid && params == 2) {
+		valid &= (getParameters().get(0) instanceof Identifier);
+		if (params == 2) {
 			valid &= (getParameters().get(1) instanceof Numeral);
 		}
 		return valid;
