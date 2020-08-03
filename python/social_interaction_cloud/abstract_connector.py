@@ -1,8 +1,9 @@
 from enum import Enum
+from io import open
 from itertools import chain, product
 from pathlib import Path
 from threading import Event, Thread
-from time import time
+from time import strftime, time
 from tkinter import Tk, Checkbutton, Label, Entry, IntVar, StringVar, Button, E, W
 
 from redis import Redis
@@ -58,6 +59,8 @@ class AbstractSICConnector(object):
         self.devices = {}
         for device_type in self.device_types:
             self.devices[device_type] = []
+
+        self.time_format = '%H-%M-%S'
 
         self.__dialog1 = Tk()
         self.username = StringVar()
@@ -349,11 +352,11 @@ class AbstractSICConnector(object):
         self.__send('action_gesture', gesture)
 
     def play_audio(self, audio_file: str) -> None:
-        """Plays the audio file (in the webserver's html/audio directory) on the robot's speakers.
+        """Plays the given audio file on the robot's speakers.
         A PlayAudioStarted event will be sent when the audio starts and a PlayAudioDone event after it is finished.
-        Any previously playing audio will be cancelled first;
-        calling play_audio with an empty string thus has the effect of cancelling any previously playing audio."""
-        self.__send('action_play_audio', audio_file + ';raw')
+        Any previously playing audio will be cancelled first."""
+        with open(audio_file, 'rb') as file:
+            self.__send('action_play_audio', file.read())
 
     def set_eye_color(self, color: str) -> None:
         """Sets the robot's eye LEDs to one of the following colours:
@@ -591,9 +594,15 @@ class AbstractSICConnector(object):
             detection_result.ParseFromString(data)
             self.on_audio_intent(detection_result=detection_result)
         elif channel == 'audio_newfile':
-            self.on_new_audio_file(audio_file=data.decode())
+            audio_file = strftime(self.time_format) + '.wav'
+            with open(audio_file, 'wb') as wav:
+                wav.write(data)
+            self.on_new_audio_file(audio_file=audio_file)
         elif channel == 'picture_newfile':
-            self.on_new_picture_file(picture_file=data.decode())
+            picture_file = strftime(self.time_format) + '.jpg'
+            with open(picture_file, 'wb') as jpg:
+                jpg.write(data)
+            self.on_new_picture_file(picture_file=picture_file)
         elif channel == 'detected_emotion':
             self.on_emotion_detected(emotion=data.decode())
         elif channel == 'robot_posture_changed':
