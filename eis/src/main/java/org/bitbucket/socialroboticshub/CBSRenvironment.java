@@ -2,6 +2,8 @@ package org.bitbucket.socialroboticshub;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -505,8 +507,19 @@ public class CBSRenvironment extends EIDefaultImpl {
 			dialog.dispose();
 		});
 		grid.add(ok);
+
 		dialog.add(grid);
 		dialog.getRootPane().setDefaultButton(ok);
+		dialog.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(final WindowEvent e) {
+				if (userField.getText().isEmpty()) {
+					userField.requestFocusInWindow();
+				} else {
+					passwordField.requestFocusInWindow();
+				}
+			}
+		});
 		dialog.pack();
 		dialog.setVisible(true);
 

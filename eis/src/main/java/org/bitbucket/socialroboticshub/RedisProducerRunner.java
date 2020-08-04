@@ -28,7 +28,7 @@ class RedisProducerRunner extends RedisRunner {
 			"action_headcolour", "action_idle", "action_turn", "action_turn_small", "action_wakeup", "action_rest",
 			"action_set_breathing", "action_posture", "action_stiffness", "action_play_motion", "action_record_motion",
 			"memory_add_entry", "memory_user_session", "memory_set_user_data", "memory_get_user_data",
-			"action_webrequest" };
+			"action_motion_file" };
 	private static final String[] speakerTopics = new String[] { "audio_language", "action_say", "action_say_animated",
 			"action_play_audio", "action_stop_talking", "action_load_audio", "action_clear_loaded_audio" };
 	private static final String[] tabletTopics = new String[] { "tablet_control", "tablet_audio", "tablet_image",
