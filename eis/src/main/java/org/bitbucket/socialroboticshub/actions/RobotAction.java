@@ -205,6 +205,9 @@ public abstract class RobotAction {
 			String result = "[";
 			for (int i = 0; i < size; i++) {
 				result += EIStoString(list.get(i));
+				if (list.get(i) instanceof Identifier) {
+					result = "'" + result + "'";
+				}
 				if (i < (size - 1)) {
 					result += ",";
 				}

@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.bitbucket.socialroboticshub.actions.RobotAction;
 
-import eis.iilang.Identifier;
 import eis.iilang.Numeral;
 import eis.iilang.Parameter;
+import eis.iilang.ParameterList;
 
 public class StartMotionRecordingAction extends RobotAction {
 	public final static String NAME = "startMotionRecording";
@@ -25,7 +25,7 @@ public class StartMotionRecordingAction extends RobotAction {
 	public boolean isValid() {
 		final int params = getParameters().size();
 		boolean valid = (params == 1 || params == 2);
-		valid &= (getParameters().get(0) instanceof Identifier);
+		valid &= (getParameters().get(0) instanceof ParameterList);
 		if (params == 2) {
 			valid &= (getParameters().get(1) instanceof Numeral);
 		}
