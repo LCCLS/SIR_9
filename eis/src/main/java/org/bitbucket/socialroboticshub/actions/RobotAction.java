@@ -204,10 +204,11 @@ public abstract class RobotAction {
 			final int size = list.size();
 			String result = "[";
 			for (int i = 0; i < size; i++) {
-				result += EIStoString(list.get(i));
+				String item = EIStoString(list.get(i));
 				if (list.get(i) instanceof Identifier) {
-					result = "'" + result + "'";
+					item = "'" + item + "'";
 				}
+				result += item;
 				if (i < (size - 1)) {
 					result += ",";
 				}
