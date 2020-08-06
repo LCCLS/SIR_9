@@ -55,12 +55,11 @@ public class PlayMotionFileAction extends RobotAction {
 		try {
 			final Path path = Paths.get(((Identifier) getParameters().get(0)).getValue());
 			final String xml = new String(Files.readAllBytes(path));
-			final String minified = getMinifiedXML(xml);
-			if (getParameters().size() == 1) {
-				return minified;
-			} else {
-				return minified + (";" + ((Identifier) getParameters().get(1)).getValue());
+			String result = getMinifiedXML(xml);
+			if (getParameters().size() == 2) {
+				result += (";" + ((Identifier) getParameters().get(1)).getValue());
 			}
+			return result;
 		} catch (final Exception e) {
 			throw new RuntimeException("Failed to read motion file", e);
 		}
