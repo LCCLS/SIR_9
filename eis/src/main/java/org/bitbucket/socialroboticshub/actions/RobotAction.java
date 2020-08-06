@@ -206,7 +206,7 @@ public abstract class RobotAction {
 			for (int i = 0; i < size; i++) {
 				final Parameter item = list.get(i);
 				String subresult = EIStoString(item);
-				if (param instanceof Identifier) {
+				if (item instanceof Identifier) {
 					subresult = '"' + subresult + '"';
 				}
 				result += subresult;
