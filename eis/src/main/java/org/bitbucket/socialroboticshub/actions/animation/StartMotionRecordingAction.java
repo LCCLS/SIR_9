@@ -39,9 +39,9 @@ public class StartMotionRecordingAction extends RobotAction {
 
 	@Override
 	public String getData() {
-		final String joints = (EIStoString(getParameters().get(0)));
-		final String framerate = getParameters().size() == 2 ? FRAMERATE : (EIStoString(getParameters().get(1)));
+		final String joints = EIStoString(getParameters().get(0));
+		final String framerate = (getParameters().size() == 2) ? FRAMERATE : EIStoString(getParameters().get(1));
 
-		return "start;" + joints + ";" + framerate;
+		return ("start;" + joints + ";" + framerate);
 	}
 }

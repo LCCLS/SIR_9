@@ -35,6 +35,6 @@ public class AddMemoryEntryAction extends RobotAction {
 		final String key = EIStoString(getParameters().get(1));
 		final String data = EIStoString(getParameters().get(2));
 
-		return userID + ";" + key + ";" + data;
+		return (userID + ";" + key + ";" + data);
 	}
 }

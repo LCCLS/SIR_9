@@ -39,8 +39,9 @@ public class GoToPostureAction extends RobotAction {
 
 	@Override
 	public String getData() {
-		final String posture = (EIStoString(getParameters().get(0)));
-		final String speed = getParameters().size() == 1 ? DEFAULT_SPEED : (EIStoString(getParameters().get(1)));
-		return posture + ";" + speed;
+		final String posture = EIStoString(getParameters().get(0));
+		final String speed = (getParameters().size() == 1) ? DEFAULT_SPEED : EIStoString(getParameters().get(1));
+
+		return (posture + ";" + speed);
 	}
 }

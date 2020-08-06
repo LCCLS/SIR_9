@@ -40,10 +40,10 @@ public class SetStiffnessAction extends RobotAction {
 
 	@Override
 	public String getData() {
-		final String jointChains = (EIStoString(getParameters().get(0)));
-		final String stiffness = (EIStoString(getParameters().get(1)));
-		final String duration = getParameters().size() == 2 ? DEFAULT_DURATION : (EIStoString(getParameters().get(2)));
+		final String jointChains = EIStoString(getParameters().get(0));
+		final String stiffness = EIStoString(getParameters().get(1));
+		final String duration = (getParameters().size() == 2) ? DEFAULT_DURATION : EIStoString(getParameters().get(2));
 
-		return jointChains + ";" + stiffness + ";" + duration;
+		return (jointChains + ";" + stiffness + ";" + duration);
 	}
 }
