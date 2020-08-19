@@ -68,16 +68,10 @@ class RedisProducerRunner extends RedisRunner {
 			p1.publish("emotion_detection", identifier);
 		}
 		for (final String identifier : this.devices.get(DeviceType.MICROPHONE)) {
-			if (!this.parent.flowKey.isEmpty() && !this.parent.flowAgent.isEmpty()) {
-				p1.publish("intent_detection", identifier);
-				params.put(identifier + "_dialogflow_key", this.parent.flowKey);
-				params.put(identifier + "_dialogflow_agent", this.parent.flowAgent);
-
-				if (!this.parent.flowHook.isEmpty()) {
-					params.put(identifier + "_dialogflow_webhook", this.parent.flowHook);
-				}
-				params.put(identifier + "_dialogflow_language", this.parent.flowLang);
-			}
+			initialiseDialogflow(p1, params, identifier); // voice input
+		}
+		for (final String identifier : this.devices.get(DeviceType.TABLET)) {
+			initialiseDialogflow(p1, params, identifier); // chat input
 		}
 		for (final String identifier : this.devices.get(DeviceType.ROBOT)) {
 			p1.publish("robot_memory", identifier);
@@ -93,6 +87,18 @@ class RedisProducerRunner extends RedisRunner {
 		} catch (final InterruptedException ignore) {
 		} finally {
 			p2.sync();
+		}
+	}
+
+	private void initialiseDialogflow(final Pipeline p, final Map<String, String> params, final String identifier) {
+		if (!this.parent.flowKey.isEmpty() && !this.parent.flowAgent.isEmpty()) {
+			p.publish("intent_detection", identifier);
+			params.put(identifier + "_dialogflow_key", this.parent.flowKey);
+			params.put(identifier + "_dialogflow_agent", this.parent.flowAgent);
+			if (!this.parent.flowHook.isEmpty()) {
+				params.put(identifier + "_dialogflow_webhook", this.parent.flowHook);
+			}
+			params.put(identifier + "_dialogflow_language", this.parent.flowLang);
 		}
 	}
 
