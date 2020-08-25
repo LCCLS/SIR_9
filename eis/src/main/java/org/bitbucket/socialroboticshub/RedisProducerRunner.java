@@ -19,7 +19,7 @@ import org.bitbucket.socialroboticshub.actions.tablet.TabletOpenAction;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 
-class RedisProducerRunner extends RedisRunner {
+final class RedisProducerRunner extends RedisRunner {
 	private static final String[] cameraTopics = new String[] { "action_video" };
 	private static final String[] microphoneTopics = new String[] { "action_audio", "dialogflow_language",
 			"dialogflow_context", "dialogflow_key", "dialogflow_agent", "dialogflow_record", "dialogflow_webhook",
@@ -54,7 +54,7 @@ class RedisProducerRunner extends RedisRunner {
 	}
 	private final BlockingQueue<RobotAction> actionQueue;
 
-	public RedisProducerRunner(final CBSRenvironment parent, final Map<DeviceType, List<String>> devices) {
+	RedisProducerRunner(final CBSRenvironment parent, final Map<DeviceType, List<String>> devices) {
 		super(parent, devices);
 		this.actionQueue = new LinkedBlockingQueue<>();
 	}

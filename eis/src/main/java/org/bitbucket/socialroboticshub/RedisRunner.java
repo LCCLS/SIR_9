@@ -5,7 +5,7 @@ import java.util.Map;
 
 import redis.clients.jedis.Jedis;
 
-public abstract class RedisRunner extends Thread {
+abstract class RedisRunner extends Thread {
 	protected final CBSRenvironment parent;
 	protected final Map<DeviceType, List<String>> devices;
 	private Jedis redis;

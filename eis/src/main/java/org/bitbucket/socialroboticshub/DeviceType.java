@@ -1,6 +1,6 @@
 package org.bitbucket.socialroboticshub;
 
-public enum DeviceType {
+enum DeviceType {
 	CAMERA("cam"), MICROPHONE("mic"), ROBOT("robot"), SPEAKER("speaker"), TABLET("tablet");
 
 	private final String name;

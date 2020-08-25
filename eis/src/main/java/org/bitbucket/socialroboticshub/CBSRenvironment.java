@@ -446,8 +446,20 @@ public class CBSRenvironment extends EIDefaultImpl {
 	}
 
 	public Jedis connect() throws Exception {
+		final Jedis jedis = isLocal(this.redisServer)
+				? new Jedis(this.redisServer, Protocol.DEFAULT_PORT, true, getLocalSSL(), null, null)
+				: new Jedis(this.redisServer, Protocol.DEFAULT_PORT, true);
+		jedis.auth(this.redisUser, this.redisPass);
+		return jedis;
+	}
+
+	private static boolean isLocal(final String server) {
+		return server.startsWith("127.") || server.startsWith("192.") || server.equals("localhost");
+	}
+
+	private static SSLSocketFactory getLocalSSL() throws Exception {
 		final KeyStore keyStore = KeyStore.getInstance("JKS");
-		keyStore.load(RedisRunner.class.getResourceAsStream("/truststore.jks"), "changeit".toCharArray());
+		keyStore.load(CBSRenvironment.class.getResourceAsStream("/truststore.jks"), "changeit".toCharArray());
 		final Certificate original = ((KeyStore.TrustedCertificateEntry) keyStore.getEntry("cbsr", null))
 				.getTrustedCertificate();
 		final TrustManager bypass = new X509TrustManager() {
@@ -472,10 +484,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 		};
 		final SSLContext sslContext = SSLContext.getInstance("TLS");
 		sslContext.init(null, new TrustManager[] { bypass }, null);
-		final SSLSocketFactory sslFactory = sslContext.getSocketFactory();
-		final Jedis jedis = new Jedis(this.redisServer, Protocol.DEFAULT_PORT, true, sslFactory, null, null);
-		jedis.auth(this.redisUser, this.redisPass);
-		return jedis;
+		return sslContext.getSocketFactory();
 	}
 
 	//
