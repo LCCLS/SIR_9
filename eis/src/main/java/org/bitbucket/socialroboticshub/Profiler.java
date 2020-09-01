@@ -18,7 +18,7 @@ public class Profiler extends Thread {
 
 	public Profiler(final boolean enabled) {
 		this.enabled = enabled;
-		this.name = "profile_" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		this.name = "profile_" + new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date());
 		this.cache = new ConcurrentHashMap<>();
 		this.queue = new LinkedBlockingQueue<>();
 	}
@@ -30,17 +30,21 @@ public class Profiler extends Thread {
 	}
 
 	public void startRobotAction(final RobotAction action) {
-		if (action.getExpectedEvent() != null) {
-			start(action.getExpectedEvent());
+		final String label = action.getExpectedEvent();
+		if (label != null) {
+			start(label);
 		}
 	}
 
 	public void end(final String label) {
 		final Long start = this.enabled ? this.cache.remove(label) : null;
 		if (start != null) {
-			final double diff = (System.nanoTime() - start.longValue()) / 1_000_000_000.0;
+			final double diff = (System.nanoTime() - start.longValue()) / 1000000.0;
 			final String info = (label + ";" + String.format("%f", diff) + "\n");
 			this.queue.add(info);
+			if (label.endsWith("Started")) {
+				start(label.replace("Started", "Done"));
+			}
 		}
 	}
 
