@@ -46,4 +46,9 @@ public class SetStiffnessAction extends RobotAction {
 
 		return (jointChains + ";" + stiffness + ";" + duration);
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "SetStiffnessStarted";
+	}
 }

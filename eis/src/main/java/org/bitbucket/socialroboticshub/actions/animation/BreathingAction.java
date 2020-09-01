@@ -38,4 +38,9 @@ abstract class BreathingAction extends RobotAction {
 		return getParameters().isEmpty() ? ("Body;" + this.enable)
 				: (EIStoString(getParameters().get(0)) + ";" + this.enable);
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return this.enable.equals("1") ? "BreathingEnabled" : "BreathingDisabled";
+	}
 }

@@ -16,8 +16,14 @@ public class SetIdleAction extends RobotAction {
 
 	@Override
 	public boolean isValid() {
-		return getParameters().isEmpty()
-				|| (getParameters().size() == 1 && getParameters().get(0) instanceof Identifier);
+		if (getParameters().isEmpty()) {
+			return true;
+		} else if (getParameters().size() == 1 && getParameters().get(0) instanceof Identifier) {
+			final String parameter = EIStoString(getParameters().get(0));
+			return (parameter.equals("true") || parameter.equals("straight"));
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -28,5 +34,10 @@ public class SetIdleAction extends RobotAction {
 	@Override
 	public String getData() {
 		return getParameters().isEmpty() ? "true" : EIStoString(getParameters().get(0));
+	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "SetIdle";
 	}
 }

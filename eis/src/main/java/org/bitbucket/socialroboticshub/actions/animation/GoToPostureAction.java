@@ -44,4 +44,9 @@ public class GoToPostureAction extends RobotAction {
 
 		return (posture + ";" + speed);
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "GoToPostureStarted";
+	}
 }

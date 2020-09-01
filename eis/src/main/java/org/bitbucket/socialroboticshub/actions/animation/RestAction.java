@@ -23,4 +23,9 @@ public class RestAction extends RobotAction {
 	public String getData() {
 		return "";
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "RestStarted";
+	}
 }

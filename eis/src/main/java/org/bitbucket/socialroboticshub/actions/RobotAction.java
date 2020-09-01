@@ -75,6 +75,8 @@ public abstract class RobotAction {
 
 	public abstract String getData();
 
+	public abstract String getExpectedEvent();
+
 	public static RobotAction getRobotAction(final Action action) {
 		final List<Parameter> parameters = action.getParameters();
 		switch (action.getName()) {

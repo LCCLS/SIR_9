@@ -34,4 +34,9 @@ public class SetUserDataAction extends RobotAction {
 		return EIStoString(getParameters().get(0)) + ";" + EIStoString(getParameters().get(1)) + ';'
 				+ EIStoString(getParameters().get(2));
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "UserDataSet";
+	}
 }

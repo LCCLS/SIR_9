@@ -21,15 +21,19 @@ abstract class TurnAction extends RobotAction {
 
 	@Override
 	public boolean isValid() {
-		return getParameters().isEmpty()
-				|| (getParameters().size() == 1 && getParameters().get(0) instanceof Identifier);
+		if (getParameters().isEmpty()) {
+			return true;
+		} else if (getParameters().size() == 1 && getParameters().get(0) instanceof Identifier) {
+			return EIStoString(getParameters().get(0)).equals("true");
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public String getTopic() {
 		String toAdd = "";
-		if (getParameters().size() == 1
-				&& ((Identifier) (getParameters().get(0))).getValue().equalsIgnoreCase("true")) {
+		if (getParameters().size() == 1 && EIStoString(getParameters().get(0)).equals("true")) {
 			toAdd += "_small";
 		}
 		return ("action_turn" + toAdd);
@@ -38,5 +42,10 @@ abstract class TurnAction extends RobotAction {
 	@Override
 	public String getData() {
 		return this.direction;
+	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "TurnStarted";
 	}
 }

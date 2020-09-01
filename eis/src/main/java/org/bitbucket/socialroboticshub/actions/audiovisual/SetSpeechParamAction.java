@@ -34,4 +34,9 @@ public class SetSpeechParamAction extends RobotAction {
 	public String getData() {
 		return EIStoString(getParameters().get(0)) + ";" + EIStoString(getParameters().get(1));
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "SetSpeechParamDone";
+	}
 }

@@ -23,4 +23,9 @@ public class StopWatchingAction extends RobotAction {
 	public String getData() {
 		return "-1";
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "WatchingDone";
+	}
 }

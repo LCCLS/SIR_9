@@ -38,7 +38,7 @@ public class PlayMotionFileAction extends RobotAction {
 		final int params = getParameters().size();
 		boolean valid = (params == 1 || params == 2);
 		valid &= (getParameters().get(0) instanceof Identifier);
-		valid &= new File(((Identifier) getParameters().get(0)).getValue()).canRead();
+		valid &= new File(EIStoString(getParameters().get(0))).canRead();
 		if (params == 2) {
 			valid &= (getParameters().get(1) instanceof Identifier);
 		}
@@ -53,16 +53,21 @@ public class PlayMotionFileAction extends RobotAction {
 	@Override
 	public String getData() {
 		try {
-			final Path path = Paths.get(((Identifier) getParameters().get(0)).getValue());
+			final Path path = Paths.get(EIStoString(getParameters().get(0)));
 			final String xml = new String(Files.readAllBytes(path));
 			String result = getMinifiedXML(xml);
 			if (getParameters().size() == 2) {
-				result += (";" + ((Identifier) getParameters().get(1)).getValue());
+				result += (";" + EIStoString(getParameters().get(1)));
 			}
 			return result;
 		} catch (final Exception e) {
 			throw new RuntimeException("Failed to read motion file", e);
 		}
+	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "PlayMotionStarted";
 	}
 
 	private static String getMinifiedXML(final String source) throws Exception {

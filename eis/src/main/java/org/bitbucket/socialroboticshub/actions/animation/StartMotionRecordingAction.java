@@ -44,4 +44,10 @@ public class StartMotionRecordingAction extends RobotAction {
 
 		return ("start;" + joints + ";" + framerate);
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "RecordMotionStarted";
+	}
+
 }

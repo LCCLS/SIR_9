@@ -2,12 +2,10 @@ package org.bitbucket.socialroboticshub.actions.tablet;
 
 import java.util.List;
 
-import org.bitbucket.socialroboticshub.actions.RobotAction;
-
 import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 
-public class TabletRenderAction extends RobotAction {
+public class TabletRenderAction extends TabletAction {
 	public final static String NAME = "renderPage";
 
 	/**

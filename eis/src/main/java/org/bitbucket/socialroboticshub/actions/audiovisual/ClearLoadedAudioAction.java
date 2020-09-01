@@ -23,4 +23,9 @@ public class ClearLoadedAudioAction extends RobotAction {
 	public String getData() {
 		return "";
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "ClearLoadedAudioStarted";
+	}
 }

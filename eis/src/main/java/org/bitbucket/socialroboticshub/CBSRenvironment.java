@@ -76,6 +76,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 	protected String flowHook;
 	protected RedisRunner consumer;
 	protected RedisRunner producer;
+	protected Profiler profiler;
 	protected volatile boolean tabletConnected = false;
 
 	@Override
@@ -102,6 +103,9 @@ public class CBSRenvironment extends EIDefaultImpl {
 		this.flowLang = getParameter("flowlang", "nl-NL");
 		this.flowHook = getParameter("flowhook", "");
 
+		this.profiler = new Profiler(getParameter("profiling", "").equals("1"));
+		this.profiler.start();
+
 		// start the database connections
 		final Map<DeviceType, List<String>> devices = getDevices();
 		this.consumer = new RedisConsumerRunner(this, devices);
@@ -121,6 +125,10 @@ public class CBSRenvironment extends EIDefaultImpl {
 		} catch (final Exception e) {
 			throw new ManagementException("Unable to initialise the robot entity", e);
 		}
+	}
+
+	public Profiler getProfiler() {
+		return this.profiler;
 	}
 
 	private String getParameter(final String name, final String def) {
@@ -193,6 +201,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 	public void kill() throws ManagementException {
 		this.consumer.shutdown();
 		this.producer.shutdown();
+		this.profiler.shutdown();
 		this.perceptQueue.clear();
 		super.kill();
 	}
@@ -227,7 +236,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 			if (robotAction instanceof StartListeningAction) {
 				final StartListeningAction slAction = (StartListeningAction) robotAction;
 				if (!slAction.getContext().isEmpty()) {
-					addAction(getStubAction("dialogflow_context", slAction.getContext()));
+					addAction(getStubAction("dialogflow_context", slAction.getContext(), null));
 				}
 			}
 			addAction(robotAction);
@@ -269,6 +278,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 	 * @param event The event name
 	 */
 	public void addEvent(final String event) {
+		this.profiler.end(event);
 		this.perceptQueue.add(new Percept("event", new Identifier(event)));
 	}
 
@@ -537,7 +547,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 		return result;
 	}
 
-	private static RobotAction getStubAction(final String topic, final String data) {
+	private static RobotAction getStubAction(final String topic, final String data, final String expectedEvent) {
 		return new RobotAction(null) {
 			@Override
 			public boolean isValid() {
@@ -552,6 +562,11 @@ public class CBSRenvironment extends EIDefaultImpl {
 			@Override
 			public String getData() {
 				return data;
+			}
+
+			@Override
+			public String getExpectedEvent() {
+				return expectedEvent;
 			}
 		};
 	}

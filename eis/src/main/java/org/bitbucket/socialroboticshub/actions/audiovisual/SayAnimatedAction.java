@@ -2,12 +2,9 @@ package org.bitbucket.socialroboticshub.actions.audiovisual;
 
 import java.util.List;
 
-import org.bitbucket.socialroboticshub.actions.RobotAction;
-
-import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 
-public class SayAnimatedAction extends RobotAction {
+public class SayAnimatedAction extends SayAction {
 	public final static String NAME = "sayAnimated";
 
 	/**
@@ -19,17 +16,7 @@ public class SayAnimatedAction extends RobotAction {
 	}
 
 	@Override
-	public boolean isValid() {
-		return (getParameters().size() == 1) && (getParameters().get(0) instanceof Identifier);
-	}
-
-	@Override
 	public String getTopic() {
-		return "action_say_animated";
-	}
-
-	@Override
-	public String getData() {
-		return EIStoString(getParameters().get(0));
+		return super.getTopic() + "_animated";
 	}
 }

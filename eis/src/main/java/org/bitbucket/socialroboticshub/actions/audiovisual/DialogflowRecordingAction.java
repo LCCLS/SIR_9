@@ -2,11 +2,12 @@ package org.bitbucket.socialroboticshub.actions.audiovisual;
 
 import org.bitbucket.socialroboticshub.actions.RobotAction;
 
-public class StopTalkingAction extends RobotAction {
-	public final static String NAME = "stopTalking";
+abstract class DialogflowRecordingAction extends RobotAction {
+	private final boolean enable;
 
-	public StopTalkingAction() {
+	DialogflowRecordingAction(final boolean enable) {
 		super(null);
+		this.enable = enable;
 	}
 
 	@Override
@@ -16,16 +17,16 @@ public class StopTalkingAction extends RobotAction {
 
 	@Override
 	public String getTopic() {
-		return "action_stop_talking";
+		return "dialogflow_record";
 	}
 
 	@Override
 	public String getData() {
-		return "";
+		return this.enable ? "1" : "0";
 	}
 
 	@Override
 	public String getExpectedEvent() {
-		return "TextDone";
+		return null;
 	}
 }

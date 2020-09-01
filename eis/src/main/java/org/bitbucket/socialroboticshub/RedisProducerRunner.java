@@ -20,6 +20,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 
 final class RedisProducerRunner extends RedisRunner {
+	private static final String PROFILER_TYPE = "redis_send";
 	private static final String[] cameraTopics = new String[] { "action_video" };
 	private static final String[] microphoneTopics = new String[] { "action_audio", "dialogflow_language",
 			"dialogflow_context", "dialogflow_key", "dialogflow_agent", "dialogflow_record", "dialogflow_webhook",
@@ -53,10 +54,12 @@ final class RedisProducerRunner extends RedisRunner {
 		}
 	}
 	private final BlockingQueue<RobotAction> actionQueue;
+	private final Profiler profiler;
 
 	RedisProducerRunner(final CBSRenvironment parent, final Map<DeviceType, List<String>> devices) {
 		super(parent, devices);
 		this.actionQueue = new LinkedBlockingQueue<>();
+		this.profiler = parent.getProfiler();
 	}
 
 	private void initialiseServices(final Jedis redis) {
@@ -134,7 +137,10 @@ final class RedisProducerRunner extends RedisRunner {
 							pipe.publish((identifier + "_dialogflow_language").getBytes(), data);
 						}
 					}
+					this.profiler.start(PROFILER_TYPE);
 					pipe.sync();
+					this.profiler.end(PROFILER_TYPE);
+					this.profiler.startRobotAction(next);
 				}
 				if (next instanceof TabletCloseAction) {
 					this.parent.setTabletDisconnected();
@@ -145,6 +151,7 @@ final class RedisProducerRunner extends RedisRunner {
 				}
 			}
 		}
+
 	}
 
 	public void queueAction(final RobotAction action) {

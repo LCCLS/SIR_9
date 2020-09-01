@@ -31,6 +31,11 @@ public class PlayMotionAction extends RobotAction {
 
 	@Override
 	public String getData() {
-		return ((Identifier) getParameters().get(0)).getValue();
+		return EIStoString(getParameters().get(0));
+	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "PlayMotionStarted";
 	}
 }

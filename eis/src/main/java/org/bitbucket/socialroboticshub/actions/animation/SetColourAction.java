@@ -29,4 +29,10 @@ abstract class SetColourAction extends RobotAction {
 	public String getData() {
 		return EIStoString(getParameters().get(0));
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		final String part = this.part.substring(0, 1).toUpperCase() + this.part.substring(1);
+		return (part + "ColourStarted");
+	}
 }

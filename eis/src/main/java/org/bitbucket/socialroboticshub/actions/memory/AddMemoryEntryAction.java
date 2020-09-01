@@ -37,4 +37,9 @@ public class AddMemoryEntryAction extends RobotAction {
 
 		return (userID + ";" + key + ";" + data);
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "MemoryEntryStored";
+	}
 }

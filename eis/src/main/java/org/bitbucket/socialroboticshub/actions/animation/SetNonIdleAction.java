@@ -21,6 +21,11 @@ public class SetNonIdleAction extends RobotAction {
 
 	@Override
 	public String getData() {
-		return "false";
+		return "";
+	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "SetNonIdle";
 	}
 }

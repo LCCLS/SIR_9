@@ -23,4 +23,8 @@ public class CloseAction extends RobotAction {
 		return null;
 	}
 
+	@Override
+	public String getExpectedEvent() {
+		return null;
+	}
 }

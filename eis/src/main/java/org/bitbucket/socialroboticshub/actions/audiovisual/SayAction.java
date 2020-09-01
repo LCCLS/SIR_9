@@ -32,4 +32,9 @@ public class SayAction extends RobotAction {
 	public String getData() {
 		return EIStoString(getParameters().get(0));
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "TextStarted";
+	}
 }

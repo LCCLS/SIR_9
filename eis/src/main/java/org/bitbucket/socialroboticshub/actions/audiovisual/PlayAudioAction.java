@@ -27,4 +27,9 @@ abstract class PlayAudioAction extends RobotAction {
 	public String getData() {
 		return EIStoString(getParameters().get(0));
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "PlayAudioStarted";
+	}
 }

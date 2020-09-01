@@ -23,4 +23,9 @@ public class TakePictureAction extends RobotAction {
 	public String getData() {
 		return "";
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return null;
+	}
 }

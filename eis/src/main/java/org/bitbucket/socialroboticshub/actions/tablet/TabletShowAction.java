@@ -2,12 +2,10 @@ package org.bitbucket.socialroboticshub.actions.tablet;
 
 import java.util.List;
 
-import org.bitbucket.socialroboticshub.actions.RobotAction;
-
 import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 
-abstract class TabletShowAction extends RobotAction {
+abstract class TabletShowAction extends TabletAction {
 	protected final String type;
 
 	TabletShowAction(final String type, final List<Parameter> parameters) {

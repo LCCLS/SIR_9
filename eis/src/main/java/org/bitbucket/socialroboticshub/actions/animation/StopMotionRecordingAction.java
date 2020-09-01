@@ -23,4 +23,9 @@ public class StopMotionRecordingAction extends RobotAction {
 	public String getData() {
 		return "stop";
 	}
+
+	@Override
+	public String getExpectedEvent() {
+		return "RecordMotionDone";
+	}
 }
