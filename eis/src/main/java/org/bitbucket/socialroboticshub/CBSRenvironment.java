@@ -108,6 +108,9 @@ public class CBSRenvironment extends EIDefaultImpl {
 
 		// start the database connections
 		final Map<DeviceType, List<String>> devices = getDevices();
+		if (devices.isEmpty()) {
+			throw new ManagementException("No devices selected");
+		}
 		this.consumer = new RedisConsumerRunner(this, devices);
 		this.consumer.start();
 		this.producer = new RedisProducerRunner(this, devices);
