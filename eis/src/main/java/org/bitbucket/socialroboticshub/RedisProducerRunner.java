@@ -126,15 +126,15 @@ final class RedisProducerRunner extends RedisRunner {
 					if (next instanceof LoadAudioAction || next instanceof PlayRawAudioAction) {
 						data = Files.readAllBytes(Paths.get(next.getData()));
 					} else {
-						data = next.getData().getBytes();
+						data = next.getData().getBytes(UTF8);
 					}
 					final Pipeline pipe = redis.pipelined();
 					for (final String identifier : this.devices.get(type)) {
-						pipe.publish((identifier + "_" + next.getTopic()).getBytes(), data);
+						pipe.publish((identifier + "_" + next.getTopic()).getBytes(UTF8), data);
 					}
 					if (next instanceof SetLanguageAction) {
 						for (final String identifier : this.devices.get(type)) {
-							pipe.publish((identifier + "_dialogflow_language").getBytes(), data);
+							pipe.publish((identifier + "_dialogflow_language").getBytes(UTF8), data);
 						}
 					}
 					this.profiler.start(PROFILER_TYPE);

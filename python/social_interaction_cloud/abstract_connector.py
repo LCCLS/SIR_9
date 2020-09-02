@@ -128,7 +128,7 @@ class AbstractSICConnector(object):
         self.__dialog2.destroy()
         for name, var in self.__checkboxes.items():
             if var.get() == 1:
-                split = name.decode().split(':')
+                split = name.decode('utf-8').split(':')
                 device_type = self.device_types[split[1]]
                 self.devices[device_type].append(self.username + '-' + split[0])
 
@@ -576,19 +576,19 @@ class AbstractSICConnector(object):
             self.__stop_event.wait()
 
     def __listen(self, message) -> None:
-        raw_channel = message['channel'].decode()
+        raw_channel = message['channel'].decode('utf-8')
         split = raw_channel.index('_') + 1
         channel = raw_channel[split:]
         data = message['data']
 
         if channel == 'events':
-            self.on_event(event=data.decode())
+            self.on_event(event=data.decode('utf-8'))
         elif channel == 'detected_person':
             self.on_person_detected()
         elif channel == 'recognised_face':
-            self.on_face_recognized(identifier=data.decode())
+            self.on_face_recognized(identifier=data.decode('utf-8'))
         elif channel == 'audio_language':
-            self.on_audio_language(language_key=data.decode())
+            self.on_audio_language(language_key=data.decode('utf-8'))
         elif channel == 'audio_intent':
             detection_result = DetectionResult()
             detection_result.ParseFromString(data)
@@ -604,23 +604,23 @@ class AbstractSICConnector(object):
                 jpg.write(data)
             self.on_new_picture_file(picture_file=picture_file)
         elif channel == 'detected_emotion':
-            self.on_emotion_detected(emotion=data.decode())
+            self.on_emotion_detected(emotion=data.decode('utf-8'))
         elif channel == 'robot_posture_changed':
-            self.on_posture_changed(posture=data.decode())
+            self.on_posture_changed(posture=data.decode('utf-8'))
         elif channel == 'robot_stiffness_changed':
-            self.on_stiffness_changed(stiffness=int(data.decode()))
+            self.on_stiffness_changed(stiffness=int(data.decode('utf-8')))
         elif channel == 'robot_battery_charge_changed':
-            self.on_battery_charge_changed(percentage=int(data.decode()))
+            self.on_battery_charge_changed(percentage=int(data.decode('utf-8')))
         elif channel == 'robot_charging_changed':
-            self.on_charging_changed(is_charging=bool(int(data.decode())))
+            self.on_charging_changed(is_charging=bool(int(data.decode('utf-8'))))
         elif channel == 'robot_hot_device_detected':
-            self.on_hot_device_detected(data.decode().split(';'))
+            self.on_hot_device_detected(data.decode('utf-8').split(';'))
         elif channel == 'robot_motion_recording':
             self.on_robot_motion_recording(data)
         elif channel == 'tablet_connection':
             self.on_tablet_connection()
         elif channel == 'tablet_answer':
-            self.on_tablet_answer(data.decode())
+            self.on_tablet_answer(data.decode('utf-8'))
         else:
             print('Unknown channel: ' + channel)
 

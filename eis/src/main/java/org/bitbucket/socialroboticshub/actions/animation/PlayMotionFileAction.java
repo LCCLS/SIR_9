@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -54,7 +55,7 @@ public class PlayMotionFileAction extends RobotAction {
 	public String getData() {
 		try {
 			final Path path = Paths.get(EIStoString(getParameters().get(0)));
-			final String xml = new String(Files.readAllBytes(path));
+			final String xml = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
 			String result = getMinifiedXML(xml);
 			if (getParameters().size() == 2) {
 				result += (";" + EIStoString(getParameters().get(1)));

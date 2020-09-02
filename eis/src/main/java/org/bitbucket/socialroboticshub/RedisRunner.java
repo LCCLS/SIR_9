@@ -1,11 +1,14 @@
 package org.bitbucket.socialroboticshub;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
 import redis.clients.jedis.Jedis;
 
 abstract class RedisRunner extends Thread {
+	protected static final Charset UTF8 = StandardCharsets.UTF_8;
 	protected final CBSRenvironment parent;
 	protected final Map<DeviceType, List<String>> devices;
 	private Jedis redis;

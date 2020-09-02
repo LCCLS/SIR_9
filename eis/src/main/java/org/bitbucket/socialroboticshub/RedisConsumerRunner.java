@@ -31,7 +31,7 @@ final class RedisConsumerRunner extends RedisRunner {
 		for (final List<String> identifiers : this.devices.values()) {
 			for (final String identifier : identifiers) {
 				for (final String topic : topics) { // FIXME: brute-force
-					result.add((identifier + "_" + topic).getBytes());
+					result.add((identifier + "_" + topic).getBytes(UTF8));
 				}
 			}
 		}
@@ -47,28 +47,28 @@ final class RedisConsumerRunner extends RedisRunner {
 				redis.subscribe(new BinaryJedisPubSub() { // process incoming messages (into percepts)
 					@Override
 					public void onMessage(final byte[] rawchannel, final byte[] message) {
-						final String channel = new String(rawchannel);
+						final String channel = new String(rawchannel, UTF8);
 						final int split = channel.indexOf('_');
 						// TODO: provide source-device information where relevant?
 						// final String device = channel.substring(0, split);
 						switch (channel.substring(split + 1)) {
 						case "events":
-							env.addEvent(new String(message));
+							env.addEvent(new String(message, UTF8));
 							break;
 						case "tablet_connection":
 							env.setTabletConnected();
 							break;
 						case "tablet_answer":
-							env.addAnswer(new String(message));
+							env.addAnswer(new String(message, UTF8));
 							break;
 						case "detected_person":
 							env.addDetectedPerson();
 							break;
 						case "recognised_face":
-							env.addRecognizedFace(new String(message));
+							env.addRecognizedFace(new String(message, UTF8));
 							break;
 						case "audio_language":
-							env.setAudioLanguage(new String(message));
+							env.setAudioLanguage(new String(message, UTF8));
 							break;
 						case "audio_intent":
 							try {
@@ -88,7 +88,7 @@ final class RedisConsumerRunner extends RedisRunner {
 							}
 							break;
 						case "robot_audio_loaded":
-							env.addLoadedAudioID(Integer.parseInt(new String(message)));
+							env.addLoadedAudioID(Integer.parseInt(new String(message, UTF8)));
 							break;
 						case "picture_newfile":
 							final String imagefile = dateFormat.format(new Date()) + ".jpg";
@@ -100,10 +100,10 @@ final class RedisConsumerRunner extends RedisRunner {
 							}
 							break;
 						case "detected_emotion":
-							env.addDetectedEmotion(new String(message));
+							env.addDetectedEmotion(new String(message, UTF8));
 							break;
 						case "memory_data":
-							final String[] memoryData = new String(message).split(";");
+							final String[] memoryData = new String(message, UTF8).split(";");
 							if (memoryData.length == 2) {
 								env.addMemoryData(memoryData[0], memoryData[1]);
 							} else {
@@ -111,14 +111,14 @@ final class RedisConsumerRunner extends RedisRunner {
 							}
 							break;
 						case "robot_posture_changed":
-							env.addPostureChanged(new String(message));
+							env.addPostureChanged(new String(message, UTF8));
 							break;
 						case "robot_awake_changed":
-							env.addIsAwake(new String(message).equals("1"));
+							env.addIsAwake(new String(message, UTF8).equals("1"));
 							break;
 						case "robot_stiffness_changed":
 							try {
-								final int stiffness = Integer.parseInt(new String(message));
+								final int stiffness = Integer.parseInt(new String(message, UTF8));
 								env.addStiffness(stiffness);
 							} catch (final NumberFormatException e) {
 								e.printStackTrace();
@@ -126,21 +126,21 @@ final class RedisConsumerRunner extends RedisRunner {
 							break;
 						case "robot_battery_charge_changed":
 							try {
-								final int batteryCharge = Integer.parseInt(new String(message));
+								final int batteryCharge = Integer.parseInt(new String(message, UTF8));
 								env.addBatteryCharge(batteryCharge);
 							} catch (final NumberFormatException e) {
 								e.printStackTrace();
 							}
 							break;
 						case "robot_charging_changed":
-							env.addIsCharging(new String(message).equals("1"));
+							env.addIsCharging(new String(message, UTF8).equals("1"));
 							break;
 						case "robot_hot_device_detected":
-							final String[] hotDevices = new String(message).split(";");
+							final String[] hotDevices = new String(message, UTF8).split(";");
 							env.addHotDevice(hotDevices);
 							break;
 						case "robot_motion_recording":
-							env.addMotionRecording(new String(message));
+							env.addMotionRecording(new String(message, UTF8));
 							break;
 						}
 					}
