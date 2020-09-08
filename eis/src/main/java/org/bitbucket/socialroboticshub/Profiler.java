@@ -40,7 +40,7 @@ public class Profiler extends Thread {
 		final Long start = this.enabled ? this.cache.remove(label) : null;
 		if (start != null) {
 			final double diff = (System.nanoTime() - start.longValue()) / 1000000.0;
-			final String info = (label + ";" + String.format("%f", diff) + "\n");
+			final String info = (label + ";" + String.format("%.1f", diff) + "\n");
 			this.queue.add(info);
 			if (label.endsWith("Started")) {
 				start(label.replace("Started", "Done"));
