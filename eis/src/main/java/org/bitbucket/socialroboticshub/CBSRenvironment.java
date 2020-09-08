@@ -104,7 +104,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 		this.flowHook = getParameter("flowhook", "");
 
 		this.profiler = new Profiler(getParameter("profiling", "").equals("1"));
-		this.profiler.start();
 
 		// start the database connections
 		final Map<DeviceType, List<String>> devices = getDevices();

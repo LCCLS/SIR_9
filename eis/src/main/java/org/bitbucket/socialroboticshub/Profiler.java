@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.bitbucket.socialroboticshub.actions.RobotAction;
 
-public class Profiler extends Thread {
+public class Profiler {
 	private volatile boolean enabled;
 	private final String name;
 	private final Map<String, Long> cache;
@@ -18,9 +18,14 @@ public class Profiler extends Thread {
 
 	public Profiler(final boolean enabled) {
 		this.enabled = enabled;
-		this.name = "profile_" + new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date());
-		this.cache = new ConcurrentHashMap<>();
-		this.queue = new LinkedBlockingQueue<>();
+		this.name = enabled ? ("profile_" + new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date())) : null;
+		this.cache = enabled ? new ConcurrentHashMap<>() : null;
+		this.queue = enabled ? new LinkedBlockingQueue<>() : null;
+		if (enabled) {
+			new Thread(() -> {
+				write();
+			}).start();
+		}
 	}
 
 	public void start(final String label) {
@@ -48,8 +53,7 @@ public class Profiler extends Thread {
 		}
 	}
 
-	@Override
-	public void run() {
+	public void write() {
 		FileWriter writer = null;
 		while (this.enabled) {
 			try {
@@ -72,8 +76,10 @@ public class Profiler extends Thread {
 	}
 
 	public void shutdown() {
-		this.cache.clear();
-		this.queue.add("END;");
-		this.enabled = false;
+		if (this.enabled) {
+			this.cache.clear();
+			this.queue.add("END;");
+			this.enabled = false;
+		}
 	}
 }
