@@ -48,9 +48,9 @@ import org.bitbucket.socialroboticshub.actions.audiovisual.StopWatchingAction;
 import com.google.protobuf.Value;
 
 import eis.EIDefaultImpl;
+import eis.PerceptUpdate;
 import eis.exceptions.ActException;
 import eis.exceptions.ManagementException;
-import eis.exceptions.NoEnvironmentException;
 import eis.iilang.Action;
 import eis.iilang.EnvironmentState;
 import eis.iilang.Function;
@@ -67,6 +67,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 	private static final long serialVersionUID = 1L;
 	protected Map<String, Parameter> parameters;
 	protected BlockingQueue<Percept> perceptQueue;
+	protected List<Percept> previousPercepts;
 	protected String redisServer;
 	protected String redisUser;
 	protected String redisPass;
@@ -84,6 +85,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 		super.init(parameters);
 		this.parameters = parameters;
 		this.perceptQueue = new LinkedBlockingQueue<>();
+		this.previousPercepts = new ArrayList<>(0);
 		setState(EnvironmentState.PAUSED);
 
 		// get all parameters
@@ -209,10 +211,17 @@ public class CBSRenvironment extends EIDefaultImpl {
 	}
 
 	@Override
-	protected List<Percept> getAllPerceptsFromEntity(final String entity) throws NoEnvironmentException {
+	public PerceptUpdate getPerceptsForEntity(final String entity) {
 		final List<Percept> percepts = new LinkedList<>();
 		this.perceptQueue.drainTo(percepts);
-		return percepts;
+
+		final List<Percept> addList = new ArrayList<>(percepts);
+		addList.removeAll(this.previousPercepts);
+		final List<Percept> delList = new ArrayList<>(this.previousPercepts);
+		delList.removeAll(percepts);
+
+		this.previousPercepts = percepts;
+		return new PerceptUpdate(addList, delList);
 	}
 
 	@Override
@@ -232,7 +241,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 	}
 
 	@Override
-	protected Percept performEntityAction(final String entity, final Action action) throws ActException {
+	public void performEntityAction(final Action action, final String entity) throws ActException {
 		final RobotAction robotAction = RobotAction.getRobotAction(action);
 		if (robotAction != null && robotAction.isValid()) {
 			if (robotAction instanceof StartListeningAction) {
@@ -245,7 +254,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 		} else {
 			throw new ActException(ActException.FAILURE, "Not able to perform " + action.toProlog());
 		}
-		return null;
 	}
 
 	public boolean isTabletConnected() {
