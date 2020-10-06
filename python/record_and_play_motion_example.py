@@ -42,5 +42,5 @@ class Example:
         self.motion = motion
 
 
-example = Example('<SIC IP Address>')
+example = Example('127.0.0.1')
 example.run()

@@ -47,7 +47,7 @@ class Example:
         self.recognition_manager.update({'attempt_success': False, 'attempt_number': 0})
 
 
-example = Example('<SIC IP Address>',
+example = Example('127.0.0.1',
                   '<dialogflow_key_file.json>',
                   '<dialogflow_agent_id>')
 example.run()

@@ -23,5 +23,5 @@ class MyConnector(AbstractSICConnector):
 
 
 # Run the application
-my_connector = MyConnector('<SIC IP Address>')
+my_connector = MyConnector('127.0.0.1')
 my_connector.run()
