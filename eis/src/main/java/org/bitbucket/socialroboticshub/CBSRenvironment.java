@@ -88,7 +88,8 @@ public class CBSRenvironment extends EIDefaultImpl {
 
 		// get all parameters
 		this.redisServer = getParameter("server", "localhost");
-		final String[] userInfo = getUserInformation();
+		final String[] userInfo = isLocal(this.redisServer) ? new String[] { "default", "changemeplease" }
+				: getUserInformation();
 		this.redisUser = userInfo[0];
 		this.redisPass = userInfo[1];
 		this.flowKey = getParameter("flowkey", "");
@@ -152,11 +153,11 @@ public class CBSRenvironment extends EIDefaultImpl {
 				deviceGrid.add(deviceBox);
 				deviceGrid.add(new JLabel(""));
 			}
-			if (checkboxes.isEmpty()) {
-				throw new Exception("No devices found");
-			}
 		} catch (final Exception e) {
 			throw new ManagementException("Unable to get the list of devices", e);
+		}
+		if (checkboxes.isEmpty()) {
+			throw new ManagementException("No devices found");
 		}
 		final JButton select = new JButton("(De)Select All");
 		select.addActionListener(e -> {
