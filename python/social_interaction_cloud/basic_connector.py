@@ -358,6 +358,10 @@ class BasicSICConnector(AbstractSICConnector):
         super(BasicSICConnector, self).set_breathing(enable)
 
     def go_to_posture(self, posture: Enum, speed: int = 100, callback: callable = None) -> None:
+        """
+        The robot will try for 3 times to reach a position.
+        go_to_posture's callback returns a bool indicating whether the given posture was successfully reached.
+        """
         if callback:
             self.__register_listener('GoToPostureDone', partial(self.__posture_callback,
                                                                 target_posture=posture,
