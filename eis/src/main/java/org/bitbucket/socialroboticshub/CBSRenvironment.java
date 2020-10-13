@@ -108,11 +108,37 @@ public class CBSRenvironment extends EIDefaultImpl {
 
 		this.profiler = new Profiler(getParameter("profiling", "").equals("1"));
 
-		// start the database connections
-		final Map<DeviceType, List<String>> devices = getDevices();
+		final Map<DeviceType, List<String>> devices = new HashMap<>(DeviceType.size());
+		for (final DeviceType type : DeviceType.values()) {
+			devices.put(type, new LinkedList<>());
+		}
+		final Parameter devicesParam = this.parameters.get("devices");
+		if (devicesParam instanceof ParameterList) {
+			boolean foundOne = false;
+			for (final Parameter device : (ParameterList) devicesParam) {
+				if (device instanceof Identifier) {
+					final String[] split = ((Identifier) device).getValue().split(":");
+					if (split.length == 2) {
+						final String identifier = this.redisUser + "-" + split[0];
+						final DeviceType type = DeviceType.fromString(split[1]);
+						if (type != null) {
+							devices.get(type).add(identifier);
+							foundOne = true;
+						}
+					}
+				}
+			}
+			if (!foundOne) {
+				throw new ManagementException("No (valid) devices given in the 'devices' init parameter");
+			}
+		} else {
+			getDevices(devices);
+		}
 		if (devices.isEmpty()) {
 			throw new ManagementException("No devices selected");
 		}
+
+		// start the database connections
 		this.consumer = new RedisConsumerRunner(this, devices);
 		this.consumer.start();
 		this.producer = new RedisProducerRunner(this, devices);
@@ -141,16 +167,16 @@ public class CBSRenvironment extends EIDefaultImpl {
 		return (param instanceof Identifier) ? ((Identifier) param).getValue().trim() : def;
 	}
 
-	private Map<DeviceType, List<String>> getDevices() throws ManagementException {
+	private void getDevices(final Map<DeviceType, List<String>> devices) throws ManagementException {
 		// show the device selection dialog
 		final JDialog deviceSelection = new JDialog((JDialog) null, "Select Devices", true);
 		final JPanel deviceGrid = new JPanel(new GridLayout(0, 2));
 		final List<JCheckBox> checkboxes = new LinkedList<>();
 		try (final Jedis jedis = connect()) {
-			final Set<String> devices = jedis.zrangeByScore("user:" + this.redisUser,
+			final Set<String> deviceIds = jedis.zrangeByScore("user:" + this.redisUser,
 					(Instant.now().getEpochSecond() - 60), Double.POSITIVE_INFINITY);
-			for (final String device : new TreeSet<>(devices)) {
-				final JCheckBox deviceBox = new JCheckBox(device);
+			for (final String deviceId : new TreeSet<>(deviceIds)) {
+				final JCheckBox deviceBox = new JCheckBox(deviceId);
 				checkboxes.add(deviceBox);
 				deviceGrid.add(deviceBox);
 				deviceGrid.add(new JLabel(""));
@@ -186,10 +212,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 		deviceSelection.setVisible(true);
 
 		// process the device selection
-		final Map<DeviceType, List<String>> devices = new HashMap<>(DeviceType.size());
-		for (final DeviceType type : DeviceType.values()) {
-			devices.put(type, new LinkedList<>());
-		}
 		for (final JCheckBox checkbox : checkboxes) {
 			if (checkbox.isSelected()) {
 				final String[] split = checkbox.getText().split(":");
@@ -198,8 +220,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 				devices.get(type).add(identifier);
 			}
 		}
-
-		return devices;
 	}
 
 	@Override
