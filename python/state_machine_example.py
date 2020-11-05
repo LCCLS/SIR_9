@@ -6,7 +6,7 @@ from social_interaction_cloud.detection_result_pb2 import DetectionResult
 
 
 class ExampleRobot(object):
-    """Example that shows how to impelement a State Machine with pyTransitions. For more information go to
+    """Example that shows how to implement a State Machine with pyTransitions. For more information go to
     https://socialrobotics.atlassian.net/wiki/spaces/CBSR/pages/616398873/Python+Examples#State-Machines-with-PyTransitions"""
 
     states = ['asleep', 'awake', 'introduced', 'asked_name', 'got_acquainted']

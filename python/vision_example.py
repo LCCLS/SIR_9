@@ -5,7 +5,8 @@ from social_interaction_cloud.basic_connector import BasicSICConnector
 
 
 class Example:
-    """For this example you will need to turn on the PeopleDetection and FaceRecognition services."""
+    """For this example you will need to turn on the PeopleDetection and FaceRecognition services.
+    When running this without a robot, you need the computer-camera, computer-robot and computer-speaker."""
 
     def __init__(self, server_ip: str):
         self.sic = BasicSICConnector(server_ip)
