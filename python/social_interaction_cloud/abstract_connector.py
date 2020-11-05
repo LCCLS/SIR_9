@@ -62,12 +62,17 @@ class AbstractSICConnector(object):
 
         self.time_format = '%H-%M-%S'
 
-        self.__dialog1 = Tk()
-        self.username = StringVar()
-        self.password = StringVar()
-        self.provide_user_information()
-        self.redis = Redis(host=server_ip, username=self.username, password=self.password, ssl=True,
-                           ssl_ca_certs='cert.pem')
+        if server_ip.startswith('127.') or server_ip.startswith('192.') or server_ip == 'localhost':
+            self.username = 'default'
+            self.password = 'changemeplease'
+            self.redis = Redis(host=server_ip, username=self.username, password=self.password, ssl=True,
+                               ssl_ca_certs='cert.pem')
+        else:
+            self.__dialog1 = Tk()
+            self.username = StringVar()
+            self.password = StringVar()
+            self.provide_user_information()
+            self.redis = Redis(host=server_ip, username=self.username, password=self.password, ssl=True)
         self.__dialog2 = Tk()
         self.__checkboxes = {}
         self.select_devices()

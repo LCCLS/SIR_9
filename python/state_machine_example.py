@@ -87,7 +87,7 @@ class StateMachineExample(object):
         self.sic.stop()
 
 
-example = StateMachineExample('<SIC IP Address>',
+example = StateMachineExample('127.0.0.1',
                               '<dialogflow_key_file.json>',
                               '<dialogflow_agent_id>')
 example.run()
