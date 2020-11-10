@@ -15,7 +15,8 @@ class MyConnector(BasicSICConnector):
 
 
 class Example:
-    """Example that shows how to use the tablet actions (on a Pepper). The webserver service is needed for this!"""
+    """Example that shows how to use the tablet actions (on a Pepper or the computer-browser).
+    The webserver service needs to be running for this!"""
 
     def __init__(self, server_ip: str):
         self.sic = MyConnector(server_ip)
