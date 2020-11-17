@@ -64,6 +64,7 @@ class BasicSICConnector(AbstractSICConnector):
     ###########################
 
     def on_event(self, event: str) -> None:
+        print(event)
         self.__notify_listeners(event)
         self.__notify_touch_listeners(event)
 
@@ -138,7 +139,7 @@ class BasicSICConnector(AbstractSICConnector):
         """
         enhanced_callback, fail_callback, lock = self.__build_speech_recording_callback(callback)
         self.__register_listener('onAudioIntent', enhanced_callback)
-        self.__register_listener('DetectionDone', fail_callback)
+        self.__register_listener('IntentDetectionDone', fail_callback)
         Thread(target=self.__recognizing, args=(context, lock, max_duration)).start()
 
     def record_audio(self, duration: int, callback: callable = None) -> None:
