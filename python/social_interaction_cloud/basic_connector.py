@@ -64,7 +64,6 @@ class BasicSICConnector(AbstractSICConnector):
     ###########################
 
     def on_event(self, event: str) -> None:
-        print(event)
         self.__notify_listeners(event)
         self.__notify_touch_listeners(event)
 
