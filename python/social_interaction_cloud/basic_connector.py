@@ -329,6 +329,16 @@ class BasicSICConnector(AbstractSICConnector):
             self.__register_listener('EyeColourDone', callback)
         super(BasicSICConnector, self).set_eye_color(color)
 
+    def set_ear_color(self, color: str, callback: callable = None) -> None:
+        if callback:
+            self.__register_listener('EarColourDone', callback)
+        super(BasicSICConnector, self).set_ear_color(color)
+
+    def set_head_color(self, color: str, callback: callable = None) -> None:
+        if callback:
+            self.__register_listener('HeadColourDone', callback)
+        super(BasicSICConnector, self).set_head_color(color)
+
     def turn_left(self, small: bool = True, callback: callable = None) -> None:
         if callback:
             self.__register_listener(('Small' if small else '') + 'TurnDone', callback)
