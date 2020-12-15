@@ -138,7 +138,7 @@ class BasicSICConnector(AbstractSICConnector):
         """
         enhanced_callback, fail_callback, lock = self.__build_speech_recording_callback(callback)
         self.__register_listener('onAudioIntent', enhanced_callback)
-        self.__register_listener('DetectionDone', fail_callback)
+        self.__register_listener('IntentDetectionDone', fail_callback)
         Thread(target=self.__recognizing, args=(context, lock, max_duration)).start()
 
     def record_audio(self, duration: int, callback: callable = None) -> None:
@@ -328,6 +328,16 @@ class BasicSICConnector(AbstractSICConnector):
         if callback:
             self.__register_listener('EyeColourDone', callback)
         super(BasicSICConnector, self).set_eye_color(color)
+
+    def set_ear_color(self, color: str, callback: callable = None) -> None:
+        if callback:
+            self.__register_listener('EarColourDone', callback)
+        super(BasicSICConnector, self).set_ear_color(color)
+
+    def set_head_color(self, color: str, callback: callable = None) -> None:
+        if callback:
+            self.__register_listener('HeadColourDone', callback)
+        super(BasicSICConnector, self).set_head_color(color)
 
     def turn_left(self, small: bool = True, callback: callable = None) -> None:
         if callback:
