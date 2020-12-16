@@ -4,24 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bitbucket.socialroboticshub.actions.animation.DisableBreathingAction;
-import org.bitbucket.socialroboticshub.actions.animation.EnableBreathingAction;
-import org.bitbucket.socialroboticshub.actions.animation.GestureAction;
-import org.bitbucket.socialroboticshub.actions.animation.GoToPostureAction;
-import org.bitbucket.socialroboticshub.actions.animation.PlayMotionAction;
-import org.bitbucket.socialroboticshub.actions.animation.PlayMotionFileAction;
-import org.bitbucket.socialroboticshub.actions.animation.RestAction;
-import org.bitbucket.socialroboticshub.actions.animation.SetEarColourAction;
-import org.bitbucket.socialroboticshub.actions.animation.SetEyeColourAction;
-import org.bitbucket.socialroboticshub.actions.animation.SetHeadColourAction;
-import org.bitbucket.socialroboticshub.actions.animation.SetIdleAction;
-import org.bitbucket.socialroboticshub.actions.animation.SetNonIdleAction;
-import org.bitbucket.socialroboticshub.actions.animation.SetStiffnessAction;
-import org.bitbucket.socialroboticshub.actions.animation.StartMotionRecordingAction;
-import org.bitbucket.socialroboticshub.actions.animation.StopMotionRecordingAction;
-import org.bitbucket.socialroboticshub.actions.animation.TurnLeftAction;
-import org.bitbucket.socialroboticshub.actions.animation.TurnRightAction;
-import org.bitbucket.socialroboticshub.actions.animation.WakeUpAction;
+import org.bitbucket.socialroboticshub.actions.animation.*;
 import org.bitbucket.socialroboticshub.actions.audiovisual.ClearLoadedAudioAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.DisableRecordingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.EnableRecordingAction;
@@ -149,6 +132,12 @@ public abstract class RobotAction {
 			return new StopMotionRecordingAction();
 		case PlayMotionFileAction.NAME:
 			return new PlayMotionFileAction(parameters);
+		case SetLedColorAction.NAME:
+			return new SetLedColorAction(parameters);
+		case StartLedAnimationAction.NAME:
+			return new StartLedAnimationAction(parameters);
+		case StopLedAnimationAction.NAME:
+			return new StopLedAnimationAction();
 		// TABLET ACTIONS
 		case TabletOpenAction.NAME:
 			return new TabletOpenAction();

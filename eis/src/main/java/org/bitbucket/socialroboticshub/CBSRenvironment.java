@@ -38,6 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.google.protobuf.ListValue;
 import org.bitbucket.socialrobotics.DetectionResultProto.DetectionResult;
 import org.bitbucket.socialroboticshub.actions.RobotAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.SetLanguageAction;
@@ -612,6 +613,8 @@ public class CBSRenvironment extends EIDefaultImpl {
 			return new TruthValue(value.getBoolValue());
 		case STRUCT_VALUE:
 			return toEIS(value.getStructValue().getFieldsMap());
+		case LIST_VALUE:
+			return toEIS(value.getListValue().getValuesList());
 		default:
 			throw new IllegalArgumentException("Unsupported value: " + value);
 		}
@@ -625,4 +628,15 @@ public class CBSRenvironment extends EIDefaultImpl {
 		}
 		return new ParameterList(elements);
 	}
+
+	private static Parameter toEIS(final List<Value> valueList) {
+		final List<Parameter> elements = new ArrayList<>(valueList.size());
+		for (final Value value : valueList) {
+			final Parameter param = toEIS(value);
+			elements.add(param);
+		}
+		return new ParameterList(elements);
+	}
+
+
 }
