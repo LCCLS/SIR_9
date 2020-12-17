@@ -38,7 +38,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.google.protobuf.ListValue;
 import org.bitbucket.socialrobotics.DetectionResultProto.DetectionResult;
 import org.bitbucket.socialroboticshub.actions.RobotAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.SetLanguageAction;
@@ -637,6 +636,4 @@ public class CBSRenvironment extends EIDefaultImpl {
 		}
 		return new ParameterList(elements);
 	}
-
-
 }
