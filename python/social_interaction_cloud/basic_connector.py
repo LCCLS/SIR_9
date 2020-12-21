@@ -42,7 +42,6 @@ class BasicSICConnector(AbstractSICConnector):
 
         self.robot_state = {'posture': RobotPosture.UNKNOWN,
                             'is_awake': False,
-                            'stiffness': 0,
                             'battery_charge': 100,
                             'is_charging': False,
                             'hot_devices': []}
@@ -93,10 +92,6 @@ class BasicSICConnector(AbstractSICConnector):
 
     def on_emotion_detected(self, emotion: str) -> None:
         self.__notify_vision_listeners('onEmotionDetected', emotion)
-
-    def on_stiffness_changed(self, stiffness: int) -> None:
-        self.__notify_listeners('onStiffnessChanged', stiffness)
-        self.robot_state['stiffness'] = stiffness
 
     def on_battery_charge_changed(self, percentage: int) -> None:
         self.__notify_listeners('onBatteryChargeChanged', percentage)

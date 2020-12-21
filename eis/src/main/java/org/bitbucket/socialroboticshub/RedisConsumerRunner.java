@@ -1,7 +1,10 @@
 package org.bitbucket.socialroboticshub;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,12 +18,13 @@ import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;
 
 final class RedisConsumerRunner extends RedisRunner {
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH-mm-ss");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 	private static final String[] topics = new String[] { "events", "tablet_connection", "tablet_answer",
 			"detected_person", "recognised_face", "audio_language", "audio_intent", "audio_newfile",
 			"robot_audio_loaded", "picture_newfile", "detected_emotion", "memory_data", "robot_posture_changed",
-			"robot_awake_changed", "robot_stiffness_changed", "robot_battery_charge_changed", "robot_charging_changed",
+			"robot_awake_changed", "robot_battery_charge_changed", "robot_charging_changed",
 			"robot_hot_device_detected", "robot_motion_recording" };
+	private static final Path fileOutputPath = Paths.get("output");
 
 	RedisConsumerRunner(final CBSRenvironment parent, final Map<DeviceType, List<String>> devices) {
 		super(parent, devices);
@@ -79,10 +83,12 @@ final class RedisConsumerRunner extends RedisRunner {
 							}
 							break;
 						case "audio_newfile":
-							final String audiofile = dateFormat.format(new Date()) + ".wav";
-							try (FileOutputStream out = new FileOutputStream(audiofile)) {
+							final String audioFileName = dateFormat.format(new Date()) + ".wav";
+							try {
+								Files.createDirectories(fileOutputPath);
+								FileOutputStream out = new FileOutputStream(new File(fileOutputPath.toFile(), audioFileName));
 								out.write(message);
-								env.addAudioRecording(audiofile);
+								env.addAudioRecording(audioFileName);
 							} catch (final Exception e) {
 								e.printStackTrace();
 							}
@@ -91,10 +97,11 @@ final class RedisConsumerRunner extends RedisRunner {
 							env.addLoadedAudioID(Integer.parseInt(new String(message, UTF8)));
 							break;
 						case "picture_newfile":
-							final String imagefile = dateFormat.format(new Date()) + ".jpg";
+							final String imageFileName = dateFormat.format(new Date()) + ".jpg";
 							try {
-								Files.write(Paths.get(imagefile), message);
-								env.addPicture(imagefile);
+								Files.createDirectories(fileOutputPath);
+								Files.write(fileOutputPath.resolve(imageFileName), message);
+								env.addPicture(imageFileName);
 							} catch (final Exception e) {
 								e.printStackTrace();
 							}
@@ -115,14 +122,6 @@ final class RedisConsumerRunner extends RedisRunner {
 							break;
 						case "robot_awake_changed":
 							env.addIsAwake(new String(message, UTF8).equals("1"));
-							break;
-						case "robot_stiffness_changed":
-							try {
-								final int stiffness = Integer.parseInt(new String(message, UTF8));
-								env.addStiffness(stiffness);
-							} catch (final NumberFormatException e) {
-								e.printStackTrace();
-							}
 							break;
 						case "robot_battery_charge_changed":
 							try {

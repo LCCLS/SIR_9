@@ -23,7 +23,7 @@ class AbstractSICConnector(object):
         """
         topics = ['events', 'detected_person', 'recognised_face', 'audio_language', 'audio_intent',
                   'audio_newfile', 'picture_newfile', 'detected_emotion',  # robot_audio_loaded?
-                  'robot_posture_changed', 'robot_stiffness_changed', 'robot_battery_charge_changed',
+                  'robot_posture_changed', 'robot_battery_charge_changed',
                   'robot_charging_changed', 'robot_hot_device_detected', 'robot_motion_recording',
                   'tablet_connection', 'tablet_answer']
         device_types = {
@@ -206,17 +206,6 @@ class AbstractSICConnector(object):
         """
         Triggered when the robot transfers from an awake state to a sleep state or vice verse
         :param is_awake: True if awake or false when is asleep
-        :return:
-        """
-        pass
-
-    def on_stiffness_changed(self, stiffness: int) -> None:
-        """
-        Triggered when the average stiffness of the robot changes. See:
-        http://doc.aldebaran.com/2-8/naoqi/sensors/alsensors-api.html#BodyStiffnessChanged
-        :param stiffness:   0 means that average of stiffness is less than 0.05
-                        1 means that average of stiffness is betwwen 0.05 and 0.95
-                        2 means that average of stiffness is greater 0.95
         :return:
         """
         pass
@@ -612,8 +601,6 @@ class AbstractSICConnector(object):
             self.on_emotion_detected(emotion=data.decode('utf-8'))
         elif channel == 'robot_posture_changed':
             self.on_posture_changed(posture=data.decode('utf-8'))
-        elif channel == 'robot_stiffness_changed':
-            self.on_stiffness_changed(stiffness=int(data.decode('utf-8')))
         elif channel == 'robot_battery_charge_changed':
             self.on_battery_charge_changed(percentage=int(data.decode('utf-8')))
         elif channel == 'robot_charging_changed':
