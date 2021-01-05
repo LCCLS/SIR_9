@@ -2,7 +2,6 @@ package org.bitbucket.socialroboticshub;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -86,7 +85,8 @@ final class RedisConsumerRunner extends RedisRunner {
 							final String audioFileName = dateFormat.format(new Date()) + ".wav";
 							try {
 								Files.createDirectories(fileOutputPath);
-								FileOutputStream out = new FileOutputStream(new File(fileOutputPath.toFile(), audioFileName));
+								final FileOutputStream out = new FileOutputStream(
+										new File(fileOutputPath.toFile(), audioFileName));
 								out.write(message);
 								env.addAudioRecording(audioFileName);
 							} catch (final Exception e) {

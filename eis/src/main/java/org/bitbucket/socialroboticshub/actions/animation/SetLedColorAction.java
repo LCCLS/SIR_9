@@ -1,20 +1,22 @@
 package org.bitbucket.socialroboticshub.actions.animation;
 
+import java.util.List;
+
+import org.bitbucket.socialroboticshub.actions.RobotAction;
+
 import eis.iilang.Numeral;
 import eis.iilang.Parameter;
 import eis.iilang.ParameterList;
-import org.bitbucket.socialroboticshub.actions.RobotAction;
-
-import java.util.List;
 
 public class SetLedColorAction extends RobotAction {
 	public final static String NAME = "setLedColor";
 	private final static String DEFAULT_DURATION = "0";
 
 	/**
-	 * @param parameters A list of 1 identifier representing a list leds of the robot,
-	 *                   a list of colors the leds should get,
-	 *                   and an optional numeral representing the duration of execution (in milliseconds).
+	 * @param parameters A list of 1 identifier representing a list leds of the
+	 *                   robot, a list of colors the leds should get, and an
+	 *                   optional numeral representing the duration of execution (in
+	 *                   milliseconds).
 	 */
 	public SetLedColorAction(final List<Parameter> parameters) {
 		super(parameters);
@@ -25,7 +27,8 @@ public class SetLedColorAction extends RobotAction {
 		final int params = getParameters().size();
 		boolean valid = (params == 2 || params == 3);
 		if (valid) {
-			valid &= (getParameters().get(0) instanceof ParameterList) && (getParameters().get(1) instanceof ParameterList);
+			valid &= (getParameters().get(0) instanceof ParameterList)
+					&& (getParameters().get(1) instanceof ParameterList);
 			if (params == 3) {
 				valid &= (getParameters().get(2) instanceof Numeral);
 			}
