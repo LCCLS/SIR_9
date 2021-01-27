@@ -213,19 +213,19 @@ public abstract class RobotAction {
 		} else if (param instanceof ParameterList) {
 			final ParameterList list = (ParameterList) param;
 			final int size = list.size();
-			String result = "[";
+			final StringBuilder result = new StringBuilder("[");
 			for (int i = 0; i < size; i++) {
 				final Parameter item = list.get(i);
 				String subresult = EIStoString(item);
 				if (item instanceof Identifier) {
 					subresult = '"' + subresult + '"';
 				}
-				result += subresult;
+				result.append(subresult);
 				if (i < (size - 1)) {
-					result += ",";
+					result.append(",");
 				}
 			}
-			return result + "]";
+			return result.append("]").toString();
 		} else {
 			throw new IllegalArgumentException("Unknown parameter type '" + param.getClass() + "'.");
 		}

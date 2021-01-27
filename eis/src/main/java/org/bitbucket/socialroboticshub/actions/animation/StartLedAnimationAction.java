@@ -1,19 +1,21 @@
 package org.bitbucket.socialroboticshub.actions.animation;
 
+import java.util.List;
+
+import org.bitbucket.socialroboticshub.actions.RobotAction;
+
 import eis.iilang.Identifier;
 import eis.iilang.Numeral;
 import eis.iilang.Parameter;
 import eis.iilang.ParameterList;
-import org.bitbucket.socialroboticshub.actions.RobotAction;
-
-import java.util.List;
 
 public class StartLedAnimationAction extends RobotAction {
 	public final static String NAME = "startLedAnimation";
 
 	/**
-	 * @param parameters a led group name (eyes, chest, feet, all), an animation type (rotate, blink, alternate),
-	 *                   a list of colors, and a speed setting (millisecond).
+	 * @param parameters a led group name (eyes, chest, feet, all), an animation
+	 *                   type (rotate, blink, alternate), a list of colors, and a
+	 *                   speed setting (millisecond).
 	 */
 	public StartLedAnimationAction(final List<Parameter> parameters) {
 		super(parameters);
@@ -21,9 +23,9 @@ public class StartLedAnimationAction extends RobotAction {
 
 	@Override
 	public boolean isValid() {
-		return getParameters().size() == 4 && (getParameters().get(0) instanceof Identifier) &&
-				(getParameters().get(1) instanceof Identifier) && (getParameters().get(2) instanceof ParameterList) &&
-				(getParameters().get(3) instanceof Numeral);
+		return getParameters().size() == 4 && (getParameters().get(0) instanceof Identifier)
+				&& (getParameters().get(1) instanceof Identifier) && (getParameters().get(2) instanceof ParameterList)
+				&& (getParameters().get(3) instanceof Numeral);
 	}
 
 	@Override
