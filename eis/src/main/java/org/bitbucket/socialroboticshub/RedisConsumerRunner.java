@@ -20,8 +20,8 @@ final class RedisConsumerRunner extends RedisRunner {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 	private static final String[] topics = new String[] { "events", "tablet_connection", "tablet_answer",
 			"detected_person", "recognised_face", "audio_language", "audio_intent", "audio_newfile",
-			"robot_audio_loaded", "picture_newfile", "detected_emotion", "memory_data", "robot_posture_changed",
-			"robot_awake_changed", "robot_battery_charge_changed", "robot_charging_changed",
+			"robot_audio_loaded", "picture_newfile", "detected_emotion", "memory_data", "gui_data",
+			"robot_posture_changed", "robot_awake_changed", "robot_battery_charge_changed", "robot_charging_changed",
 			"robot_hot_device_detected", "robot_motion_recording" };
 	private static final Path fileOutputPath = Paths.get("output");
 
@@ -115,6 +115,14 @@ final class RedisConsumerRunner extends RedisRunner {
 								env.addMemoryData(memoryData[0], memoryData[1]);
 							} else {
 								System.err.println("Mismatch in memory_data format. Format should be key;value.");
+							}
+							break;
+						case "gui_data":
+							final String[] guiData = new String(message, UTF8).split(";");
+							if (guiData.length == 2) {
+								env.addGuiData(guiData[0], guiData[1]);
+							} else {
+								System.err.println("Mismatch in gui_data format. Format should be key;value.");
 							}
 							break;
 						case "robot_posture_changed":
