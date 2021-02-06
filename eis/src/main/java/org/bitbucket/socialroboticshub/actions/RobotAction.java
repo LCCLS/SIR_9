@@ -41,10 +41,7 @@ import org.bitbucket.socialroboticshub.actions.audiovisual.StopListeningAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.StopTalkingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.StopWatchingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.TakePictureAction;
-import org.bitbucket.socialroboticshub.actions.memory.AddMemoryEntryAction;
-import org.bitbucket.socialroboticshub.actions.memory.GetUserDataAction;
-import org.bitbucket.socialroboticshub.actions.memory.GetUserSession;
-import org.bitbucket.socialroboticshub.actions.memory.SetUserDataAction;
+import org.bitbucket.socialroboticshub.actions.memory.*;
 import org.bitbucket.socialroboticshub.actions.tablet.TabletCloseAction;
 import org.bitbucket.socialroboticshub.actions.tablet.TabletOpenAction;
 import org.bitbucket.socialroboticshub.actions.tablet.TabletRenderAction;
@@ -172,14 +169,18 @@ public abstract class RobotAction {
 		case TabletRenderAction.NAME:
 			return new TabletRenderAction(parameters);
 		// MEMORY ACTIONS
-		case GetUserSession.NAME:
-			return new GetUserSession(parameters);
+		case SetSession.NAME:
+			return new SetSession(parameters);
 		case AddMemoryEntryAction.NAME:
 			return new AddMemoryEntryAction(parameters);
 		case GetUserDataAction.NAME:
 			return new GetUserDataAction(parameters);
 		case SetUserDataAction.NAME:
 			return new SetUserDataAction(parameters);
+		case DeleteUser.NAME:
+			return new DeleteUser(parameters);
+		case DeleteAllUsers.NAME:
+			return new DeleteAllUsers();
 		default:
 			return null;
 		}

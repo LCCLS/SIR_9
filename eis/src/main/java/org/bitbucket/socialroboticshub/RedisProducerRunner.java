@@ -28,7 +28,8 @@ final class RedisProducerRunner extends RedisRunner {
 	private static final String[] robotTopics = new String[] { "action_gesture", "action_eyecolour", "action_earcolour",
 			"action_headcolour", "action_idle", "action_turn", "action_turn_small", "action_wakeup", "action_rest",
 			"action_set_breathing", "action_posture", "action_stiffness", "action_play_motion", "action_record_motion",
-			"memory_add_entry", "memory_user_session", "memory_set_user_data", "memory_get_user_data",
+			"memory_add_entry", "memory_set_session", "memory_set_user_data", "memory_get_user_data",
+			"memory_delete_user", "memory_delete_all_users",
 			"action_motion_file", "action_led_color", "action_led_animation" };
 	private static final String[] speakerTopics = new String[] { "audio_language", "action_say", "action_say_animated",
 			"action_play_audio", "action_stop_talking", "action_load_audio", "action_clear_loaded_audio" };

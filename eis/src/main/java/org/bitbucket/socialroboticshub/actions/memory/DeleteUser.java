@@ -1,19 +1,18 @@
 package org.bitbucket.socialroboticshub.actions.memory;
 
-import java.util.List;
-
-import org.bitbucket.socialroboticshub.actions.RobotAction;
-
 import eis.iilang.Identifier;
 import eis.iilang.Parameter;
+import org.bitbucket.socialroboticshub.actions.RobotAction;
 
-public class GetUserSession extends RobotAction {
-	public final static String NAME = "getUserSession";
+import java.util.List;
+
+public class DeleteUser extends RobotAction {
+	public final static String NAME = "deleteUser";
 
 	/**
-	 * @param parameters id of user.
+	 * @param parameters user id.
 	 */
-	public GetUserSession(final List<Parameter> parameters) {
+	public DeleteUser(final List<Parameter> parameters) {
 		super(parameters);
 	}
 
@@ -24,7 +23,7 @@ public class GetUserSession extends RobotAction {
 
 	@Override
 	public String getTopic() {
-		return "memory_user_session";
+		return "memory_delete_user";
 	}
 
 	@Override
@@ -34,6 +33,6 @@ public class GetUserSession extends RobotAction {
 
 	@Override
 	public String getExpectedEvent() {
-		return null;
+		return "UserDeleted";
 	}
 }
