@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -24,9 +25,9 @@ import eis.iilang.Parameter;
 
 public class PlayMotionFileAction extends RobotAction {
 	public final static String NAME = "playMotionFile";
-
+	private boolean isXML;
 	/**
-	 * @param parameters A list with at least one identifier, referencing the XML
+	 * @param parameters A list with at least one identifier, referencing the XML / JSON
 	 *                   file to be played, and optionally a second identifier with
 	 *                   an emotion to use as a transformation to that animation.
 	 */
@@ -40,7 +41,11 @@ public class PlayMotionFileAction extends RobotAction {
 		boolean valid = (params == 1 || params == 2);
 		if (valid) {
 			valid &= (getParameters().get(0) instanceof Identifier);
-			valid &= new File(EIStoString(getParameters().get(0))).canRead();
+			File motionFile = new File(EIStoString(getParameters().get(0)));
+			valid &= motionFile.canRead();
+			String motionFileExtension = FilenameUtils.getExtension(motionFile.getName());
+			isXML = motionFileExtension.equalsIgnoreCase("xml");
+			valid &= (isXML || motionFileExtension.equalsIgnoreCase("json"));
 			if (params == 2) {
 				valid &= (getParameters().get(1) instanceof Identifier);
 			}
@@ -50,19 +55,23 @@ public class PlayMotionFileAction extends RobotAction {
 
 	@Override
 	public String getTopic() {
-		return "action_motion_file";
+		return isXML ? "action_motion_file" : "action_play_motion" ;
 	}
 
 	@Override
 	public String getData() {
 		try {
 			final Path path = Paths.get(EIStoString(getParameters().get(0)));
-			final String xml = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-			final StringBuilder result = new StringBuilder(getMinifiedXML(xml));
-			if (getParameters().size() == 2) {
-				result.append(";").append(EIStoString(getParameters().get(1)));
+			final String motion = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+			if (isXML) {
+				final StringBuilder result = new StringBuilder(getMinifiedXML(motion));
+				if (getParameters().size() == 2) {
+					result.append(";").append(EIStoString(getParameters().get(1)));
+				}
+				return result.toString();
 			}
-			return result.toString();
+			return motion;
+
 		} catch (final Exception e) {
 			throw new RuntimeException("Failed to read motion file", e);
 		}

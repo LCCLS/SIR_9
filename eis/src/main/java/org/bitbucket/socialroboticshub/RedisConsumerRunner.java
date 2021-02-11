@@ -88,7 +88,7 @@ final class RedisConsumerRunner extends RedisRunner {
 								final FileOutputStream out = new FileOutputStream(
 										new File(fileOutputPath.toFile(), audioFileName));
 								out.write(message);
-								env.addAudioRecording(audioFileName);
+								env.addAudioRecording(Paths.get(fileOutputPath.toString(), audioFileName).toString());
 							} catch (final Exception e) {
 								e.printStackTrace();
 							}
@@ -101,7 +101,7 @@ final class RedisConsumerRunner extends RedisRunner {
 							try {
 								Files.createDirectories(fileOutputPath);
 								Files.write(fileOutputPath.resolve(imageFileName), message);
-								env.addPicture(imageFileName);
+								env.addPicture(Paths.get(fileOutputPath.toString(), imageFileName).toString());
 							} catch (final Exception e) {
 								e.printStackTrace();
 							}
