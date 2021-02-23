@@ -41,16 +41,11 @@ import org.bitbucket.socialroboticshub.actions.audiovisual.StopListeningAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.StopTalkingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.StopWatchingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.TakePictureAction;
+import org.bitbucket.socialroboticshub.actions.browser.BrowserRenderAction;
 import org.bitbucket.socialroboticshub.actions.memory.AddMemoryEntryAction;
 import org.bitbucket.socialroboticshub.actions.memory.GetUserDataAction;
 import org.bitbucket.socialroboticshub.actions.memory.GetUserSession;
 import org.bitbucket.socialroboticshub.actions.memory.SetUserDataAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletCloseAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletOpenAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletRenderAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletShowImageAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletShowVideoAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletShowWebpageAction;
 import org.json.JSONObject;
 
 import eis.iilang.Action;
@@ -158,19 +153,9 @@ public abstract class RobotAction {
 			return new StartLedAnimationAction(parameters);
 		case StopLedAnimationAction.NAME:
 			return new StopLedAnimationAction();
-		// TABLET ACTIONS
-		case TabletOpenAction.NAME:
-			return new TabletOpenAction();
-		case TabletCloseAction.NAME:
-			return new TabletCloseAction();
-		case TabletShowImageAction.NAME:
-			return new TabletShowImageAction(parameters);
-		case TabletShowVideoAction.NAME:
-			return new TabletShowVideoAction(parameters);
-		case TabletShowWebpageAction.NAME:
-			return new TabletShowWebpageAction(parameters);
-		case TabletRenderAction.NAME:
-			return new TabletRenderAction(parameters);
+		// BROWSER ACTION
+		case BrowserRenderAction.NAME:
+			return new BrowserRenderAction(parameters);
 		// MEMORY ACTIONS
 		case GetUserSession.NAME:
 			return new GetUserSession(parameters);

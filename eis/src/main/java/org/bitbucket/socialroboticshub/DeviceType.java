@@ -1,7 +1,7 @@
 package org.bitbucket.socialroboticshub;
 
 enum DeviceType {
-	CAMERA("cam"), MICROPHONE("mic"), ROBOT("robot"), SPEAKER("speaker"), TABLET("tablet");
+	CAMERA("cam"), MICROPHONE("mic"), ROBOT("robot"), SPEAKER("speaker"), BROWSER("browser");
 
 	private final String name;
 
@@ -24,8 +24,8 @@ enum DeviceType {
 			return ROBOT;
 		case "speaker":
 			return SPEAKER;
-		case "tablet":
-			return TABLET;
+		case "browser":
+			return BROWSER;
 		default:
 			return null;
 		}

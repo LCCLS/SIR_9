@@ -78,7 +78,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 	protected RedisRunner consumer;
 	protected RedisRunner producer;
 	protected Profiler profiler;
-	protected volatile boolean tabletConnected = false;
 
 	@Override
 	public void init(final Map<String, Parameter> parameters) throws ManagementException {
@@ -277,18 +276,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 		}
 	}
 
-	public boolean isTabletConnected() {
-		return this.tabletConnected;
-	}
-
-	public void setTabletConnected() {
-		this.tabletConnected = true;
-	}
-
-	public void setTabletDisconnected() {
-		this.tabletConnected = false;
-	}
-
 	/**
 	 * Queues the intent information as a percept to be received by the agent.
 	 *
@@ -475,6 +462,15 @@ public class CBSRenvironment extends EIDefaultImpl {
 	 */
 	public void addMotionRecording(final String motionRecording) {
 		this.perceptQueue.add(new Percept("motionRecording", new Identifier(motionRecording)));
+	}
+
+	/**
+	 * Queues a text transcript as a percept to be received by the agent.
+	 *
+	 * @param motionRecording
+	 */
+	public void addTextTranscript(final String transcript) {
+		this.perceptQueue.add(new Percept("transcript", new Identifier(transcript)));
 	}
 
 	/**

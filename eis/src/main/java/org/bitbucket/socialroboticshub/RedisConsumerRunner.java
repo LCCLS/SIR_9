@@ -18,11 +18,11 @@ import redis.clients.jedis.Jedis;
 
 final class RedisConsumerRunner extends RedisRunner {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-	private static final String[] topics = new String[] { "events", "tablet_connection", "tablet_answer",
-			"detected_person", "recognised_face", "audio_language", "audio_intent", "audio_newfile",
-			"robot_audio_loaded", "picture_newfile", "detected_emotion", "memory_data", "robot_posture_changed",
-			"robot_awake_changed", "robot_battery_charge_changed", "robot_charging_changed",
-			"robot_hot_device_detected", "robot_motion_recording" };
+	private static final String[] topics = new String[] { "events", "browser_button", "detected_person",
+			"recognised_face", "audio_language", "audio_intent", "audio_newfile", "robot_audio_loaded",
+			"picture_newfile", "detected_emotion", "memory_data", "robot_posture_changed", "robot_awake_changed",
+			"robot_battery_charge_changed", "robot_charging_changed", "robot_hot_device_detected",
+			"robot_motion_recording", "text_transcript" };
 	private static final Path fileOutputPath = Paths.get("output");
 
 	RedisConsumerRunner(final CBSRenvironment parent, final Map<DeviceType, List<String>> devices) {
@@ -51,17 +51,12 @@ final class RedisConsumerRunner extends RedisRunner {
 					@Override
 					public void onMessage(final byte[] rawchannel, final byte[] message) {
 						final String channel = new String(rawchannel, UTF8);
-						final int split = channel.indexOf('_');
-						// TODO: provide source-device information where relevant?
-						// final String device = channel.substring(0, split);
-						switch (channel.substring(split + 1)) {
+						final int cutoff = channel.indexOf('_') + 1;
+						switch (channel.substring(cutoff)) {
 						case "events":
 							env.addEvent(new String(message, UTF8));
 							break;
-						case "tablet_connection":
-							env.setTabletConnected();
-							break;
-						case "tablet_answer":
+						case "browser_button":
 							env.addAnswer(new String(message, UTF8));
 							break;
 						case "detected_person":
@@ -140,6 +135,9 @@ final class RedisConsumerRunner extends RedisRunner {
 							break;
 						case "robot_motion_recording":
 							env.addMotionRecording(new String(message, UTF8));
+							break;
+						case "text_transcript":
+							env.addTextTranscript(new String(message, UTF8));
 							break;
 						}
 					}
