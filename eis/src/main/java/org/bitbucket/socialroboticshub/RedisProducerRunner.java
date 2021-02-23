@@ -69,10 +69,10 @@ final class RedisProducerRunner extends RedisRunner {
 		}
 		for (final String identifier : this.devices.get(DeviceType.MICROPHONE)) {
 			p1.publish("audio_beamforming", identifier);
-			initialiseDialogflow(p1, params, identifier); // voice input
+			initialiseDialogflow(p1, params, identifier, false); // voice input
 		}
 		for (final String identifier : this.devices.get(DeviceType.BROWSER)) {
-			initialiseDialogflow(p1, params, identifier); // chat input
+			initialiseDialogflow(p1, params, identifier, true); // chat input
 		}
 		for (final String identifier : this.devices.get(DeviceType.ROBOT)) {
 			p1.publish("robot_memory", identifier);
@@ -91,12 +91,13 @@ final class RedisProducerRunner extends RedisRunner {
 		}
 	}
 
-	private void initialiseDialogflow(final Pipeline p, final Map<String, String> params, final String identifier) {
+	private void initialiseDialogflow(final Pipeline p, final Map<String, String> params, final String identifier,
+			final boolean chat) {
 		if (!this.parent.flowKey.isEmpty() && !this.parent.flowAgent.isEmpty()) {
 			p.publish("intent_detection", identifier);
 			params.put(identifier + "_dialogflow_key", this.parent.flowKey);
 			params.put(identifier + "_dialogflow_agent", this.parent.flowAgent);
-			if (!this.parent.flowHook.isEmpty()) {
+			if (chat && !this.parent.flowHook.isEmpty()) {
 				params.put(identifier + "_dialogflow_webhook", this.parent.flowHook);
 			}
 			params.put(identifier + "_dialogflow_language", this.parent.flowLang);
