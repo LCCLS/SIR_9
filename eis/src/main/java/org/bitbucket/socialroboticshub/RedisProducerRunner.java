@@ -21,8 +21,7 @@ final class RedisProducerRunner extends RedisRunner {
 	private static final String PROFILER_TYPE = "redis_send";
 	private static final String[] cameraTopics = new String[] { "action_video" };
 	private static final String[] microphoneTopics = new String[] { "action_audio", "dialogflow_language",
-			"dialogflow_context", "dialogflow_key", "dialogflow_agent", "dialogflow_record", "dialogflow_webhook",
-			"action_chat" };
+			"dialogflow_context", "dialogflow_key", "dialogflow_agent", "dialogflow_record", "action_chat" };
 	private static final String[] robotTopics = new String[] { "action_gesture", "action_eyecolour", "action_earcolour",
 			"action_headcolour", "action_idle", "action_turn", "action_turn_small", "action_wakeup", "action_rest",
 			"action_set_breathing", "action_posture", "action_stiffness", "action_play_motion", "action_record_motion",
@@ -69,10 +68,10 @@ final class RedisProducerRunner extends RedisRunner {
 		}
 		for (final String identifier : this.devices.get(DeviceType.MICROPHONE)) {
 			p1.publish("audio_beamforming", identifier);
-			initialiseDialogflow(p1, params, identifier, false); // voice input
+			initialiseDialogflow(p1, params, identifier); // voice input
 		}
 		for (final String identifier : this.devices.get(DeviceType.BROWSER)) {
-			initialiseDialogflow(p1, params, identifier, true); // chat input
+			initialiseDialogflow(p1, params, identifier); // chat input
 		}
 		for (final String identifier : this.devices.get(DeviceType.ROBOT)) {
 			p1.publish("robot_memory", identifier);
@@ -91,15 +90,11 @@ final class RedisProducerRunner extends RedisRunner {
 		}
 	}
 
-	private void initialiseDialogflow(final Pipeline p, final Map<String, String> params, final String identifier,
-			final boolean chat) {
+	private void initialiseDialogflow(final Pipeline p, final Map<String, String> params, final String identifier) {
 		if (!this.parent.flowKey.isEmpty() && !this.parent.flowAgent.isEmpty()) {
 			p.publish("intent_detection", identifier);
 			params.put(identifier + "_dialogflow_key", this.parent.flowKey);
 			params.put(identifier + "_dialogflow_agent", this.parent.flowAgent);
-			if (chat && !this.parent.flowHook.isEmpty()) {
-				params.put(identifier + "_dialogflow_webhook", this.parent.flowHook);
-			}
 			params.put(identifier + "_dialogflow_language", this.parent.flowLang);
 		}
 	}

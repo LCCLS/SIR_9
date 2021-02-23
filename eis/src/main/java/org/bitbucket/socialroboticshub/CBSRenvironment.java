@@ -74,7 +74,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 	protected String flowKey;
 	protected String flowAgent;
 	protected String flowLang;
-	protected String flowHook;
 	protected RedisRunner consumer;
 	protected RedisRunner producer;
 	protected Profiler profiler;
@@ -103,7 +102,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 		}
 		this.flowAgent = getParameter("flowagent", "");
 		this.flowLang = getParameter("flowlang", "nl-NL");
-		this.flowHook = getParameter("flowhook", "");
 
 		this.profiler = new Profiler(getParameter("profiling", "").equals("1"));
 
