@@ -25,6 +25,8 @@ import org.bitbucket.socialroboticshub.actions.animation.StopMotionRecordingActi
 import org.bitbucket.socialroboticshub.actions.animation.TurnLeftAction;
 import org.bitbucket.socialroboticshub.actions.animation.TurnRightAction;
 import org.bitbucket.socialroboticshub.actions.animation.WakeUpAction;
+import org.bitbucket.socialroboticshub.actions.assistant.AssistantShowAction;
+import org.bitbucket.socialroboticshub.actions.assistant.AssistantShowCardAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.ClearLoadedAudioAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.DisableRecordingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.EnableRecordingAction;
@@ -165,6 +167,11 @@ public abstract class RobotAction {
 			return new GetUserDataAction(parameters);
 		case SetUserDataAction.NAME:
 			return new SetUserDataAction(parameters);
+		// GOOGLE ASSISTANT ACTIONS
+		case AssistantShowAction.NAME:
+			return new AssistantShowAction(parameters);
+		case AssistantShowCardAction.NAME:
+			return new AssistantShowCardAction(parameters);
 		default:
 			return null;
 		}

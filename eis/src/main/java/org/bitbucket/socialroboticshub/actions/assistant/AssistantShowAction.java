@@ -1,14 +1,17 @@
-package org.bitbucket.socialroboticshub.actions.audiovisual;
+package org.bitbucket.socialroboticshub.actions.assistant;
 
 import java.util.List;
-
-import org.bitbucket.socialroboticshub.actions.RobotAction;
 
 import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 
-abstract class PlayAudioAction extends RobotAction {
-	PlayAudioAction(final List<Parameter> parameters) {
+public class AssistantShowAction extends AssistantAction {
+	public final static String NAME = "assistantShow";
+
+	/**
+	 * @param parameters A list of 1 identifier: the text to show (and say)
+	 */
+	public AssistantShowAction(final List<Parameter> parameters) {
 		super(parameters);
 	}
 
@@ -19,16 +22,11 @@ abstract class PlayAudioAction extends RobotAction {
 
 	@Override
 	public String getTopic() {
-		return "action_play_audio";
+		return "assistant_show";
 	}
 
 	@Override
 	public String getData() {
 		return EIStoString(getParameters().get(0));
-	}
-
-	@Override
-	public String getExpectedEvent() {
-		return "PlayAudioStarted";
 	}
 }

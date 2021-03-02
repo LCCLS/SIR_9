@@ -30,6 +30,7 @@ final class RedisProducerRunner extends RedisRunner {
 	private static final String[] speakerTopics = new String[] { "audio_language", "action_say", "action_say_animated",
 			"action_play_audio", "action_stop_talking", "action_load_audio", "action_clear_loaded_audio" };
 	private static final String[] browserTopics = new String[] { "render_html" };
+	private static final String[] assistantTopics = new String[] { "assistant_show", "assistant_show_card" };
 	private static final Map<String, DeviceType> topicMap = new HashMap<>(
 			speakerTopics.length + robotTopics.length + browserTopics.length);
 	static {
@@ -47,6 +48,9 @@ final class RedisProducerRunner extends RedisRunner {
 		}
 		for (final String topic : browserTopics) {
 			topicMap.put(topic, DeviceType.BROWSER);
+		}
+		for (final String topic : assistantTopics) {
+			topicMap.put(topic, DeviceType.GOOGLE_ASSISTANT);
 		}
 	}
 	private final BlockingQueue<RobotAction> actionQueue;
