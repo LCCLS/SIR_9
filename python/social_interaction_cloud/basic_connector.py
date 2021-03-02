@@ -108,11 +108,8 @@ class BasicSICConnector(AbstractSICConnector):
     def on_robot_motion_recording(self, motion: bytes) -> None:
         self.__notify_listeners('onRobotMotionRecording', motion)
 
-    def on_tablet_connection(self) -> None:
-        self.__notify_listeners('onTabletConnection')
-
-    def on_tablet_answer(self, answer: str) -> None:
-        self.__notify_vision_listeners('onTabletAnswer', answer)
+    def on_browser_button(self, button: str) -> None:
+        self.__notify_listeners('onBrowserButton', button)
 
     ###########################
     # Speech Recognition      #
@@ -399,22 +396,8 @@ class BasicSICConnector(AbstractSICConnector):
             self.__register_listener('onRobotMotionRecording', callback)
         super(BasicSICConnector, self).stop_record_motion()
 
-    def tablet_open(self, callback: callable = None) -> None:
-        if callback:
-            self.__register_listener('onTabletConnection', callback)
-        super(BasicSICConnector, self).tablet_open()
-
-    def tablet_show(self, html: str, callback: callable = None) -> None:
-        super(BasicSICConnector, self).tablet_show(html)
-
-    def tablet_show_image(self, url: str, callback: callable = None) -> None:
-        super(BasicSICConnector, self).tablet_show_image(url)
-
-    def tablet_show_video(self, url: str, callback: callable = None) -> None:
-        super(BasicSICConnector, self).tablet_show_video(url)
-
-    def tablet_show_webpage(self, url: str, callback: callable = None) -> None:
-        super(BasicSICConnector, self).tablet_show_webpage(url)
+    def browser_show(self, html: str, callback: callable = None) -> None:
+        super(BasicSICConnector, self).browser_show(html)
 
     ###########################
     # Robot action Listeners  #
