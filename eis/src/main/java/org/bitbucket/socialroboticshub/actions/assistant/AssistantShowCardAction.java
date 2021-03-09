@@ -1,9 +1,11 @@
 package org.bitbucket.socialroboticshub.actions.assistant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import eis.iilang.Identifier;
 import eis.iilang.Parameter;
+import eis.iilang.ParameterList;
 
 public class AssistantShowCardAction extends AssistantAction {
 	public final static String NAME = "assistantShowCard";
@@ -18,8 +20,17 @@ public class AssistantShowCardAction extends AssistantAction {
 
 	@Override
 	public boolean isValid() {
-		return (getParameters().size() == 3) && (getParameters().get(0) instanceof Identifier)
-				&& (getParameters().get(1) instanceof Identifier) && (getParameters().get(2) instanceof Identifier);
+		final int params = getParameters().size();
+		boolean valid = (params == 3 || params == 4);
+		if (valid) {
+			valid &= (getParameters().get(0) instanceof Identifier);
+			valid &= (getParameters().get(1) instanceof Identifier);
+			valid &= (getParameters().get(2) instanceof Identifier);
+			if (params == 4) {
+				valid &= (getParameters().get(3) instanceof ParameterList);
+			}
+		}
+		return valid;
 	}
 
 	@Override
@@ -29,7 +40,9 @@ public class AssistantShowCardAction extends AssistantAction {
 
 	@Override
 	public String getData() {
-		return EIStoString(getParameters().get(0)) + ";" + EIStoString(getParameters().get(1)) + ";"
-				+ EIStoString(getParameters().get(2));
+		final ParameterList list = (getParameters().size() == 4) ? (ParameterList) getParameters().get(1)
+				: new ParameterList(new ArrayList<>(0));
+		return EIStoString(getParameters().get(0)) + "|" + EIStoString(getParameters().get(1)) + "|"
+				+ EIStoString(getParameters().get(2)) + "|" + EIStoString(list);
 	}
 }
