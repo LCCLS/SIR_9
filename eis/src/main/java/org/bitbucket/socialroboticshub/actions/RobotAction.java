@@ -25,6 +25,7 @@ import org.bitbucket.socialroboticshub.actions.animation.StopMotionRecordingActi
 import org.bitbucket.socialroboticshub.actions.animation.TurnLeftAction;
 import org.bitbucket.socialroboticshub.actions.animation.TurnRightAction;
 import org.bitbucket.socialroboticshub.actions.animation.WakeUpAction;
+import org.bitbucket.socialroboticshub.actions.assistant.AssistantPlayMediaAction;
 import org.bitbucket.socialroboticshub.actions.assistant.AssistantShowAction;
 import org.bitbucket.socialroboticshub.actions.assistant.AssistantShowCardAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.ClearLoadedAudioAction;
@@ -172,6 +173,8 @@ public abstract class RobotAction {
 			return new AssistantShowAction(parameters);
 		case AssistantShowCardAction.NAME:
 			return new AssistantShowCardAction(parameters);
+		case AssistantPlayMediaAction.NAME:
+			return new AssistantPlayMediaAction(parameters);
 		default:
 			return null;
 		}

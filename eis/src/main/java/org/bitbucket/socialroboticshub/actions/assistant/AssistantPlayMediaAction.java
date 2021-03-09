@@ -7,15 +7,15 @@ import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 import eis.iilang.ParameterList;
 
-public class AssistantShowCardAction extends AssistantAction {
-	public final static String NAME = "assistantShowCard";
+public class AssistantPlayMediaAction extends AssistantAction {
+	public final static String NAME = "assistantPlayMedia";
 
 	/**
 	 * @param parameters A list of 3 identifiers and optionally a parameterlist: the
-	 *                   text to show (and say), the url of the image to show, a
-	 *                   description of the image, and the response hints.
+	 *                   text to show (and say), the name of the audio to play, the
+	 *                   url to the audio (MP3 on HTTPS), and the response hints.
 	 */
-	public AssistantShowCardAction(final List<Parameter> parameters) {
+	public AssistantPlayMediaAction(final List<Parameter> parameters) {
 		super(parameters);
 	}
 
@@ -36,7 +36,7 @@ public class AssistantShowCardAction extends AssistantAction {
 
 	@Override
 	public String getTopic() {
-		return "assistant_show_card";
+		return "assistant_play_media";
 	}
 
 	@Override
