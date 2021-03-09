@@ -41,7 +41,7 @@ public class AssistantShowCardAction extends AssistantAction {
 
 	@Override
 	public String getData() {
-		final ParameterList list = (getParameters().size() == 4) ? (ParameterList) getParameters().get(1)
+		final ParameterList list = (getParameters().size() == 4) ? (ParameterList) getParameters().get(3)
 				: new ParameterList(new ArrayList<>(0));
 		return EIStoString(getParameters().get(0)) + "|" + EIStoString(getParameters().get(1)) + "|"
 				+ EIStoString(getParameters().get(2)) + "|" + EIStoString(list);
