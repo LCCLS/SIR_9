@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.BlockingQueue;
@@ -102,7 +103,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 		}
 		this.flowAgent = getParameter("flowagent", "");
 		this.flowLang = getParameter("flowlang", "nl-NL");
-
 		this.profiler = new Profiler(getParameter("profiling", "").equals("1"));
 
 		final Map<DeviceType, List<String>> devices = new HashMap<>(DeviceType.size());
@@ -133,6 +133,12 @@ public class CBSRenvironment extends EIDefaultImpl {
 		}
 		if (devices.isEmpty()) {
 			throw new ManagementException("No devices selected");
+		}
+		for (final Entry<DeviceType, List<String>> allDevices : devices.entrySet()) {
+			final String deviceType = allDevices.getKey().toString();
+			for (final String device : allDevices.getValue()) {
+				this.perceptQueue.add(new Percept("device", new Identifier(deviceType), new Identifier(device)));
+			}
 		}
 
 		// start the database connections
