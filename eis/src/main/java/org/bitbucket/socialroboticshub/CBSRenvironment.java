@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.BlockingQueue;
@@ -74,11 +75,9 @@ public class CBSRenvironment extends EIDefaultImpl {
 	protected String flowKey;
 	protected String flowAgent;
 	protected String flowLang;
-	protected String flowHook;
 	protected RedisRunner consumer;
 	protected RedisRunner producer;
 	protected Profiler profiler;
-	protected volatile boolean tabletConnected = false;
 
 	@Override
 	public void init(final Map<String, Parameter> parameters) throws ManagementException {
@@ -104,8 +103,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 		}
 		this.flowAgent = getParameter("flowagent", "");
 		this.flowLang = getParameter("flowlang", "nl-NL");
-		this.flowHook = getParameter("flowhook", "");
-
 		this.profiler = new Profiler(getParameter("profiling", "").equals("1"));
 
 		final Map<DeviceType, List<String>> devices = new HashMap<>(DeviceType.size());
@@ -136,6 +133,12 @@ public class CBSRenvironment extends EIDefaultImpl {
 		}
 		if (devices.isEmpty()) {
 			throw new ManagementException("No devices selected");
+		}
+		for (final Entry<DeviceType, List<String>> allDevices : devices.entrySet()) {
+			final String deviceType = allDevices.getKey().toString();
+			for (final String device : allDevices.getValue()) {
+				this.perceptQueue.add(new Percept("device", new Identifier(deviceType), new Identifier(device)));
+			}
 		}
 
 		// start the database connections
@@ -275,18 +278,6 @@ public class CBSRenvironment extends EIDefaultImpl {
 		} else {
 			throw new ActException(ActException.FAILURE, "Not able to perform " + action.toProlog());
 		}
-	}
-
-	public boolean isTabletConnected() {
-		return this.tabletConnected;
-	}
-
-	public void setTabletConnected() {
-		this.tabletConnected = true;
-	}
-
-	public void setTabletDisconnected() {
-		this.tabletConnected = false;
 	}
 
 	/**
@@ -486,6 +477,15 @@ public class CBSRenvironment extends EIDefaultImpl {
 	 */
 	public void addMotionRecording(final String motionRecording) {
 		this.perceptQueue.add(new Percept("motionRecording", new Identifier(motionRecording)));
+	}
+
+	/**
+	 * Queues a text transcript as a percept to be received by the agent.
+	 *
+	 * @param motionRecording
+	 */
+	public void addTextTranscript(final String transcript) {
+		this.perceptQueue.add(new Percept("transcript", new Identifier(transcript)));
 	}
 
 	/**

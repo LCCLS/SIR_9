@@ -8,7 +8,6 @@ import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 
 abstract class PlayAudioAction extends RobotAction {
-
 	PlayAudioAction(final List<Parameter> parameters) {
 		super(parameters);
 	}

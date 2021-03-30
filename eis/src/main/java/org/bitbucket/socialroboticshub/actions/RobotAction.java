@@ -25,6 +25,9 @@ import org.bitbucket.socialroboticshub.actions.animation.StopMotionRecordingActi
 import org.bitbucket.socialroboticshub.actions.animation.TurnLeftAction;
 import org.bitbucket.socialroboticshub.actions.animation.TurnRightAction;
 import org.bitbucket.socialroboticshub.actions.animation.WakeUpAction;
+import org.bitbucket.socialroboticshub.actions.assistant.AssistantPlayMediaAction;
+import org.bitbucket.socialroboticshub.actions.assistant.AssistantShowAction;
+import org.bitbucket.socialroboticshub.actions.assistant.AssistantShowCardAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.ClearLoadedAudioAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.DisableRecordingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.EnableRecordingAction;
@@ -41,13 +44,13 @@ import org.bitbucket.socialroboticshub.actions.audiovisual.StopListeningAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.StopTalkingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.StopWatchingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.TakePictureAction;
-import org.bitbucket.socialroboticshub.actions.memory.*;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletCloseAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletOpenAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletRenderAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletShowImageAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletShowVideoAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletShowWebpageAction;
+import org.bitbucket.socialroboticshub.actions.browser.BrowserRenderAction;
+import org.bitbucket.socialroboticshub.actions.memory.AddMemoryEntryAction;
+import org.bitbucket.socialroboticshub.actions.memory.GetUserDataAction;
+import org.bitbucket.socialroboticshub.actions.memory.SetSession;
+import org.bitbucket.socialroboticshub.actions.memory.SetUserDataAction;
+import org.bitbucket.socialroboticshub.actions.memory.DeleteUser;
+import org.bitbucket.socialroboticshub.actions.memory.DeleteAllUsers;
 import org.json.JSONObject;
 
 import eis.iilang.Action;
@@ -155,19 +158,9 @@ public abstract class RobotAction {
 			return new StartLedAnimationAction(parameters);
 		case StopLedAnimationAction.NAME:
 			return new StopLedAnimationAction();
-		// TABLET ACTIONS
-		case TabletOpenAction.NAME:
-			return new TabletOpenAction();
-		case TabletCloseAction.NAME:
-			return new TabletCloseAction();
-		case TabletShowImageAction.NAME:
-			return new TabletShowImageAction(parameters);
-		case TabletShowVideoAction.NAME:
-			return new TabletShowVideoAction(parameters);
-		case TabletShowWebpageAction.NAME:
-			return new TabletShowWebpageAction(parameters);
-		case TabletRenderAction.NAME:
-			return new TabletRenderAction(parameters);
+		// BROWSER ACTION
+		case BrowserRenderAction.NAME:
+			return new BrowserRenderAction(parameters);
 		// MEMORY ACTIONS
 		case SetSession.NAME:
 			return new SetSession(parameters);
@@ -181,6 +174,13 @@ public abstract class RobotAction {
 			return new DeleteUser(parameters);
 		case DeleteAllUsers.NAME:
 			return new DeleteAllUsers();
+		// GOOGLE ASSISTANT ACTIONS
+		case AssistantShowAction.NAME:
+			return new AssistantShowAction(parameters);
+		case AssistantShowCardAction.NAME:
+			return new AssistantShowCardAction(parameters);
+		case AssistantPlayMediaAction.NAME:
+			return new AssistantPlayMediaAction(parameters);
 		default:
 			return null;
 		}

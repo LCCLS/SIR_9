@@ -1,17 +1,19 @@
-package org.bitbucket.socialroboticshub.actions.tablet;
+package org.bitbucket.socialroboticshub.actions.browser;
 
 import java.util.List;
+
+import org.bitbucket.socialroboticshub.actions.RobotAction;
 
 import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 
-public class TabletRenderAction extends TabletAction {
+public class BrowserRenderAction extends RobotAction {
 	public final static String NAME = "renderPage";
 
 	/**
 	 * @param parameters A list of 1 identifier: the HTML content
 	 */
-	public TabletRenderAction(final List<Parameter> parameters) {
+	public BrowserRenderAction(final List<Parameter> parameters) {
 		super(parameters);
 	}
 
@@ -28,5 +30,10 @@ public class TabletRenderAction extends TabletAction {
 	@Override
 	public String getData() {
 		return ((Identifier) getParameters().get(0)).getValue();
+	}
+
+	@Override
+	public String getExpectedEvent() {
+		return null;
 	}
 }

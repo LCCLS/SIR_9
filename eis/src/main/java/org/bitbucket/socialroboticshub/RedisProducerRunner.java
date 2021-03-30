@@ -13,8 +13,6 @@ import org.bitbucket.socialroboticshub.actions.RobotAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.LoadAudioAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.PlayRawAudioAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.SetLanguageAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletCloseAction;
-import org.bitbucket.socialroboticshub.actions.tablet.TabletOpenAction;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
@@ -23,8 +21,7 @@ final class RedisProducerRunner extends RedisRunner {
 	private static final String PROFILER_TYPE = "redis_send";
 	private static final String[] cameraTopics = new String[] { "action_video" };
 	private static final String[] microphoneTopics = new String[] { "action_audio", "dialogflow_language",
-			"dialogflow_context", "dialogflow_key", "dialogflow_agent", "dialogflow_record", "dialogflow_webhook",
-			"action_chat" };
+			"dialogflow_context", "dialogflow_key", "dialogflow_agent", "dialogflow_record", "action_chat" };
 	private static final String[] robotTopics = new String[] { "action_gesture", "action_eyecolour", "action_earcolour",
 			"action_headcolour", "action_idle", "action_turn", "action_turn_small", "action_wakeup", "action_rest",
 			"action_set_breathing", "action_posture", "action_stiffness", "action_play_motion", "action_record_motion",
@@ -33,10 +30,11 @@ final class RedisProducerRunner extends RedisRunner {
 			"action_motion_file", "action_led_color", "action_led_animation" };
 	private static final String[] speakerTopics = new String[] { "audio_language", "action_say", "action_say_animated",
 			"action_play_audio", "action_stop_talking", "action_load_audio", "action_clear_loaded_audio" };
-	private static final String[] tabletTopics = new String[] { "tablet_control", "tablet_audio", "tablet_image",
-			"tablet_video", "tablet_web", "render_html" };
+	private static final String[] browserTopics = new String[] { "render_html" };
+	private static final String[] assistantTopics = new String[] { "assistant_show", "assistant_show_card",
+			"assistant_play_media" };
 	private static final Map<String, DeviceType> topicMap = new HashMap<>(
-			speakerTopics.length + robotTopics.length + tabletTopics.length);
+			speakerTopics.length + robotTopics.length + browserTopics.length);
 	static {
 		for (final String topic : cameraTopics) {
 			topicMap.put(topic, DeviceType.CAMERA);
@@ -50,8 +48,11 @@ final class RedisProducerRunner extends RedisRunner {
 		for (final String topic : speakerTopics) {
 			topicMap.put(topic, DeviceType.SPEAKER);
 		}
-		for (final String topic : tabletTopics) {
-			topicMap.put(topic, DeviceType.TABLET);
+		for (final String topic : browserTopics) {
+			topicMap.put(topic, DeviceType.BROWSER);
+		}
+		for (final String topic : assistantTopics) {
+			topicMap.put(topic, DeviceType.GOOGLE_ASSISTANT);
 		}
 	}
 	private final BlockingQueue<RobotAction> actionQueue;
@@ -72,9 +73,10 @@ final class RedisProducerRunner extends RedisRunner {
 			p1.publish("emotion_detection", identifier);
 		}
 		for (final String identifier : this.devices.get(DeviceType.MICROPHONE)) {
+			p1.publish("audio_beamforming", identifier);
 			initialiseDialogflow(p1, params, identifier); // voice input
 		}
-		for (final String identifier : this.devices.get(DeviceType.TABLET)) {
+		for (final String identifier : this.devices.get(DeviceType.BROWSER)) {
 			initialiseDialogflow(p1, params, identifier); // chat input
 		}
 		for (final String identifier : this.devices.get(DeviceType.ROBOT)) {
@@ -99,9 +101,6 @@ final class RedisProducerRunner extends RedisRunner {
 			p.publish("intent_detection", identifier);
 			params.put(identifier + "_dialogflow_key", this.parent.flowKey);
 			params.put(identifier + "_dialogflow_agent", this.parent.flowAgent);
-			if (!this.parent.flowHook.isEmpty()) {
-				params.put(identifier + "_dialogflow_webhook", this.parent.flowHook);
-			}
 			params.put(identifier + "_dialogflow_language", this.parent.flowLang);
 		}
 	}
@@ -118,7 +117,7 @@ final class RedisProducerRunner extends RedisRunner {
 				if (next instanceof CloseAction) {
 					super.shutdown();
 				} else {
-					System.out.println("Got " + next.getData() + " on " + next.getTopic());
+					System.out.println("Got " + next.getData() + " on " + next.getTopic() + "...");
 					final DeviceType type = RedisProducerRunner.topicMap.get(next.getTopic());
 					if (type == null) {
 						throw new Exception("Unknown topic: " + next.getTopic());
@@ -143,9 +142,6 @@ final class RedisProducerRunner extends RedisRunner {
 					this.profiler.end(PROFILER_TYPE);
 					this.profiler.startRobotAction(next);
 				}
-				if (next instanceof TabletCloseAction) {
-					this.parent.setTabletDisconnected();
-				}
 			} catch (final Exception e) {
 				if (isRunning()) {
 					e.printStackTrace();
@@ -157,16 +153,6 @@ final class RedisProducerRunner extends RedisRunner {
 
 	public void queueAction(final RobotAction action) {
 		this.actionQueue.add(action);
-		if (action instanceof TabletOpenAction) {
-			// block-all until established
-			while (!this.parent.isTabletConnected()) {
-				try {
-					Thread.sleep(1);
-				} catch (final InterruptedException e) {
-					break;
-				}
-			}
-		}
 	}
 
 	@Override

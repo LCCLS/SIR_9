@@ -23,15 +23,14 @@ class AbstractSICConnector(object):
         """
         topics = ['events', 'detected_person', 'recognised_face', 'audio_language', 'audio_intent',
                   'audio_newfile', 'picture_newfile', 'detected_emotion',  # robot_audio_loaded?
-                  'robot_posture_changed', 'robot_battery_charge_changed',
-                  'robot_charging_changed', 'robot_hot_device_detected', 'robot_motion_recording',
-                  'tablet_connection', 'tablet_answer']
+                  'robot_posture_changed', 'robot_battery_charge_changed', 'robot_charging_changed',
+                  'robot_hot_device_detected', 'robot_motion_recording', 'browser_button']
         device_types = {
             1: ['cam', 'Camera'],
             2: ['mic', 'Microphone'],
             3: ['robot', 'Robot'],
             4: ['speaker', 'Speaker'],
-            5: ['tablet', 'Tablet']
+            5: ['browser', 'Browser']
         }
         self.device_types = Enum(
             value='DeviceType',
@@ -49,8 +48,7 @@ class AbstractSICConnector(object):
                                          'action_play_motion', 'action_record_motion'],
             self.device_types['speaker']: ['audio_language', 'action_say', 'action_say_animated', 'action_play_audio',
                                            'action_stop_talking', 'action_load_audio', 'action_clear_loaded_audio'],
-            self.device_types['tablet']: ['tablet_control', 'tablet_audio', 'tablet_image', 'tablet_video',
-                                          'tablet_web', 'render_html']
+            self.device_types['browser']: ['render_html']
         }
         self.__topic_map = {}
         for k, v in topic_map.items():
@@ -245,18 +243,11 @@ class AbstractSICConnector(object):
         """
         pass
 
-    def on_tablet_connection(self) -> None:
+    def on_browser_button(self, button: str) -> None:
         """
-        Triggered when the connection with a tablet display has been established.
-        :return:
-        """
-        pass
+        Triggered when a button has been pressed in the browser
 
-    def on_tablet_answer(self, answer: str) -> None:
-        """
-        Triggered when a button has been pressed on the tablet display.
-
-        :param answer:
+        :param button:
         :return:
         """
         pass
@@ -468,64 +459,24 @@ class AbstractSICConnector(object):
         self.__send('action_record_motion', 'stop')
 
     ###########################
-    # Tablet Actions          #
+    # Browser Actions         #
     ###########################
 
-    def tablet_open(self) -> None:
+    def browser_show(self, html: str) -> None:
         """
-        Establish a connection with a tablet display (see on_tablet_connection).
-
-        :return:
-        """
-        self.__send('tablet_control', 'show')
-
-    def tablet_close(self) -> None:
-        """
-        Disconnect from the currently connected tablet display.
-
-        :return:
-        """
-        self.__send('tablet_control', 'hide')
-
-    def tablet_show(self, html: str) -> None:
-        """
-        Show the given HTML body on the currently connected tablet display.
+        Show the given HTML body on the currently connected browser page.
         :param html: the HTML contents (put inside a <body>).
-        By default, the Bootstrap rendering library is loaded: https://getbootstrap.com/docs/4.4/
+        By default, the Bootstrap rendering library is loaded: https://getbootstrap.com/docs/4.6/
         Moreover, various classes can be used (on e.g. divs) to automatically create dynamic elements:
         - listening_icon: shows a microphone that is enabled or disabled when the robot is listening or not.
         - speech_text: shows a live-stream of the currently recognized text (by e.g. dialogflow).
         - vu_logo: renders a VU logo.
         - english_flag: renders a English flag (changes the audio language when tapped on).
         - chatbox: allows text input (to e.g. dialogflow).
-        Finally, each button element will automatically trigger an event when clicked (see on_tablet_answer).
+        Finally, each button element will automatically trigger an event when clicked (see on_browser_button).
         :return:
         """
         self.__send('render_html', html)
-
-    def tablet_show_image(self, url: str) -> None:
-        """
-        Show the image at the given URL on the currently connected tablet display.
-        :param url: the image link
-        :return:
-        """
-        self.__send('tablet_image', url)
-
-    def tablet_show_video(self, url: str) -> None:
-        """
-        Show the video at the given URL on the currently connected tablet display.
-        :param url: the video link
-        :return:
-        """
-        self.__send('tablet_video', url)
-
-    def tablet_show_webpage(self, url: str) -> None:
-        """
-        Show the page at the given URL on the currently connected tablet display.
-        :param url: the webpage link
-        :return:
-        """
-        self.__send('tablet_web', url)
 
     ###########################
     # Management              #
@@ -609,10 +560,8 @@ class AbstractSICConnector(object):
             self.on_hot_device_detected(data.decode('utf-8').split(';'))
         elif channel == 'robot_motion_recording':
             self.on_robot_motion_recording(data)
-        elif channel == 'tablet_connection':
-            self.on_tablet_connection()
-        elif channel == 'tablet_answer':
-            self.on_tablet_answer(data.decode('utf-8'))
+        elif channel == 'browser_button':
+            self.on_browser_button(data.decode('utf-8'))
         else:
             print('Unknown channel: ' + channel)
 
