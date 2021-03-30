@@ -91,7 +91,7 @@ public class PlayMotionAction extends RobotAction {
 
 	private static String getMinifiedXML(final String source) throws Exception {
 		final TransformerFactory factory = TransformerFactory.newInstance();
-		final InputStream xslt = PlayMotionFileAction.class.getResourceAsStream("/transform.xslt");
+		final InputStream xslt = PlayMotionAction.class.getResourceAsStream("/transform.xslt");
 		final Transformer transformer = factory.newTransformer(new StreamSource(xslt));
 
 		final Source text = new StreamSource(new StringReader(source));
