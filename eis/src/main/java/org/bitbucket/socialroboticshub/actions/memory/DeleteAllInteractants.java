@@ -6,10 +6,10 @@ import org.bitbucket.socialroboticshub.actions.RobotAction;
 
 import java.util.List;
 
-public class DeleteAllUsers extends RobotAction {
-	public final static String NAME = "deleteAllUsers";
+public class DeleteAllInteractants extends RobotAction {
+	public final static String NAME = "deleteAllInteractants";
 
-	public DeleteAllUsers() {
+	public DeleteAllInteractants() {
 		super(null);
 	}
 
@@ -20,7 +20,7 @@ public class DeleteAllUsers extends RobotAction {
 
 	@Override
 	public String getTopic() {
-		return "memory_delete_all_users";
+		return "memory_delete_all_interactants";
 	}
 
 	@Override
@@ -30,6 +30,6 @@ public class DeleteAllUsers extends RobotAction {
 
 	@Override
 	public String getExpectedEvent() {
-		return "AllUserSDeleted";
+		return "AllInteractantsDeleted";
 	}
 }

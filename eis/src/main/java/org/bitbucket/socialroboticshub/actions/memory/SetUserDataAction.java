@@ -8,10 +8,10 @@ import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 
 public class SetUserDataAction extends RobotAction {
-	public final static String NAME = "setUserData";
+	public final static String NAME = "setInteractantData";
 
 	/**
-	 * @param parameters A list of 3 identifiers: a (string) user id, a (string)
+	 * @param parameters A list of 3 identifiers: a (string) interactant id, a (string)
 	 *                   user data key and a corresponding user data value.
 	 */
 	public SetUserDataAction(final List<Parameter> parameters) {
@@ -26,7 +26,7 @@ public class SetUserDataAction extends RobotAction {
 
 	@Override
 	public String getTopic() {
-		return "memory_set_user_data";
+		return "memory_set_interactant_data";
 	}
 
 	@Override
@@ -37,6 +37,6 @@ public class SetUserDataAction extends RobotAction {
 
 	@Override
 	public String getExpectedEvent() {
-		return "UserDataSet";
+		return "InteractantDataSet";
 	}
 }

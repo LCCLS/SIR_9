@@ -46,11 +46,11 @@ import org.bitbucket.socialroboticshub.actions.audiovisual.StopWatchingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.TakePictureAction;
 import org.bitbucket.socialroboticshub.actions.browser.BrowserRenderAction;
 import org.bitbucket.socialroboticshub.actions.memory.AddMemoryEntryAction;
-import org.bitbucket.socialroboticshub.actions.memory.GetUserDataAction;
+import org.bitbucket.socialroboticshub.actions.memory.GetInteractantDataAction;
 import org.bitbucket.socialroboticshub.actions.memory.SetSession;
 import org.bitbucket.socialroboticshub.actions.memory.SetUserDataAction;
-import org.bitbucket.socialroboticshub.actions.memory.DeleteUser;
-import org.bitbucket.socialroboticshub.actions.memory.DeleteAllUsers;
+import org.bitbucket.socialroboticshub.actions.memory.DeleteInteractant;
+import org.bitbucket.socialroboticshub.actions.memory.DeleteAllInteractants;
 import org.json.JSONObject;
 
 import eis.iilang.Action;
@@ -166,14 +166,14 @@ public abstract class RobotAction {
 			return new SetSession(parameters);
 		case AddMemoryEntryAction.NAME:
 			return new AddMemoryEntryAction(parameters);
-		case GetUserDataAction.NAME:
-			return new GetUserDataAction(parameters);
+		case GetInteractantDataAction.NAME:
+			return new GetInteractantDataAction(parameters);
 		case SetUserDataAction.NAME:
 			return new SetUserDataAction(parameters);
-		case DeleteUser.NAME:
-			return new DeleteUser(parameters);
-		case DeleteAllUsers.NAME:
-			return new DeleteAllUsers();
+		case DeleteInteractant.NAME:
+			return new DeleteInteractant(parameters);
+		case DeleteAllInteractants.NAME:
+			return new DeleteAllInteractants();
 		// GOOGLE ASSISTANT ACTIONS
 		case AssistantShowAction.NAME:
 			return new AssistantShowAction(parameters);

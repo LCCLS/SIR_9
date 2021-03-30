@@ -12,7 +12,7 @@ public class SetSession extends RobotAction {
 	public final static String NAME = "setSession";
 
 	/**
-	 * @param parameters user id and session id.
+	 * @param parameters interactant id and session id.
 	 */
 	public SetSession(final List<Parameter> parameters) {
 		super(parameters);

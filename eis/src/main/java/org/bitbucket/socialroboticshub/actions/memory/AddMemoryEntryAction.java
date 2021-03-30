@@ -11,7 +11,7 @@ public class AddMemoryEntryAction extends RobotAction {
 	public final static String NAME = "addMemoryEntry";
 
 	/**
-	 * @param parameters A list of 3 identifiers represent the user ID, the entry
+	 * @param parameters A list of 3 identifiers represent the interactant ID, the entry
 	 *                   key and the entry data that needs to be stored.
 	 */
 	public AddMemoryEntryAction(final List<Parameter> parameters) {
@@ -31,11 +31,11 @@ public class AddMemoryEntryAction extends RobotAction {
 
 	@Override
 	public String getData() {
-		final String userID = EIStoString(getParameters().get(0));
+		final String interactantID = EIStoString(getParameters().get(0));
 		final String key = EIStoString(getParameters().get(1));
 		final String data = EIStoString(getParameters().get(2));
 
-		return (userID + ";" + key + ";" + data);
+		return (interactantID + ";" + key + ";" + data);
 	}
 
 	@Override
