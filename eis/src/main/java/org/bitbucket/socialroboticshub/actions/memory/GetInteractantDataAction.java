@@ -7,14 +7,14 @@ import org.bitbucket.socialroboticshub.actions.RobotAction;
 import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 
-public class GetUserDataAction extends RobotAction {
-	public final static String NAME = "getUserData";
+public class GetInteractantDataAction extends RobotAction {
+	public final static String NAME = "getInteractantData";
 
 	/**
-	 * @param parameters A list of 2 identifiers: a (string) user id and a (string)
+	 * @param parameters A list of 2 identifiers: a (string) interactant id and a (string)
 	 *                   user data key.
 	 */
-	public GetUserDataAction(final List<Parameter> parameters) {
+	public GetInteractantDataAction(final List<Parameter> parameters) {
 		super(parameters);
 	}
 
@@ -26,7 +26,7 @@ public class GetUserDataAction extends RobotAction {
 
 	@Override
 	public String getTopic() {
-		return "memory_get_user_data";
+		return "memory_get_interactant_data";
 	}
 
 	@Override

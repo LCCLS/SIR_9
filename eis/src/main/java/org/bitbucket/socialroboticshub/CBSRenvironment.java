@@ -398,6 +398,17 @@ public class CBSRenvironment extends EIDefaultImpl {
 	}
 
 	/**
+	 * Queues the data coming from a gui controller as a key value pair percept to
+	 * be received by the agent.
+	 *
+	 * @param key   key of gui data packet
+	 * @param value value of gui data packet
+	 */
+	public void addGuiData(final String key, final String value) {
+		this.perceptQueue.add(new Percept("guiData", new Identifier(key), new Identifier(value)));
+	}
+
+	/**
 	 * Queues PostureChanged events as percept to be received by the agent.
 	 *
 	 * @param posture new posture

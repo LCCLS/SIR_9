@@ -9,7 +9,6 @@ import org.bitbucket.socialroboticshub.actions.animation.EnableBreathingAction;
 import org.bitbucket.socialroboticshub.actions.animation.GestureAction;
 import org.bitbucket.socialroboticshub.actions.animation.GoToPostureAction;
 import org.bitbucket.socialroboticshub.actions.animation.PlayMotionAction;
-import org.bitbucket.socialroboticshub.actions.animation.PlayMotionFileAction;
 import org.bitbucket.socialroboticshub.actions.animation.RestAction;
 import org.bitbucket.socialroboticshub.actions.animation.SetEarColourAction;
 import org.bitbucket.socialroboticshub.actions.animation.SetEyeColourAction;
@@ -46,9 +45,11 @@ import org.bitbucket.socialroboticshub.actions.audiovisual.StopWatchingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.TakePictureAction;
 import org.bitbucket.socialroboticshub.actions.browser.BrowserRenderAction;
 import org.bitbucket.socialroboticshub.actions.memory.AddMemoryEntryAction;
-import org.bitbucket.socialroboticshub.actions.memory.GetUserDataAction;
-import org.bitbucket.socialroboticshub.actions.memory.GetUserSession;
+import org.bitbucket.socialroboticshub.actions.memory.GetInteractantDataAction;
+import org.bitbucket.socialroboticshub.actions.memory.SetSession;
 import org.bitbucket.socialroboticshub.actions.memory.SetUserDataAction;
+import org.bitbucket.socialroboticshub.actions.memory.DeleteInteractant;
+import org.bitbucket.socialroboticshub.actions.memory.DeleteAllInteractants;
 import org.json.JSONObject;
 
 import eis.iilang.Action;
@@ -148,8 +149,6 @@ public abstract class RobotAction {
 			return new StartMotionRecordingAction(parameters);
 		case StopMotionRecordingAction.NAME:
 			return new StopMotionRecordingAction();
-		case PlayMotionFileAction.NAME:
-			return new PlayMotionFileAction(parameters);
 		case SetLedColorAction.NAME:
 			return new SetLedColorAction(parameters);
 		case StartLedAnimationAction.NAME:
@@ -160,14 +159,18 @@ public abstract class RobotAction {
 		case BrowserRenderAction.NAME:
 			return new BrowserRenderAction(parameters);
 		// MEMORY ACTIONS
-		case GetUserSession.NAME:
-			return new GetUserSession(parameters);
+		case SetSession.NAME:
+			return new SetSession(parameters);
 		case AddMemoryEntryAction.NAME:
 			return new AddMemoryEntryAction(parameters);
-		case GetUserDataAction.NAME:
-			return new GetUserDataAction(parameters);
+		case GetInteractantDataAction.NAME:
+			return new GetInteractantDataAction(parameters);
 		case SetUserDataAction.NAME:
 			return new SetUserDataAction(parameters);
+		case DeleteInteractant.NAME:
+			return new DeleteInteractant(parameters);
+		case DeleteAllInteractants.NAME:
+			return new DeleteAllInteractants();
 		// GOOGLE ASSISTANT ACTIONS
 		case AssistantShowAction.NAME:
 			return new AssistantShowAction(parameters);
