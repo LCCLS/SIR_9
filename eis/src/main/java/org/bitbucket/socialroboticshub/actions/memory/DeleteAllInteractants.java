@@ -1,10 +1,6 @@
 package org.bitbucket.socialroboticshub.actions.memory;
 
-import eis.iilang.Identifier;
-import eis.iilang.Parameter;
 import org.bitbucket.socialroboticshub.actions.RobotAction;
-
-import java.util.List;
 
 public class DeleteAllInteractants extends RobotAction {
 	public final static String NAME = "deleteAllInteractants";

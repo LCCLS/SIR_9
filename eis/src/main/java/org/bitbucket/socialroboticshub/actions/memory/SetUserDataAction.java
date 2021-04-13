@@ -11,8 +11,8 @@ public class SetUserDataAction extends RobotAction {
 	public final static String NAME = "setInteractantData";
 
 	/**
-	 * @param parameters A list of 3 identifiers: a (string) interactant id, a (string)
-	 *                   user data key and a corresponding user data value.
+	 * @param parameters A list of 3 identifiers: a (string) interactant id, a
+	 *                   (string) user data key and a corresponding user data value.
 	 */
 	public SetUserDataAction(final List<Parameter> parameters) {
 		super(parameters);

@@ -11,8 +11,8 @@ public class AddMemoryEntryAction extends RobotAction {
 	public final static String NAME = "addMemoryEntry";
 
 	/**
-	 * @param parameters A list of 3 identifiers represent the interactant ID, the entry
-	 *                   key and the entry data that needs to be stored.
+	 * @param parameters A list of 3 identifiers represent the interactant ID, the
+	 *                   entry key and the entry data that needs to be stored.
 	 */
 	public AddMemoryEntryAction(final List<Parameter> parameters) {
 		super(parameters);

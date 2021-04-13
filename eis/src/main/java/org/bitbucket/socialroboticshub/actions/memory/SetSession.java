@@ -2,10 +2,10 @@ package org.bitbucket.socialroboticshub.actions.memory;
 
 import java.util.List;
 
-import eis.iilang.Numeral;
 import org.bitbucket.socialroboticshub.actions.RobotAction;
 
 import eis.iilang.Identifier;
+import eis.iilang.Numeral;
 import eis.iilang.Parameter;
 
 public class SetSession extends RobotAction {
@@ -20,8 +20,7 @@ public class SetSession extends RobotAction {
 
 	@Override
 	public boolean isValid() {
-		return (getParameters().size() == 2)
-				&& (getParameters().get(0) instanceof Identifier)
+		return (getParameters().size() == 2) && (getParameters().get(0) instanceof Identifier)
 				&& (getParameters().get(1) instanceof Numeral);
 	}
 
