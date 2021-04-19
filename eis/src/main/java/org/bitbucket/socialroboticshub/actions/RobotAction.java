@@ -44,12 +44,7 @@ import org.bitbucket.socialroboticshub.actions.audiovisual.StopTalkingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.StopWatchingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.TakePictureAction;
 import org.bitbucket.socialroboticshub.actions.browser.BrowserRenderAction;
-import org.bitbucket.socialroboticshub.actions.memory.AddMemoryEntryAction;
-import org.bitbucket.socialroboticshub.actions.memory.GetInteractantDataAction;
-import org.bitbucket.socialroboticshub.actions.memory.SetSession;
-import org.bitbucket.socialroboticshub.actions.memory.SetUserDataAction;
-import org.bitbucket.socialroboticshub.actions.memory.DeleteInteractant;
-import org.bitbucket.socialroboticshub.actions.memory.DeleteAllInteractants;
+import org.bitbucket.socialroboticshub.actions.memory.*;
 import org.json.JSONObject;
 
 import eis.iilang.Action;
@@ -161,12 +156,28 @@ public abstract class RobotAction {
 		// MEMORY ACTIONS
 		case SetSession.NAME:
 			return new SetSession(parameters);
-		case AddMemoryEntryAction.NAME:
-			return new AddMemoryEntryAction(parameters);
+		case GetMemoryEntryAction.NAME:
+			return new GetMemoryEntryAction(parameters);
+		case GetAllMemoryEntriesAction.NAME:
+			return new GetAllMemoryEntriesAction(parameters);
+		case SetMemoryEntryAction.NAME:
+			return new SetMemoryEntryAction(parameters);
 		case GetInteractantDataAction.NAME:
 			return new GetInteractantDataAction(parameters);
-		case SetUserDataAction.NAME:
-			return new SetUserDataAction(parameters);
+		case SetInteractantDataAction.NAME:
+			return new SetInteractantDataAction(parameters);
+		case GetDialogHistoryAction.NAME:
+			return new GetDialogHistoryAction(parameters);
+		case SetDialogHistoryAction.NAME:
+			return new SetDialogHistoryAction(parameters);
+		case GetNarrativeHistoryAction.NAME:
+			return new GetNarrativeHistoryAction(parameters);
+		case SetNarrativeHistoryAction.NAME:
+			return new SetNarrativeHistoryAction(parameters);
+		case GetMoveHistoryAction.NAME:
+			return new GetMoveHistoryAction(parameters);
+		case SetMoveHistoryAction.NAME:
+			return new SetMoveHistoryAction(parameters);
 		case DeleteInteractant.NAME:
 			return new DeleteInteractant(parameters);
 		case DeleteAllInteractants.NAME:

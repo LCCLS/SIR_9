@@ -7,14 +7,14 @@ import org.bitbucket.socialroboticshub.actions.RobotAction;
 import eis.iilang.Identifier;
 import eis.iilang.Parameter;
 
-public class AddMemoryEntryAction extends RobotAction {
-	public final static String NAME = "addMemoryEntry";
+public class SetMemoryEntryAction extends RobotAction {
+	public final static String NAME = "setMemoryEntry";
 
 	/**
 	 * @param parameters A list of 3 identifiers represent the interactant ID, the entry
 	 *                   key and the entry data that needs to be stored.
 	 */
-	public AddMemoryEntryAction(final List<Parameter> parameters) {
+	public SetMemoryEntryAction(final List<Parameter> parameters) {
 		super(parameters);
 	}
 
@@ -26,7 +26,7 @@ public class AddMemoryEntryAction extends RobotAction {
 
 	@Override
 	public String getTopic() {
-		return "memory_add_entry";
+		return "memory_set_entry";
 	}
 
 	@Override
@@ -40,6 +40,6 @@ public class AddMemoryEntryAction extends RobotAction {
 
 	@Override
 	public String getExpectedEvent() {
-		return "MemoryEntryStored";
+		return null;
 	}
 }
