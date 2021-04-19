@@ -11,8 +11,7 @@ public class GetNarrativeHistoryAction extends RobotAction {
 	public final static String NAME = "getNarrativeHistory";
 
 	/**
-	 * @param parameters A list of 3 identifiers: a (string) interactant id and
-	 *                   a thread label (string).
+	 * @param parameters A list of 1 identifiers: a (string) interactant id.
 	 */
 	public GetNarrativeHistoryAction(final List<Parameter> parameters) {
 		super(parameters);
@@ -20,8 +19,7 @@ public class GetNarrativeHistoryAction extends RobotAction {
 
 	@Override
 	public boolean isValid() {
-		return (getParameters().size() == 2) && (getParameters().get(0) instanceof Identifier)
-				&& (getParameters().get(1) instanceof Identifier);
+		return (getParameters().size() == 1) && (getParameters().get(0) instanceof Identifier);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class GetMoveHistoryAction extends RobotAction {
 
 	@Override
 	public boolean isValid() {
-		return (getParameters().size() == 2) && (getParameters().get(0) instanceof Identifier);
+		return (getParameters().size() == 1) && (getParameters().get(0) instanceof Identifier);
 	}
 
 	@Override
