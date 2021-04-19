@@ -12,8 +12,7 @@ public class GetDialogHistoryAction extends RobotAction {
 	public final static String NAME = "getDialogHistory";
 
 	/**
-	 * @param parameters A list of 3 identifiers: a (string) interactant id,
-	 *                   a session id (number) and a (boolean) cumulative flag.
+	 * @param parameters A list of 1 identifier: a (string) interactant id.
 	 */
 	public GetDialogHistoryAction(final List<Parameter> parameters) {
 		super(parameters);
@@ -21,9 +20,7 @@ public class GetDialogHistoryAction extends RobotAction {
 
 	@Override
 	public boolean isValid() {
-		return (getParameters().size() == 3) && (getParameters().get(0) instanceof Identifier)
-				&& (getParameters().get(1) instanceof Numeral)
-				&& (getParameters().get(2) instanceof TruthValue);
+		return (getParameters().size() == 1) && (getParameters().get(0) instanceof Identifier);
 	}
 
 	@Override
@@ -33,8 +30,7 @@ public class GetDialogHistoryAction extends RobotAction {
 
 	@Override
 	public String getData() {
-		return EIStoString(getParameters().get(0)) + ";" + EIStoString(getParameters().get(1)) + ';'
-				+ EIStoString(getParameters().get(2));
+		return EIStoString(getParameters().get(0));
 	}
 
 	@Override

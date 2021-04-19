@@ -170,6 +170,8 @@ public abstract class RobotAction {
 			return new GetDialogHistoryAction(parameters);
 		case SetDialogHistoryAction.NAME:
 			return new SetDialogHistoryAction(parameters);
+		case ClearHistoryAction.NAME:
+			return new ClearHistoryAction(parameters);
 		case GetNarrativeHistoryAction.NAME:
 			return new GetNarrativeHistoryAction(parameters);
 		case SetNarrativeHistoryAction.NAME:
