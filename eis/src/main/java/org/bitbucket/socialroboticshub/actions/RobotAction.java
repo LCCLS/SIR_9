@@ -1,8 +1,6 @@
 package org.bitbucket.socialroboticshub.actions;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bitbucket.socialroboticshub.actions.animation.DisableBreathingAction;
 import org.bitbucket.socialroboticshub.actions.animation.EnableBreathingAction;
@@ -44,8 +42,21 @@ import org.bitbucket.socialroboticshub.actions.audiovisual.StopTalkingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.StopWatchingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.TakePictureAction;
 import org.bitbucket.socialroboticshub.actions.browser.BrowserRenderAction;
-import org.bitbucket.socialroboticshub.actions.memory.*;
-import org.json.JSONObject;
+import org.bitbucket.socialroboticshub.actions.memory.ClearHistoryAction;
+import org.bitbucket.socialroboticshub.actions.memory.DeleteAllInteractants;
+import org.bitbucket.socialroboticshub.actions.memory.DeleteInteractant;
+import org.bitbucket.socialroboticshub.actions.memory.GetAllMemoryEntriesAction;
+import org.bitbucket.socialroboticshub.actions.memory.GetDialogHistoryAction;
+import org.bitbucket.socialroboticshub.actions.memory.GetInteractantDataAction;
+import org.bitbucket.socialroboticshub.actions.memory.GetMemoryEntryAction;
+import org.bitbucket.socialroboticshub.actions.memory.GetMoveHistoryAction;
+import org.bitbucket.socialroboticshub.actions.memory.GetNarrativeHistoryAction;
+import org.bitbucket.socialroboticshub.actions.memory.SetDialogHistoryAction;
+import org.bitbucket.socialroboticshub.actions.memory.SetInteractantDataAction;
+import org.bitbucket.socialroboticshub.actions.memory.SetMemoryEntryAction;
+import org.bitbucket.socialroboticshub.actions.memory.SetMoveHistoryAction;
+import org.bitbucket.socialroboticshub.actions.memory.SetNarrativeHistoryAction;
+import org.bitbucket.socialroboticshub.actions.memory.SetSession;
 
 import eis.iilang.Action;
 import eis.iilang.Function;
@@ -210,13 +221,9 @@ public abstract class RobotAction {
 			case 0:
 				return func.getName();
 			case 1:
-				final Map<String, String> res1 = new HashMap<>(1);
-				res1.put(func.getName(), EIStoString(params.get(0)));
-				return new JSONObject(res1).toString();
+				return jsonObject(func.getName(), EIStoString(params.get(0)));
 			case 2: // assume :, =, etc.
-				final Map<String, String> res2 = new HashMap<>(1);
-				res2.put(EIStoString(params.get(0)), EIStoString(params.get(1)));
-				return new JSONObject(res2).toString();
+				return jsonObject(EIStoString(params.get(0)), EIStoString(params.get(1)));
 			default:
 				throw new IllegalArgumentException("Functions with more than 2 parameters are not supported.");
 			}
@@ -240,5 +247,9 @@ public abstract class RobotAction {
 		} else {
 			throw new IllegalArgumentException("Unknown parameter type '" + param.getClass() + "'.");
 		}
+	}
+
+	private static String jsonObject(final String key, final String value) {
+		return "{\"" + key + "\":\"" + value + "\"}";
 	}
 }

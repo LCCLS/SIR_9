@@ -1,7 +1,6 @@
 package org.bitbucket.socialroboticshub.actions.memory;
 
 import eis.iilang.Identifier;
-import eis.iilang.Numeral;
 import eis.iilang.Parameter;
 import org.bitbucket.socialroboticshub.actions.RobotAction;
 

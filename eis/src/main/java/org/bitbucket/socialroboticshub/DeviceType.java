@@ -1,8 +1,9 @@
 package org.bitbucket.socialroboticshub;
 
 enum DeviceType {
-	CAMERA("cam"), MICROPHONE("mic"), ROBOT("robot"), SPEAKER("speaker"),
-	GUI("gui_controller"), BROWSER("browser"), GOOGLE_ASSISTANT("ga");
+
+	CAMERA("cam"), MICROPHONE("mic"), ROBOT("robot"), SPEAKER("speaker"), GUI("gui_controller"), BROWSER("browser"),
+	GOOGLE_ASSISTANT("ga");
 
 	private final String name;
 

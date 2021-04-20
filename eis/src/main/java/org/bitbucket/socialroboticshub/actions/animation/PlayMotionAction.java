@@ -18,6 +18,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
+import org.apache.commons.io.FilenameUtils;
 import org.bitbucket.socialroboticshub.actions.RobotAction;
 
 import eis.iilang.Identifier;
@@ -27,10 +34,12 @@ public class PlayMotionAction extends RobotAction {
 	public final static String NAME = "playMotion";
 	private boolean isXML = false;
 	private boolean isFile = false;
+
 	/**
-	 * @param parameters A list with at least one identifier, referencing either a XML or JSON
-	 *                   file or a pure motion to be played. Optionally (only for an XML file) a second identifier with
-	 *                   an emotion to use as a transformation to that animation.
+	 * @param parameters A list with at least one identifier, referencing either a
+	 *                   XML or JSON file or a pure motion to be played. Optionally
+	 *                   (only for an XML file) a second identifier with an emotion
+	 *                   to use as a transformation to that animation.
 	 */
 	public PlayMotionAction(final List<Parameter> parameters) {
 		super(parameters);
@@ -42,12 +51,12 @@ public class PlayMotionAction extends RobotAction {
 		boolean valid = (params == 1 || params == 2);
 		if (valid) {
 			valid &= (getParameters().get(0) instanceof Identifier);
-			File motionFile = new File(EIStoString(getParameters().get(0)));
+			final File motionFile = new File(EIStoString(getParameters().get(0)));
 			if (motionFile.canRead()) {
-				isFile = true;
-				String motionFileExtension = FilenameUtils.getExtension(motionFile.getName());
-				isXML = motionFileExtension.equalsIgnoreCase("xml");
-				valid &= (isXML || motionFileExtension.equalsIgnoreCase("json"));
+				this.isFile = true;
+				final String motionFileExtension = FilenameUtils.getExtension(motionFile.getName());
+				this.isXML = motionFileExtension.equalsIgnoreCase("xml");
+				valid &= (this.isXML || motionFileExtension.equalsIgnoreCase("json"));
 			}
 			if (params == 2) {
 				valid &= (getParameters().get(1) instanceof Identifier);
@@ -58,16 +67,16 @@ public class PlayMotionAction extends RobotAction {
 
 	@Override
 	public String getTopic() {
-		return isXML ? "action_motion_file" : "action_play_motion" ;
+		return this.isXML ? "action_motion_file" : "action_play_motion";
 	}
 
 	@Override
 	public String getData() {
-		if (isFile) {
+		if (this.isFile) {
 			try {
 				final Path path = Paths.get(EIStoString(getParameters().get(0)));
 				final String motion = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-				if (isXML) {
+				if (this.isXML) {
 					final StringBuilder result = new StringBuilder(getMinifiedXML(motion));
 					if (getParameters().size() == 2) {
 						result.append(";").append(EIStoString(getParameters().get(1)));

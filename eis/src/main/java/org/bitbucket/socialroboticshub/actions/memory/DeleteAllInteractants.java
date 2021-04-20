@@ -1,35 +1,32 @@
 package org.bitbucket.socialroboticshub.actions.memory;
 
-import eis.iilang.Identifier;
-import eis.iilang.Parameter;
 import org.bitbucket.socialroboticshub.actions.RobotAction;
 
-import java.util.List;
 
 public class DeleteAllInteractants extends RobotAction {
-	public final static String NAME = "deleteAllInteractants";
+    public final static String NAME = "deleteAllInteractants";
 
-	public DeleteAllInteractants() {
-		super(null);
-	}
+    public DeleteAllInteractants() {
+        super(null);
+    }
 
-	@Override
-	public boolean isValid() {
-		return true;
-	}
+    @Override
+    public boolean isValid() {
+        return true;
+    }
 
-	@Override
-	public String getTopic() {
-		return "memory_delete_all_interactants";
-	}
+    @Override
+    public String getTopic() {
+        return "memory_delete_all_interactants";
+    }
 
-	@Override
-	public String getData() {
-		return "";
-	}
+    @Override
+    public String getData() {
+        return "";
+    }
 
-	@Override
-	public String getExpectedEvent() {
-		return "AllInteractantsDeleted";
-	}
+    @Override
+    public String getExpectedEvent() {
+        return "AllInteractantsDeleted";
+    }
 }
