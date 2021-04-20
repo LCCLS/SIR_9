@@ -39,7 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import org.bitbucket.socialrobotics.DetectionResultProto.DetectionResult;
+import org.bitbucket.socialroboticshub.DetectionResultProto.DetectionResult;
 import org.bitbucket.socialroboticshub.actions.RobotAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.SetLanguageAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.StartListeningAction;
