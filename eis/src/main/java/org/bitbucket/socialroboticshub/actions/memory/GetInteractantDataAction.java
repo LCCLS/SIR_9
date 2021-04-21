@@ -12,7 +12,7 @@ public class GetInteractantDataAction extends RobotAction {
 
 	/**
 	 * @param parameters A list of 2 identifiers: a (string) interactant id and a
-	 *                   (string) user data key.
+	 *                   (string) interactant data key.
 	 */
 	public GetInteractantDataAction(final List<Parameter> parameters) {
 		super(parameters);

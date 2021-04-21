@@ -10,7 +10,7 @@ public class SetDialogHistoryAction extends RobotAction {
     public final static String NAME = "setDialogHistory";
 
     /**
-     * @param parameters A list of 3 identifiers: a (string) interactant id
+     * @param parameters A list of 2 identifiers: a (string) interactant id
      *                   and a (string) mini-dialog id.
      */
     public SetDialogHistoryAction(final List<Parameter> parameters) {

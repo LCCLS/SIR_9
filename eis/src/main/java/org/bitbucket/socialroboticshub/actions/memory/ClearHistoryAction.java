@@ -11,8 +11,7 @@ public class ClearHistoryAction extends RobotAction {
     public final static String NAME = "clearHistory";
 
     /**
-     * @param parameters A list of 3 identifiers: a (string) interactant id,
-     *                   a session id (number) and a (string) mini-dialog id.
+     * @param parameters A list of 2 identifiers: a (string) interactant id and a session id (number).
      */
     public ClearHistoryAction(final List<Parameter> parameters) {
         super(parameters);
@@ -32,7 +31,7 @@ public class ClearHistoryAction extends RobotAction {
     @Override
     public String getData() {
         return EIStoString(getParameters().get(0)) + ";"
-                + EIStoString(getParameters().get(1)) + ';';
+                + EIStoString(getParameters().get(1));
     }
 
     @Override

@@ -28,8 +28,7 @@ public class GetNarrativeHistoryAction extends RobotAction {
 
     @Override
     public String getData() {
-        return EIStoString(getParameters().get(0)) + ";"
-                + EIStoString(getParameters().get(1));
+        return EIStoString(getParameters().get(0));
     }
 
     @Override
