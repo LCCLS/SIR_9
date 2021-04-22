@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.bitbucket.socialrobotics.DetectionResultProto.DetectionResult;
+import org.bitbucket.socialroboticshub.DetectionResultProto.DetectionResult;
 
 import redis.clients.jedis.BinaryJedisPubSub;
 import redis.clients.jedis.Jedis;

@@ -82,6 +82,9 @@ final class RedisProducerRunner extends RedisRunner {
 		for (final String identifier : this.devices.get(DeviceType.BROWSER)) {
 			initialiseDialogflow(p1, params, identifier); // chat input
 		}
+		for (final String identifier : this.devices.get(DeviceType.GOOGLE_ASSISTANT)) {
+			initialiseDialogflow(p1, params, identifier); // google assistant
+		}
 		for (final String identifier : this.devices.get(DeviceType.ROBOT)) {
 			p1.publish("robot_memory", identifier);
 		}
@@ -100,11 +103,13 @@ final class RedisProducerRunner extends RedisRunner {
 	}
 
 	private void initialiseDialogflow(final Pipeline p, final Map<String, String> params, final String identifier) {
-		if (!this.parent.flowKey.isEmpty() && !this.parent.flowAgent.isEmpty()) {
-			p.publish("intent_detection", identifier);
-			params.put(identifier + "_dialogflow_key", this.parent.flowKey);
+		if (!this.parent.flowAgent.isEmpty()) {
 			params.put(identifier + "_dialogflow_agent", this.parent.flowAgent);
-			params.put(identifier + "_dialogflow_language", this.parent.flowLang);
+			if (!this.parent.flowKey.isEmpty()) {
+				p.publish("intent_detection", identifier);
+				params.put(identifier + "_dialogflow_key", this.parent.flowKey);
+				params.put(identifier + "_dialogflow_language", this.parent.flowLang);
+			}
 		}
 	}
 
