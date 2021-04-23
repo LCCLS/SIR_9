@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -61,11 +62,13 @@ import eis.iilang.Parameter;
 import eis.iilang.ParameterList;
 import eis.iilang.Percept;
 import eis.iilang.TruthValue;
+import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Protocol;
 
 public class CBSRenvironment extends EIDefaultImpl {
 	private static final long serialVersionUID = 1L;
+	private static final Charset UTF8 = StandardCharsets.UTF_8;
 	protected Map<String, Parameter> parameters;
 	protected BlockingQueue<Percept> perceptQueue;
 	protected List<Percept> previousPercepts;
@@ -398,6 +401,17 @@ public class CBSRenvironment extends EIDefaultImpl {
 	}
 
 	/**
+	 * Queues the data coming from the memory module as a key value pair percept to
+	 * be received by the agent.
+	 *
+	 * @param key   key of memory data packet
+	 * @param value value of memory data packet
+	 */
+	public void addMemoryData(final String key, final JSONObject value) {
+		this.perceptQueue.add(new Percept("memoryData", new Identifier(key), toEIS(value)));
+	}
+
+	/**
 	 * Queues the data coming from a gui controller as a key value pair percept to
 	 * be received by the agent.
 	 *
@@ -646,5 +660,22 @@ public class CBSRenvironment extends EIDefaultImpl {
 			elements.add(param);
 		}
 		return new ParameterList(elements);
+	}
+
+	private static ParameterList toEIS(final JSONObject jsonObject){
+		final List<Parameter> elements = new ArrayList<>(jsonObject.length());
+		for (final String key : jsonObject.keySet()) {
+			final Parameter param = toEIS(jsonObject.getString(key));
+			elements.add(new Function("=", new Identifier(key), param));
+		}
+		return new ParameterList(elements);
+	}
+
+	private static Parameter toEIS(final String value){
+		try {
+			return new Numeral(Integer.parseInt(value));
+		} catch (final NumberFormatException e) {
+			return new Identifier(value);
+		}
 	}
 }
