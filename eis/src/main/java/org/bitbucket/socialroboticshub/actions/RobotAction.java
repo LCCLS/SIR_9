@@ -58,6 +58,8 @@ import org.bitbucket.socialroboticshub.actions.memory.SetInteractantDataAction;
 import org.bitbucket.socialroboticshub.actions.memory.SetMemoryEntryAction;
 import org.bitbucket.socialroboticshub.actions.memory.SetMoveHistoryAction;
 import org.bitbucket.socialroboticshub.actions.memory.SetNarrativeHistoryAction;
+import org.bitbucket.socialroboticshub.actions.memory.GetTopicsOfInterestAction;
+import org.bitbucket.socialroboticshub.actions.memory.SetTopicsOfInterestAction;
 import org.bitbucket.socialroboticshub.actions.memory.SetSession;
 
 import org.json.JSONObject;
@@ -195,6 +197,10 @@ public abstract class RobotAction {
 			return new GetMoveHistoryAction(parameters);
 		case SetMoveHistoryAction.NAME:
 			return new SetMoveHistoryAction(parameters);
+		case GetTopicsOfInterestAction.NAME:
+			return new GetTopicsOfInterestAction(parameters);
+		case SetTopicsOfInterestAction.NAME:
+			return new SetTopicsOfInterestAction(parameters);
 		case DeleteInteractant.NAME:
 			return new DeleteInteractant(parameters);
 		case DeleteAllInteractants.NAME:

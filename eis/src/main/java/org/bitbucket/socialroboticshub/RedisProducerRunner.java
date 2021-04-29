@@ -29,6 +29,7 @@ final class RedisProducerRunner extends RedisRunner {
 			"memory_set_interactant_data", "memory_get_interactant_data", "memory_get_dialog_history",
 			"memory_set_dialog_history", "memory_get_narrative_history", "memory_set_narrative_history",
 			"memory_get_move_history", "memory_set_move_history", "memory_clear_history",
+			"memory_get_topics_of_interest", "memory_set_topics_of_interest",
 			"memory_delete_interactant", "memory_delete_all_interactants",
 			"action_motion_file", "action_led_color", "action_led_animation" };
 	private static final String[] speakerTopics = new String[] { "audio_language", "action_say", "action_say_animated",
