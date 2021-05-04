@@ -8,16 +8,16 @@ import eis.iilang.Numeral;
 import eis.iilang.Parameter;
 import eis.iilang.ParameterList;
 
-public class StartMotionRecordingAction extends RobotAction {
-	public final static String NAME = "startMotionRecording";
+public class StartMotionRelayingAction extends RobotAction {
+	public final static String NAME = "startMotionRelaying";
 	private final static String FRAMERATE = "5";
 
 	/**
 	 * @param parameters a list of joints and or joint chains of the robot
 	 *                   respectively, and 1 optional numeral representing framerate
-	 *                   (recordings per second).
+	 *                   (how often to relay per second).
 	 */
-	public StartMotionRecordingAction(final List<Parameter> parameters) {
+	public StartMotionRelayingAction(final List<Parameter> parameters) {
 		super(parameters);
 	}
 
@@ -36,7 +36,7 @@ public class StartMotionRecordingAction extends RobotAction {
 
 	@Override
 	public String getTopic() {
-		return "action_record_motion";
+		return "action_relay_motion";
 	}
 
 	@Override

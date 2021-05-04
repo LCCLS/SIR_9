@@ -19,8 +19,10 @@ import org.bitbucket.socialroboticshub.actions.animation.SetNonIdleAction;
 import org.bitbucket.socialroboticshub.actions.animation.SetStiffnessAction;
 import org.bitbucket.socialroboticshub.actions.animation.StartLedAnimationAction;
 import org.bitbucket.socialroboticshub.actions.animation.StartMotionRecordingAction;
+import org.bitbucket.socialroboticshub.actions.animation.StartMotionRelayingAction;
 import org.bitbucket.socialroboticshub.actions.animation.StopLedAnimationAction;
 import org.bitbucket.socialroboticshub.actions.animation.StopMotionRecordingAction;
+import org.bitbucket.socialroboticshub.actions.animation.StopMotionRelayingAction;
 import org.bitbucket.socialroboticshub.actions.animation.TurnLeftAction;
 import org.bitbucket.socialroboticshub.actions.animation.TurnRightAction;
 import org.bitbucket.socialroboticshub.actions.animation.WakeUpAction;
@@ -45,11 +47,11 @@ import org.bitbucket.socialroboticshub.actions.audiovisual.StopWatchingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.TakePictureAction;
 import org.bitbucket.socialroboticshub.actions.browser.BrowserRenderAction;
 import org.bitbucket.socialroboticshub.actions.memory.AddMemoryEntryAction;
+import org.bitbucket.socialroboticshub.actions.memory.DeleteAllInteractants;
+import org.bitbucket.socialroboticshub.actions.memory.DeleteInteractant;
 import org.bitbucket.socialroboticshub.actions.memory.GetInteractantDataAction;
 import org.bitbucket.socialroboticshub.actions.memory.SetSession;
 import org.bitbucket.socialroboticshub.actions.memory.SetUserDataAction;
-import org.bitbucket.socialroboticshub.actions.memory.DeleteInteractant;
-import org.bitbucket.socialroboticshub.actions.memory.DeleteAllInteractants;
 import org.json.JSONObject;
 
 import eis.iilang.Action;
@@ -149,6 +151,10 @@ public abstract class RobotAction {
 			return new StartMotionRecordingAction(parameters);
 		case StopMotionRecordingAction.NAME:
 			return new StopMotionRecordingAction();
+		case StartMotionRelayingAction.NAME:
+			return new StartMotionRelayingAction(parameters);
+		case StopMotionRelayingAction.NAME:
+			return new StopMotionRelayingAction();
 		case SetLedColorAction.NAME:
 			return new SetLedColorAction(parameters);
 		case StartLedAnimationAction.NAME:
