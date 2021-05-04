@@ -49,7 +49,7 @@ public class StartMotionRelayingAction extends RobotAction {
 
 	@Override
 	public String getExpectedEvent() {
-		return "RecordMotionStarted";
+		return "RelayMotionStarted";
 	}
 
 }
