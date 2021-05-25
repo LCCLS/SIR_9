@@ -33,6 +33,7 @@ public final class GoogleAssistant {
 			this.webHook.stop();
 		}
 		if (this.webSocket != null) {
+			this.webSocket.stop();
 			this.webSocket.close();
 		}
 	}

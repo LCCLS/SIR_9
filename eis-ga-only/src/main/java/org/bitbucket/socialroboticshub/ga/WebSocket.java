@@ -1,6 +1,11 @@
 package org.bitbucket.socialroboticshub.ga;
 
+import java.awt.Frame;
 import java.net.URI;
+
+import javax.swing.JDialog;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -10,6 +15,7 @@ import com.google.cloud.dialogflow.v2.QueryResult;
 public class WebSocket extends WebSocketClient {
 	public static final String VUserver = "socialai4.labs.vu.nl";
 	private final GoogleAssistant parent;
+	private final JDialog status;
 	private final JsonUtils json;
 	private boolean started = false;
 
@@ -17,9 +23,19 @@ public class WebSocket extends WebSocketClient {
 		super(new URI("ws://" + VUserver));
 		this.parent = parent;
 		this.json = new JsonUtils();
+		this.status = new JDialog((Frame) null, "Connection Status");
+		this.status.setAlwaysOnTop(true);
+		this.status.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		this.status.add(new JTextField(20));
+		this.status.pack();
+		setStatus("Connecting to " + VUserver + " ...");
+		this.status.setVisible(true);
 		connectBlocking();
-		System.out.println("Connected to " + VUserver);
 		start(projectId);
+	}
+
+	private void setStatus(final String status) {
+		((JTextField) this.status.getComponents()[0]).setText(status);
 	}
 
 	public void start(final String projectId) {
@@ -27,7 +43,7 @@ public class WebSocket extends WebSocketClient {
 			stop();
 		}
 		System.out.println("Starting with " + projectId + "...");
-		send(">>>" + projectId);
+		send(">>>" + projectId + "|" + System.getenv("user.name"));
 		this.started = true;
 	}
 
@@ -45,13 +61,18 @@ public class WebSocket extends WebSocketClient {
 
 	@Override
 	public void onMessage(final String message) {
-		try {
-			final QueryResult queryResult = this.json.getQueryResult(message);
-			final String text = this.parent.getResponse(queryResult);
-			final String jsonResponse = this.json.convertResponse(text);
-			send(jsonResponse);
-		} catch (final Exception e) {
-			e.printStackTrace();
+		if (message.endsWith("!")) {
+			setStatus(message);
+		} else {
+			try {
+				this.status.dispose();
+				final QueryResult queryResult = this.json.getQueryResult(message);
+				final String text = this.parent.getResponse(queryResult);
+				final String jsonResponse = this.json.convertResponse(text);
+				send(jsonResponse);
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
