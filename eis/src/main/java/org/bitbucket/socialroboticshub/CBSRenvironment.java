@@ -215,13 +215,18 @@ public class CBSRenvironment extends EIDefaultImpl {
 		deviceSelection.setVisible(true);
 
 		// process the device selection
+		boolean foundOne = false;
 		for (final JCheckBox checkbox : checkboxes) {
 			if (checkbox.isSelected()) {
 				final String[] split = checkbox.getText().split(":");
 				final String identifier = this.redisUser + "-" + split[0];
 				final DeviceType type = DeviceType.fromString(split[1]);
 				devices.get(type).add(identifier);
+				foundOne = true;
 			}
+		}
+		if (!foundOne) {
+			throw new ManagementException("No (valid) devices selected");
 		}
 	}
 
