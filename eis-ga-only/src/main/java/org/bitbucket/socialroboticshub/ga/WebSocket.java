@@ -15,7 +15,8 @@ import com.google.cloud.dialogflow.v2.QueryResult;
 public class WebSocket extends WebSocketClient {
 	public static final String VUserver = "socialai4.labs.vu.nl";
 	private final GoogleAssistant parent;
-	private final JDialog status;
+	private final JDialog statusDialog;
+	private final JTextField statusField;
 	private final JsonUtils json;
 	private boolean started = false;
 
@@ -23,19 +24,17 @@ public class WebSocket extends WebSocketClient {
 		super(new URI("ws://" + VUserver));
 		this.parent = parent;
 		this.json = new JsonUtils();
-		this.status = new JDialog((Frame) null, "Connection Status");
-		this.status.setAlwaysOnTop(true);
-		this.status.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		this.status.add(new JTextField(20));
-		this.status.pack();
-		setStatus("Connecting to " + VUserver + " ...");
-		this.status.setVisible(true);
+		this.statusDialog = new JDialog((Frame) null, "Connection Status");
+		this.statusDialog.setAlwaysOnTop(true);
+		this.statusDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		this.statusField = new JTextField(20);
+		this.statusField.setEditable(false);
+		this.statusField.setText("Connecting to " + VUserver + " ...");
+		this.statusDialog.add(this.statusField);
+		this.statusDialog.pack();
+		this.statusDialog.setVisible(true);
 		connectBlocking();
 		start(projectId);
-	}
-
-	private void setStatus(final String status) {
-		((JTextField) this.status.getComponents()[0]).setText(status);
 	}
 
 	public void start(final String projectId) {
@@ -50,7 +49,9 @@ public class WebSocket extends WebSocketClient {
 	public void stop() {
 		if (this.started) {
 			System.out.println("Stopping current run...");
-			send("<<<");
+			if (isOpen()) {
+				send("<<<");
+			}
 			this.started = false;
 		}
 	}
@@ -62,10 +63,10 @@ public class WebSocket extends WebSocketClient {
 	@Override
 	public void onMessage(final String message) {
 		if (message.endsWith("!")) {
-			setStatus(message);
+			this.statusField.setText(message);
 		} else {
 			try {
-				this.status.dispose();
+				this.statusDialog.dispose();
 				final QueryResult queryResult = this.json.getQueryResult(message);
 				final String text = this.parent.getResponse(queryResult);
 				final String jsonResponse = this.json.convertResponse(text);
