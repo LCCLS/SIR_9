@@ -102,7 +102,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 			}
 		}
 		this.flowAgent = getParameter("flowagent", "");
-		this.flowLang = getParameter("flowlang", "nl-NL");
+		this.flowLang = getParameter("flowlang", "");
 		this.profiler = new Profiler(getParameter("profiling", "").equals("1"));
 
 		final Map<DeviceType, List<String>> devices = new HashMap<>(DeviceType.size());
@@ -150,7 +150,9 @@ public class CBSRenvironment extends EIDefaultImpl {
 		// start-up actions
 		addAction(new StopListeningAction());
 		addAction(new StopWatchingAction());
-		addAction(new SetLanguageAction(Arrays.asList(new Identifier(this.flowLang))));
+		if (!this.flowLang.isEmpty()) {
+			addAction(new SetLanguageAction(Arrays.asList(new Identifier(this.flowLang))));
+		}
 
 		// we're ready; announce the entity
 		setState(EnvironmentState.RUNNING);
