@@ -641,7 +641,9 @@ public class CBSRenvironment extends EIDefaultImpl {
 		final List<Parameter> elements = new ArrayList<>(struct.size());
 		for (final String key : struct.keySet()) {
 			final Parameter param = toEIS(struct.get(key));
-			elements.add(new Function("=", new Identifier(key), param));
+			if ((!(param instanceof Identifier) || !((Identifier) param).getValue().isEmpty())) {
+				elements.add(new Function("=", new Identifier(key), param));
+			}
 		}
 		return new ParameterList(elements);
 	}
