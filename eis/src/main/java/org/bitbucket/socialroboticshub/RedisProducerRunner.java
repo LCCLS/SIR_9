@@ -98,7 +98,7 @@ final class RedisProducerRunner extends RedisRunner {
 			p2.publish(key, params.get(key));
 		}
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(1000); // TODO: this isn't very fail-safe, but if this performance isn't even met...
 		} catch (final InterruptedException ignore) {
 		} finally {
 			p2.sync();
