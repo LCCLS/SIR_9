@@ -45,9 +45,11 @@ public class CBSRenvironment extends EIDefaultImpl {
 		try {
 			// initialise the embedded GoogleAssistant client
 			this.ga = new GoogleAssistant(this, getParameter("subdomain"), getParameter("flowagent"));
-			// we're ready; announce the entity
-			setState(EnvironmentState.RUNNING);
-			addEntity("robot", "robot");
+			// we're ready (if the GA didn't kill us); announce the entity
+			if (getState() != EnvironmentState.KILLED) {
+				setState(EnvironmentState.RUNNING);
+				addEntity("robot", "robot");
+			}
 		} catch (final Exception e) {
 			throw new ManagementException("Unable to initialise the robot entity", e);
 		}
@@ -60,9 +62,9 @@ public class CBSRenvironment extends EIDefaultImpl {
 
 	@Override
 	public void kill() throws ManagementException {
+		super.kill();
 		this.ga.disconnect();
 		this.perceptQueue.clear();
-		super.kill();
 	}
 
 	@Override

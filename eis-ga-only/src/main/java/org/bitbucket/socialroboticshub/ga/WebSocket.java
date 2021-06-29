@@ -49,6 +49,7 @@ public class WebSocket extends WebSocketClient {
 	public void stop() {
 		if (this.started) {
 			System.out.println("Stopping current run...");
+			this.statusDialog.dispose();
 			if (isOpen()) {
 				send("<<<");
 			}
@@ -63,6 +64,7 @@ public class WebSocket extends WebSocketClient {
 	@Override
 	public void onMessage(final String message) {
 		if (message.endsWith("!")) {
+			System.out.println(message);
 			this.statusField.setText(message);
 		} else {
 			try {

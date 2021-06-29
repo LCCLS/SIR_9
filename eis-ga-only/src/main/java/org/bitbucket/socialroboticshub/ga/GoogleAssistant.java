@@ -10,6 +10,8 @@ import org.bitbucket.socialroboticshub.DetectionResultProto.DetectionResult;
 import com.google.cloud.dialogflow.v2.QueryResult;
 import com.google.protobuf.Value;
 
+import eis.iilang.EnvironmentState;
+
 public final class GoogleAssistant {
 	private static final long timeout = 5000L; // 5s
 	private final CBSRenvironment parent;
@@ -35,6 +37,12 @@ public final class GoogleAssistant {
 		if (this.webSocket != null) {
 			this.webSocket.stop();
 			this.webSocket.close();
+		}
+		if (this.parent.getState() != EnvironmentState.KILLED) {
+			try {
+				this.parent.kill();
+			} catch (final Exception ignore) {
+			}
 		}
 	}
 
