@@ -80,6 +80,9 @@ public class WebSocket extends WebSocketClient {
 	@Override
 	public void onClose(final int code, final String reason, final boolean remote) {
 		this.parent.disconnect();
+		if (!reason.isEmpty()) {
+			System.out.println("Closed websocket because: " + reason);
+		}
 	}
 
 	@Override
