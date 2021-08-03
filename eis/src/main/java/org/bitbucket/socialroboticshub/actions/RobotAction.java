@@ -19,8 +19,10 @@ import org.bitbucket.socialroboticshub.actions.animation.SetNonIdleAction;
 import org.bitbucket.socialroboticshub.actions.animation.SetStiffnessAction;
 import org.bitbucket.socialroboticshub.actions.animation.StartLedAnimationAction;
 import org.bitbucket.socialroboticshub.actions.animation.StartMotionRecordingAction;
+import org.bitbucket.socialroboticshub.actions.animation.StartMotionRelayingAction;
 import org.bitbucket.socialroboticshub.actions.animation.StopLedAnimationAction;
 import org.bitbucket.socialroboticshub.actions.animation.StopMotionRecordingAction;
+import org.bitbucket.socialroboticshub.actions.animation.StopMotionRelayingAction;
 import org.bitbucket.socialroboticshub.actions.animation.TurnLeftAction;
 import org.bitbucket.socialroboticshub.actions.animation.TurnRightAction;
 import org.bitbucket.socialroboticshub.actions.animation.WakeUpAction;
@@ -161,6 +163,10 @@ public abstract class RobotAction {
 			return new StartMotionRecordingAction(parameters);
 		case StopMotionRecordingAction.NAME:
 			return new StopMotionRecordingAction();
+		case StartMotionRelayingAction.NAME:
+			return new StartMotionRelayingAction(parameters);
+		case StopMotionRelayingAction.NAME:
+			return new StopMotionRelayingAction();
 		case SetLedColorAction.NAME:
 			return new SetLedColorAction(parameters);
 		case StartLedAnimationAction.NAME:

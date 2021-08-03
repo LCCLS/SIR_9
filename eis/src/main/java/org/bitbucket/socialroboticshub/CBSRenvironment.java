@@ -105,7 +105,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 			}
 		}
 		this.flowAgent = getParameter("flowagent", "");
-		this.flowLang = getParameter("flowlang", "nl-NL");
+		this.flowLang = getParameter("flowlang", "");
 		this.profiler = new Profiler(getParameter("profiling", "").equals("1"));
 
 		final Map<DeviceType, List<String>> devices = new HashMap<>(DeviceType.size());
@@ -153,7 +153,9 @@ public class CBSRenvironment extends EIDefaultImpl {
 		// start-up actions
 		addAction(new StopListeningAction());
 		addAction(new StopWatchingAction());
-		addAction(new SetLanguageAction(Arrays.asList(new Identifier(this.flowLang))));
+		if (!this.flowLang.isEmpty()) {
+			addAction(new SetLanguageAction(Arrays.asList(new Identifier(this.flowLang))));
+		}
 
 		// we're ready; announce the entity
 		setState(EnvironmentState.RUNNING);
@@ -218,13 +220,18 @@ public class CBSRenvironment extends EIDefaultImpl {
 		deviceSelection.setVisible(true);
 
 		// process the device selection
+		boolean foundOne = false;
 		for (final JCheckBox checkbox : checkboxes) {
 			if (checkbox.isSelected()) {
 				final String[] split = checkbox.getText().split(":");
 				final String identifier = this.redisUser + "-" + split[0];
 				final DeviceType type = DeviceType.fromString(split[1]);
 				devices.get(type).add(identifier);
+				foundOne = true;
 			}
+		}
+		if (!foundOne) {
+			throw new ManagementException("No (valid) devices selected");
 		}
 	}
 
@@ -648,7 +655,9 @@ public class CBSRenvironment extends EIDefaultImpl {
 		final List<Parameter> elements = new ArrayList<>(struct.size());
 		for (final String key : struct.keySet()) {
 			final Parameter param = toEIS(struct.get(key));
-			elements.add(new Function("=", new Identifier(key), param));
+			if (!((param instanceof Identifier) && ((Identifier) param).getValue().isEmpty())) {
+				elements.add(new Function("=", new Identifier(key), param));
+			}
 		}
 		return new ParameterList(elements);
 	}

@@ -32,13 +32,17 @@ final class RedisProducerRunner extends RedisRunner {
 			"memory_get_topics_of_interest", "memory_set_topics_of_interest",
 			"memory_delete_interactant", "memory_delete_all_interactants",
 			"action_motion_file", "action_led_color", "action_led_animation" };
+
+	private static final String[] puppetTopics = new String[] { "action_relay_motion" };
+
 	private static final String[] speakerTopics = new String[] { "audio_language", "action_say", "action_say_animated",
 			"action_play_audio", "action_stop_talking", "action_load_audio", "action_clear_loaded_audio" };
 	private static final String[] browserTopics = new String[] { "render_html" };
 	private static final String[] assistantTopics = new String[] { "assistant_show", "assistant_show_card",
 			"assistant_play_media" };
 	private static final Map<String, DeviceType> topicMap = new HashMap<>(
-			speakerTopics.length + robotTopics.length + browserTopics.length);
+			cameraTopics.length + microphoneTopics.length + robotTopics.length + puppetTopics.length
+					+ speakerTopics.length + browserTopics.length + assistantTopics.length);
 	static {
 		for (final String topic : cameraTopics) {
 			topicMap.put(topic, DeviceType.CAMERA);
@@ -49,6 +53,9 @@ final class RedisProducerRunner extends RedisRunner {
 		for (final String topic : robotTopics) {
 			topicMap.put(topic, DeviceType.ROBOT);
 		}
+		for (final String topic : puppetTopics) {
+			topicMap.put(topic, DeviceType.PUPPET);
+		}
 		for (final String topic : speakerTopics) {
 			topicMap.put(topic, DeviceType.SPEAKER);
 		}
@@ -58,6 +65,7 @@ final class RedisProducerRunner extends RedisRunner {
 		for (final String topic : assistantTopics) {
 			topicMap.put(topic, DeviceType.GOOGLE_ASSISTANT);
 		}
+		// UI controller has no actions (only provides input)
 	}
 	private final BlockingQueue<RobotAction> actionQueue;
 	private final Profiler profiler;
@@ -96,7 +104,7 @@ final class RedisProducerRunner extends RedisRunner {
 			p2.publish(key, params.get(key));
 		}
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(1000); // TODO: this isn't very fail-safe, but if this performance isn't even met...
 		} catch (final InterruptedException ignore) {
 		} finally {
 			p2.sync();
