@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>com.google.api.grpc</groupId>
 			<artifactId>proto-google-cloud-dialogflow-v2</artifactId>
-			<version>4.1.1</version>
+			<version>4.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
