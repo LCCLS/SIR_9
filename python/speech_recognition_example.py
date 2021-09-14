@@ -1,6 +1,5 @@
 from social_interaction_cloud.action import ActionRunner
 from social_interaction_cloud.basic_connector import BasicSICConnector
-from social_interaction_cloud.detection_result_pb2 import DetectionResult
 
 
 class Example:
@@ -36,9 +35,9 @@ class Example:
         self.action_runner.run_waiting_action('rest')
         self.sic.stop()
 
-    def on_intent(self, detection_result: DetectionResult) -> None:
-        if detection_result and detection_result.intent == 'answer_name' and len(detection_result.parameters) > 0:
-            self.user_model['name'] = detection_result.parameters['name'].struct_value['name']
+    def on_intent(self, detection_result: dict) -> None:
+        if detection_result and detection_result['intent'] == 'answer_name' and len(detection_result['parameters']) > 0:
+            self.user_model['name'] = detection_result['parameters']['name']
             self.recognition_manager['attempt_success'] = True
         else:
             self.recognition_manager['attempt_number'] += 1

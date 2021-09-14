@@ -1,13 +1,13 @@
 from enum import Enum
+from google.protobuf.json_format import MessageToDict
 from io import open
 from itertools import chain, product
 from pathlib import Path
+from redis import Redis
+from simplejson import dumps
 from threading import Event, Thread
 from time import strftime, time
 from tkinter import Tk, Checkbutton, Label, Entry, IntVar, StringVar, Button, E, W
-
-from redis import Redis
-from simplejson import dumps
 
 from .detection_result_pb2 import DetectionResult
 
@@ -174,7 +174,7 @@ class AbstractSICConnector(object):
         Given is the full language key (e.g. nl-NL or en-US)."""
         pass
 
-    def on_audio_intent(self, detection_result: DetectionResult) -> None:
+    def on_audio_intent(self, detection_result: dict) -> None:
         """Triggered whenever an intent was detected (by Dialogflow) on a user's speech.
         Given is the name of the intent, a list of optional parameters (following from the dialogflow spec), and a confidence value.
         See https://cloud.google.com/dialogflow/docs/intents-loaded_actions-parameters.
@@ -537,7 +537,7 @@ class AbstractSICConnector(object):
         elif channel == 'audio_intent':
             detection_result = DetectionResult()
             detection_result.ParseFromString(data)
-            self.on_audio_intent(detection_result=detection_result)
+            self.on_audio_intent(detection_result=MessageToDict(detection_result))
         elif channel == 'audio_newfile':
             audio_file = strftime(self.time_format) + '.wav'
             with open(audio_file, 'wb') as wav:

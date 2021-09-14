@@ -5,7 +5,6 @@ from threading import Condition, Event, Thread
 from time import sleep
 
 from social_interaction_cloud.abstract_connector import AbstractSICConnector
-from .detection_result_pb2 import DetectionResult
 
 
 class RobotPosture(Enum):
@@ -38,13 +37,17 @@ class BasicSICConnector(AbstractSICConnector):
         :param dialogflow_key_file: path to Google's Dialogflow key file (JSON)
         :param dialogflow_agent_id: ID number of Dialogflow agent to be used (project ID)
         """
-        super(BasicSICConnector, self).__init__(server_ip=server_ip)
-
+        self.__listeners = {}
+        self.__conditions = []
+        self.__vision_listeners = {}
+        self.__touch_listeners = {}
         self.robot_state = {'posture': RobotPosture.UNKNOWN,
                             'is_awake': False,
                             'battery_charge': 100,
                             'is_charging': False,
                             'hot_devices': []}
+
+        super(BasicSICConnector, self).__init__(server_ip=server_ip)
 
         if dialogflow_language and dialogflow_key_file and dialogflow_agent_id:
             self.enable_service('intent_detection')
@@ -52,11 +55,6 @@ class BasicSICConnector(AbstractSICConnector):
             self.set_dialogflow_language(dialogflow_language)
             self.set_dialogflow_key(dialogflow_key_file)
             self.set_dialogflow_agent(dialogflow_agent_id)
-
-        self.__listeners = {}
-        self.__conditions = []
-        self.__vision_listeners = {}
-        self.__touch_listeners = {}
 
     ###########################
     # Event handlers          #
@@ -73,7 +71,7 @@ class BasicSICConnector(AbstractSICConnector):
     def on_audio_language(self, language_key: str) -> None:
         self.__notify_listeners('onAudioLanguage', language_key)
 
-    def on_audio_intent(self, detection_result: DetectionResult) -> None:
+    def on_audio_intent(self, detection_result: dict) -> None:
         self.__notify_listeners('onAudioIntent', detection_result)
 
     def on_new_audio_file(self, audio_file: str) -> None:
