@@ -26,7 +26,7 @@ class Example:
         text = self.get_text('Hello, world!')
         button = self.get_button('Done')
         html = self.get_header() + self.get_body(text + button) + self.get_footer()
-        action_runner.run_action('render_html', html)
+        action_runner.run_action('browser_show', html)
         # And now we wait until someone presses the button (see on_browser_button above)
 
     @staticmethod
