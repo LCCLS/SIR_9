@@ -31,7 +31,7 @@ final class WebHook extends NanoHTTPD {
 	private static Process startTunnel(final String subdomain) throws Exception {
 		final boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("win");
 		final String localtunnel = isWindows ? "lt.cmd" : "lt";
-		final String[] command = new String[] { localtunnel, "--host", "https://loca.lt", //
+		final String[] command = { localtunnel, "--host", "https://loca.lt", //
 				"--port", Integer.toString(serverPort), "--subdomain", subdomain };
 		System.out.println(Arrays.asList(command));
 		final ProcessBuilder b = new ProcessBuilder(command).inheritIO();

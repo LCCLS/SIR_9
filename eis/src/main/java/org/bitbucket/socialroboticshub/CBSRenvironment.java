@@ -591,7 +591,7 @@ public class CBSRenvironment extends EIDefaultImpl {
 		dialog.pack();
 		dialog.setVisible(true);
 
-		final String[] result = new String[] { userField.getText(), new String(passwordField.getPassword()) };
+		final String[] result = { userField.getText(), new String(passwordField.getPassword()) };
 		prefs.put("user", result[0]);
 		return result;
 	}

@@ -19,21 +19,20 @@ import redis.clients.jedis.Pipeline;
 
 final class RedisProducerRunner extends RedisRunner {
 	private static final String PROFILER_TYPE = "redis_send";
-	private static final String[] cameraTopics = new String[] { "action_video" };
-	private static final String[] microphoneTopics = new String[] { "action_audio", "dialogflow_language",
-			"dialogflow_context", "dialogflow_key", "dialogflow_agent", "dialogflow_record", "action_chat" };
-	private static final String[] robotTopics = new String[] { "action_gesture", "action_eyecolour", "action_earcolour",
+	private static final String[] cameraTopics = { "action_video" };
+	private static final String[] microphoneTopics = { "action_audio", "dialogflow_language", "dialogflow_context",
+			"dialogflow_key", "dialogflow_agent", "dialogflow_record", "action_chat" };
+	private static final String[] robotTopics = { "action_gesture", "action_eyecolour", "action_earcolour",
 			"action_headcolour", "action_idle", "action_turn", "action_turn_small", "action_wakeup", "action_rest",
 			"action_set_breathing", "action_posture", "action_stiffness", "action_play_motion", "action_record_motion",
 			"memory_add_entry", "memory_set_session", "memory_set_interactant_data", "memory_get_interactant_data",
 			"memory_delete_interactant", "memory_delete_all_interactants", "action_motion_file", "action_led_color",
 			"action_led_animation" };
-	private static final String[] puppetTopics = new String[] { "action_relay_motion" };
-	private static final String[] speakerTopics = new String[] { "audio_language", "action_say", "action_say_animated",
+	private static final String[] puppetTopics = { "action_relay_motion" };
+	private static final String[] speakerTopics = { "audio_language", "action_say", "action_say_animated",
 			"action_play_audio", "action_stop_talking", "action_load_audio", "action_clear_loaded_audio" };
-	private static final String[] browserTopics = new String[] { "render_html" };
-	private static final String[] assistantTopics = new String[] { "assistant_show", "assistant_show_card",
-			"assistant_play_media" };
+	private static final String[] browserTopics = { "render_html" };
+	private static final String[] assistantTopics = { "assistant_show", "assistant_show_card", "assistant_play_media" };
 	private static final Map<String, DeviceType> topicMap = new HashMap<>(
 			cameraTopics.length + microphoneTopics.length + robotTopics.length + puppetTopics.length
 					+ speakerTopics.length + browserTopics.length + assistantTopics.length);
