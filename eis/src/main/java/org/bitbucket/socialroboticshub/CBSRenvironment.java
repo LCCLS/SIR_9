@@ -496,6 +496,20 @@ public class CBSRenvironment extends EIDefaultImpl {
 	}
 
 	/**
+	 * Queues forceSessionStart as a percept to be received by the agent.
+	 */
+	public void forceSessionStart() {
+		this.perceptQueue.add(new Percept("forceSessionStart"));
+	}
+
+	/**
+	 * Queues forceSessionEnd as a percept to be received by the agent.
+	 */
+	public void forceSessionEnd() {
+		this.perceptQueue.add(new Percept("forceSessionEnd"));
+	}
+
+	/**
 	 * Queues the given action for transmission by the producer.
 	 *
 	 * @param action
