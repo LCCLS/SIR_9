@@ -33,9 +33,10 @@ final class RedisProducerRunner extends RedisRunner {
 			"action_play_audio", "action_stop_talking", "action_load_audio", "action_clear_loaded_audio" };
 	private static final String[] browserTopics = { "render_html" };
 	private static final String[] assistantTopics = { "assistant_show", "assistant_show_card", "assistant_play_media" };
+	private static final String[] loggerTopics = { "session_start", "session_log", "session_end" };
 	private static final Map<String, DeviceType> topicMap = new HashMap<>(
 			cameraTopics.length + microphoneTopics.length + robotTopics.length + puppetTopics.length
-					+ speakerTopics.length + browserTopics.length + assistantTopics.length);
+					+ speakerTopics.length + browserTopics.length + assistantTopics.length + loggerTopics.length);
 	static {
 		for (final String topic : cameraTopics) {
 			topicMap.put(topic, DeviceType.CAMERA);
@@ -57,6 +58,9 @@ final class RedisProducerRunner extends RedisRunner {
 		}
 		for (final String topic : assistantTopics) {
 			topicMap.put(topic, DeviceType.GOOGLE_ASSISTANT);
+		}
+		for (final String topic : loggerTopics) {
+			topicMap.put(topic, DeviceType.LOGGER);
 		}
 		// UI controller has no actions (only provides input)
 	}

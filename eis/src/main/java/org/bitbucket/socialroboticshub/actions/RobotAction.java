@@ -46,6 +46,9 @@ import org.bitbucket.socialroboticshub.actions.audiovisual.StopTalkingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.StopWatchingAction;
 import org.bitbucket.socialroboticshub.actions.audiovisual.TakePictureAction;
 import org.bitbucket.socialroboticshub.actions.browser.BrowserRenderAction;
+import org.bitbucket.socialroboticshub.actions.logger.SessionEndAction;
+import org.bitbucket.socialroboticshub.actions.logger.SessionLogAction;
+import org.bitbucket.socialroboticshub.actions.logger.SessionStartAction;
 import org.bitbucket.socialroboticshub.actions.memory.AddMemoryEntryAction;
 import org.bitbucket.socialroboticshub.actions.memory.DeleteAllInteractants;
 import org.bitbucket.socialroboticshub.actions.memory.DeleteInteractant;
@@ -184,6 +187,14 @@ public abstract class RobotAction {
 			return new AssistantShowCardAction(parameters);
 		case AssistantPlayMediaAction.NAME:
 			return new AssistantPlayMediaAction(parameters);
+		// LOGGER ACTIONS
+		case SessionStartAction.NAME:
+			return new SessionStartAction(parameters);
+		case SessionLogAction.NAME:
+			return new SessionLogAction(parameters);
+		case SessionEndAction.NAME:
+			return new SessionEndAction();
+
 		default:
 			return null;
 		}

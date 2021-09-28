@@ -2,7 +2,7 @@ package org.bitbucket.socialroboticshub;
 
 enum DeviceType {
 	CAMERA("cam"), MICROPHONE("mic"), ROBOT("robot"), PUPPET("puppet"), SPEAKER("speaker"), GUI("gui_controller"),
-	BROWSER("browser"), GOOGLE_ASSISTANT("ga");
+	BROWSER("browser"), GOOGLE_ASSISTANT("ga"), LOGGER("logger");
 
 	private final String name;
 
@@ -33,12 +33,14 @@ enum DeviceType {
 			return BROWSER;
 		case "ga":
 			return GOOGLE_ASSISTANT;
+		case "logger":
+			return LOGGER;
 		default:
 			return null;
 		}
 	}
 
 	public static int size() {
-		return 8;
+		return 9;
 	}
 }
