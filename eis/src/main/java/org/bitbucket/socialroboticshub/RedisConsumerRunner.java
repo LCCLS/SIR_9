@@ -154,7 +154,7 @@ final class RedisConsumerRunner extends RedisRunner {
 							env.forceSessionEnd();
 							break;
 						case "corona_check":
-							env.addCoronaCheck(new String(message, UTF8).equals("1"));
+							env.addCoronaCheckPassed();
 							break;
 						}
 					}

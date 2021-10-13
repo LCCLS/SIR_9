@@ -510,12 +510,10 @@ public class CBSRenvironment extends EIDefaultImpl {
 	}
 
 	/**
-	 * Queues a coronaCheck percept to be received by the agent.
-	 *
-	 * @param isValid '1' if valid and '0' if not valid
+	 * Queues a coronaCheckPassed percept to be received by the agent.
 	 */
-	public void addCoronaCheck(final boolean isValid) {
-		this.perceptQueue.add(new Percept("coronaCheck", new TruthValue(isValid)));
+	public void addCoronaCheckPassed() {
+		this.perceptQueue.add(new Percept("coronaCheckPassed"));
 	}
 
 	/**
