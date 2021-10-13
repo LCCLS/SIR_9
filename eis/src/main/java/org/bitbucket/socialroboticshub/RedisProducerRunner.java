@@ -80,6 +80,7 @@ final class RedisProducerRunner extends RedisRunner {
 			p1.publish("people_detection", identifier);
 			p1.publish("face_recognition", identifier);
 			p1.publish("emotion_detection", identifier);
+			p1.publish("corona_check", identifier);
 		}
 		for (final String identifier : this.devices.get(DeviceType.MICROPHONE)) {
 			p1.publish("audio_beamforming", identifier);
