@@ -22,7 +22,7 @@ final class RedisConsumerRunner extends RedisRunner {
 			"audio_language", "audio_intent", "audio_newfile", "robot_audio_loaded", "picture_newfile",
 			"detected_emotion", "memory_data", "gui_data", "robot_posture_changed", "robot_awake_changed",
 			"robot_battery_charge_changed", "robot_charging_changed", "robot_hot_device_detected",
-			"robot_motion_recording", "text_transcript", "session_force_start", "session_force_end" };
+			"robot_motion_recording", "text_transcript", "session_force_start", "session_force_end", "corona_check" };
 	private static final Path fileOutputPath = Paths.get("output");
 
 	RedisConsumerRunner(final CBSRenvironment parent, final Map<DeviceType, List<String>> devices) {
@@ -152,6 +152,9 @@ final class RedisConsumerRunner extends RedisRunner {
 							break;
 						case "session_force_end":
 							env.forceSessionEnd();
+							break;
+						case "corona_check":
+							env.addCoronaCheck(new String(message, UTF8).equals("1"));
 							break;
 						}
 					}
