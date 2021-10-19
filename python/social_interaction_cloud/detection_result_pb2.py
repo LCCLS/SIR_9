@@ -18,9 +18,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='detection_result.proto',
   package='socialrobotics',
   syntax='proto3',
-  serialized_options=b'\n\034org.bitbucket.socialroboticsB\024DetectionResultProto',
+  serialized_options=b'\n\037org.bitbucket.socialroboticshubB\024DetectionResultProto',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x16\x64\x65tection_result.proto\x12\x0esocialrobotics\x1a\x1cgoogle/protobuf/struct.proto\"\xe3\x01\n\x0f\x44\x65tectionResult\x12\x0e\n\x06intent\x18\x01 \x01(\t\x12\x43\n\nparameters\x18\x02 \x03(\x0b\x32/.socialrobotics.DetectionResult.ParametersEntry\x12\x12\n\nconfidence\x18\x03 \x01(\x05\x12\x0c\n\x04text\x18\x04 \x01(\t\x12\x0e\n\x06source\x18\x05 \x01(\t\x1aI\n\x0fParametersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12%\n\x05value\x18\x02 \x01(\x0b\x32\x16.google.protobuf.Value:\x02\x38\x01\x42\x34\n\x1corg.bitbucket.socialroboticsB\x14\x44\x65tectionResultProtob\x06proto3'
+  serialized_pb=b'\n\x16\x64\x65tection_result.proto\x12\x0esocialrobotics\x1a\x1cgoogle/protobuf/struct.proto\"\xe3\x01\n\x0f\x44\x65tectionResult\x12\x0e\n\x06intent\x18\x01 \x01(\t\x12\x43\n\nparameters\x18\x02 \x03(\x0b\x32/.socialrobotics.DetectionResult.ParametersEntry\x12\x12\n\nconfidence\x18\x03 \x01(\x05\x12\x0c\n\x04text\x18\x04 \x01(\t\x12\x0e\n\x06source\x18\x05 \x01(\t\x1aI\n\x0fParametersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12%\n\x05value\x18\x02 \x01(\x0b\x32\x16.google.protobuf.Value:\x02\x38\x01\x42\x37\n\x1forg.bitbucket.socialroboticshubB\x14\x44\x65tectionResultProtob\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 
